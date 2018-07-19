@@ -1,42 +1,52 @@
-export const tetI = [
+const tetI = [
     0,0,0,0,
     0,0,0,0,
     1,1,1,1,
     0,0,0,0,
 ];
-export const tetO = [
+const tetO = [
     0,0,0,0,
     0,0,0,0,
     0,1,1,0,
     0,1,1,0,
-];;
-export const tetT = [
+];
+const tetT = [
     0,0,0,0,
     0,0,0,0,
     1,1,1,0,
     0,1,0,0,
-];;
-export const tetL = [
+];
+const tetL = [
     0,0,0,0,
     0,0,0,0,
     1,1,1,0,
     1,0,0,0,
-];;
-export const tetJ = [
+];
+const tetJ = [
     0,0,0,0,
     0,0,0,0,
     0,1,1,1,
     0,0,0,1,
-];;
-export const tetZ = [
+];
+const tetZ = [
     0,0,0,0,
     0,0,0,0,
     1,1,0,0,
     0,1,1,0,
-];;
-export const tetS = [
+];
+const tetS = [
     0,0,0,0,
     0,0,0,0,
     0,1,1,0,
     1,1,0,0,
-];;
+];
+
+export const pieces = [
+    tetI,
+    tetO,
+    tetT,
+    tetL,
+    tetJ,
+    tetZ,
+    tetS,
+];

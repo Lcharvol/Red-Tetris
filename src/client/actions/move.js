@@ -2,6 +2,7 @@ export const MOVE_TOP = 'MOVE_TOP';
 export const MOVE_BOTTOM = 'MOVE_BOTTOM';
 export const MOVE_LEFT = 'MOVE_LEFT';
 export const MOVE_RIGHT = 'MOVE_RIGHT';
+export const ADD_PIECE = 'ADD_PIECE';
 
 export const moveTop = board => {
     const newBoard = board;
@@ -26,7 +27,7 @@ export const moveLeft = board => {
 export const move = event => (dispatch) => {
     const { key } = event
     if (key === 'ArrowUp') {
-        dispatch(({ type: MOVE_TOP }));
+        dispatch(({ type: ADD_PIECE }));
     };
     if (key === 'ArrowDown') {
         dispatch(({ type: MOVE_BOTTOM }));
