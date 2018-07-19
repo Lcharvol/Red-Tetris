@@ -1,3 +1,7 @@
+import { map, reverse } from 'ramda';
+
+import { BOARD_WIDTH, BOARD_LENGTH } from '../constants/board';
+
 export const MOVE_TOP = 'MOVE_TOP';
 export const MOVE_BOTTOM = 'MOVE_BOTTOM';
 export const MOVE_LEFT = 'MOVE_LEFT';
@@ -7,10 +11,25 @@ export const ADD_PIECE = 'ADD_PIECE';
 export const moveTop = board => {
     const newBoard = board;
     return newBoard;
-}
+};
 
 export const moveBottom = board => {
-    const newBoard = board;
+    const newBoard = [...board];
+    let idToDelete = [];
+    reverse(newBoard).map((value, id) => {
+        if(value !== 0) {
+            let reversedId = BOARD_LENGTH - id - 1;
+            if(reversedId - BOARD_WIDTH < 0 || board[reversedId - BOARD_WIDTH] === 0) {
+                idToDelete = [...idToDelete, reversedId]
+            }
+            if(reversedId + BOARD_WIDTH <= BOARD_LENGTH) {
+                newBoard[reversedId + BOARD_WIDTH] = board[reversedId]
+            }
+        }
+    });
+    map(id => {
+        newBoard[id] = 0;
+    },idToDelete)
     return newBoard;
 }
 

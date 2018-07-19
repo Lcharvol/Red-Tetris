@@ -13,6 +13,7 @@ export const AppContainer = styled.div`
     height:100vh;
     background-color:${MAIN_COLOR};
     font-family: 'Roboto Condensed', sans-serif;
+    overflow: hidden;
 `;
 
 export const BoardContainer = styled.div`

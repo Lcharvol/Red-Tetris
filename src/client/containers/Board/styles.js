@@ -35,4 +35,5 @@ export const InnerBoard = styled.div`
     -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);
     box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);
     filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);
+    overflow: hidden;
 `;
