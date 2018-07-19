@@ -24,6 +24,7 @@ export const addRandomPiece = board => {
         newBoard[newId] = {
             value: newValue,
             color: value === 0 ? FAKE_CELL_COLOR : newColor,
+            active: newValue === 0 ? false : true,
         };
     })
     return newBoard;
