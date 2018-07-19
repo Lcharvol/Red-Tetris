@@ -1,8 +1,18 @@
 import React from 'react';
-import { AppContainer } from './styles';
+
+import {
+    AppContainer,
+    BoardContainer
+} from './styles';
+import Board from '../Board';
 
 const App = () => (
-    <AppContainer />
+    <AppContainer>
+        <BoardContainer>
+            <Board/>
+            <Board/>
+        </BoardContainer>
+    </AppContainer>
 );
 
 export default App;
