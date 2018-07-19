@@ -12,6 +12,7 @@ import {
 import { getMyBoard  } from '../../selectors/board';
 import { move } from '../../actions/move';
 import Board from '../Board';
+import StartButton  from '../../components/StartButton';
 
 const propTypes = {
     myBoard: array.isRequired,
@@ -27,6 +28,7 @@ const App = ({
             <EventListener target={document} onKeyDown={move} />
             <Board board={myBoard} />
         </BoardContainer>
+        <StartButton/>
     </AppContainer>
 );
 
