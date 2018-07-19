@@ -21,7 +21,7 @@ module.exports = {
       },
       logSnippet: false,
       reloadOnRestart: true,
-      notify: false,
+      notify: true,
       middleware: [historyApiFallback()],
       snippetOptions: {
         blacklist: '*',
