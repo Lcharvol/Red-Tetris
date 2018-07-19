@@ -1,0 +1,14 @@
+node_modules
+package-lock.json
+yarn.lock
+dist
+*.log
+upload/
+profile_picture/
+.vscode
+public/bundle.js
+config/parameters.js
+parameters.*
+src/config/parameters.ts
+.DS_Store
+.DS_Store?

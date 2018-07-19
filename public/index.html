@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <script>
+    if(!window.console) window.console = {};
+    var methods = ["debug", "warn", "info", "log", "error"];
+    for(var i=0;i<methods.length;i++){
+      console[methods[i]] = function(){};
+      }
+    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="shortcut icon" href="/favicon.ico">
+    <title>Red Tetris</title>
+  </head>
+  <body style="margin: 0; font-family: Lucida Grande, Helvetica, Arial, sans-serif">
+    <script id="__bs_script__" async src='/browser-sync/browser-sync-client.js?v=2.18.13'></script>
+      <div id="__REDTETRIS__">
+        <span>loading....</span>
+      </div>
+      <script src="/bundle.js"></script>
+
+    </body>
+</html>
