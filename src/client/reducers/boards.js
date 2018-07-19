@@ -11,6 +11,11 @@
       moveRight,
     } from '../actions/move';
 
+    import {
+      ADD_PIECE,
+      addRandomPiece,
+    } from '../actions/piece';
+
     const initialState = {
       myBoard: map(() => 0,new Array(200)),
       enemyBoard: [],
@@ -26,6 +31,8 @@
         return {...state, myBoard: moveLeft(state.myBoard)};
       case MOVE_RIGHT:
         return {...state, myBoard: moveRight(state.myBoard)};
+      case ADD_PIECE:
+        return {...state, myBoard: addRandomPiece(state.myBoard)};
       default:
         return state;
     }

@@ -12,8 +12,9 @@ export const Container = styled.div`
     border-radius: 3px;
     cursor:pointer;
     transition: 0.2s ease-in-out;
+    opacity:${({ isGameStarted }) => isGameStarted ? 0.5 : 1}
     &:hover {
-        opacity:0.7;
+        opacity:${({ isGameStarted }) => isGameStarted ? 0.5 : 0.7}
     };
     color:${MAIN_COLOR};
     font-size:1.7em;

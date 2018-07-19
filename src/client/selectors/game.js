@@ -1,0 +1,1 @@
+export const getIsGameStarted = state => state.game.isGameStarted;
