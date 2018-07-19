@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Container } from './styles';
 
-const Case = ({ value }) => (
+const Cell = ({ value }) => (
     <Container value={value}/>
 );
 
-export default Case;
+export default Cell;

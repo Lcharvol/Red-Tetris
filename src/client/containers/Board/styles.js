@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { DARK_MAIN_COLOR } from '../../constants/colors';
-import { CASE_SIZE, CASE_MARGIN } from '../../constants';
+import { CELL_SIZE, CELL_MARGIN } from '../../constants';
 
 export const Container = styled.div`
     display:flex;
@@ -9,9 +9,11 @@ export const Container = styled.div`
     align-items: flex-start;
     flex-wrap: wrap;
     background-color:${DARK_MAIN_COLOR};
-    width:${(CASE_SIZE * 10) + (CASE_MARGIN * 20)}px;
-    height:${(CASE_SIZE * 20)+ (CASE_MARGIN * 40)}px;
+    width:${(CELL_SIZE * 10) + (CELL_MARGIN * 20)}px;
+    height:${(CELL_SIZE * 20)+ (CELL_MARGIN * 40)}px;
     border-radius:3px;
     padding:10px;
     margin:25px;
+    background: url('https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg');
+    background-repeat: repeat;
 `;

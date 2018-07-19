@@ -6,10 +6,8 @@ import configureStore from './store';
 import App from './containers/App';
 
 const initialState = {
-    boards: {
-        myBoard : []
-    }
 };
+
 const store = configureStore(initialState);
 
 const Root = () => (

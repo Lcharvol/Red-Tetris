@@ -1,1 +1,1 @@
-export const getMyBoard = state => state.boards ? state.boards.myBoard : {};
+export const getMyBoard = state => state.boards.myBoard;
