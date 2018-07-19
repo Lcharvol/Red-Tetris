@@ -9,7 +9,10 @@ import {
     CELL_SIZE,
     CELL_MARGIN
 } from './cell';
-
+import {
+    BOARD_WIDTH,
+    BOARD_HEIGHT,
+} from './board';
 export {
     MAIN_COLOR,
     DARK_MAIN_COLOR,
@@ -17,5 +20,7 @@ export {
     MAIN_RED,
     CELL_SIZE,
     CELL_MARGIN,
-    FAKE_CELL_COLOR
+    FAKE_CELL_COLOR,
+    BOARD_WIDTH,
+    BOARD_HEIGHT
 };
