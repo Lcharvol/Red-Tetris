@@ -10,14 +10,17 @@
       moveLeft,
       moveRight,
     } from '../actions/move';
-
     import {
       ADD_PIECE,
       addRandomPiece,
     } from '../actions/piece';
+    import { FAKE_CELL_COLOR } from '../constants/colors';
 
     const initialState = {
-      myBoard: map(() => 0,new Array(200)),
+      myBoard: map(() => ({
+        value: 0,
+        color: FAKE_CELL_COLOR,
+      }),new Array(200)),
       enemyBoard: [],
     };
   

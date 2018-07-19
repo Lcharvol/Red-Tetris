@@ -1,7 +1,9 @@
-import { CELLS_COLORS, FAKE_CELL_COLOR } from './constants/colors';
+import { length } from 'ramda';
+
+import { CELLS_COLORS } from './constants/colors';
 
 export const getRandomNumber = (min , max) => {
     return Math.round(min + Math.random() * (max - min));
 };
 
-export const getCellColor = value => value === 0 ? FAKE_CELL_COLOR : CELLS_COLORS[value];
+export const getCellColor = () => CELLS_COLORS[getRandomNumber(0, length(CELLS_COLORS) - 1)];

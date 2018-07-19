@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { Container } from './styles';
-import { getCellColor } from '../../utils';
 
-const Cell = ({ value }) => (
-    <Container color={getCellColor(value)}/>
+const Cell = ({ cell: { color } }) => (
+    <Container color={color}/>
 );
 
 export default Cell;

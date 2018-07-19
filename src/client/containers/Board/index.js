@@ -10,8 +10,8 @@ import Cell from '../../components/Cell';
 const Board = ({ board }) => (
     <Container>
         <InnerBoard>
-            {board.map((value, id) => (
-                <Cell key={id} value={value} />
+            {board.map((cell, id) => (
+                <Cell key={id} cell={cell} />
             ))}
         </InnerBoard>
     </Container>

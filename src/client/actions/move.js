@@ -1,6 +1,7 @@
 import { map, reverse } from 'ramda';
 
 import { BOARD_WIDTH, BOARD_LENGTH } from '../constants/board';
+import { INITIAL_CELL } from '../constants/cell';
 
 export const MOVE_TOP = 'MOVE_TOP';
 export const MOVE_BOTTOM = 'MOVE_BOTTOM';
@@ -22,13 +23,13 @@ export const moveBottom = board => {
             if(reversedId - BOARD_WIDTH < 0 || board[reversedId - BOARD_WIDTH] === 0) {
                 idToDelete = [...idToDelete, reversedId]
             }
-            if(reversedId + BOARD_WIDTH <= BOARD_LENGTH) {
+            if(reversedId + BOARD_WIDTH < BOARD_LENGTH) {
                 newBoard[reversedId + BOARD_WIDTH] = board[reversedId]
             }
         }
     });
     map(id => {
-        newBoard[id] = 0;
+        newBoard[id] = INITIAL_CELL;
     },idToDelete)
     return newBoard;
 }
