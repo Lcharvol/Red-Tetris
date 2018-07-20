@@ -20,6 +20,7 @@ export const addRandomPiece = board => {
     const newValue = getRandomNumber(1, length(CELLS_COLORS) - 1);
     const newColor = getCellColor();
     newPiece.map((value, id) => {
+        if(value === 0) return
         let newId = (id % 4) + (10 * Math.floor(id / 4)) + Math.floor(BOARD_WIDTH / 3);
         newBoard[newId] = {
             value: newValue,

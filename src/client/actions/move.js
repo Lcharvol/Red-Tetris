@@ -9,7 +9,7 @@ export const MOVE_LEFT = 'MOVE_LEFT';
 export const MOVE_RIGHT = 'MOVE_RIGHT';
 export const ADD_PIECE = 'ADD_PIECE';
 
-export const moveTop = board => {
+export const rotate = board => {
     const newBoard = board;
     return newBoard;
 };
@@ -27,7 +27,7 @@ export const moveBottom = board => {
         if(!active) return cell
         if(value !== 0) {
             let reversedId = BOARD_LENGTH - id - 1;
-            let onLastLine = reversedId > (BOARD_LENGTH - BOARD_WIDTH);
+            let onLastLine = reversedId >= (BOARD_LENGTH - BOARD_WIDTH);
             let isBlocked = onLastLine || (board[reversedId + BOARD_WIDTH].active && board[reversedId + BOARD_WIDTH].value !== value) || (!board[reversedId + BOARD_WIDTH].active && board[reversedId + BOARD_WIDTH].value !== 0);
             if(active && isBlocked)
                 setAllCellsInactive(board);
