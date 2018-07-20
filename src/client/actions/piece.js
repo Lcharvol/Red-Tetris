@@ -17,7 +17,7 @@ const getRandomPiece = () => pieces[getRandomNumber(0, 6)];
 export const addRandomPiece = board => {
     const newPiece = getRandomPiece();
     const newBoard = [...board];
-    const newValue = getRandomNumber(1, length(CELLS_COLORS) - 1);
+    const newValue = getRandomNumber(1, 1000);
     const newColor = getCellColor();
     newPiece.map((value, id) => {
         if(value === 0) return

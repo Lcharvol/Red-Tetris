@@ -25,7 +25,11 @@
         color: FAKE_CELL_COLOR,
         active: false,
       }),new Array(200)),
-      enemyBoard: [],
+      enemyBoard: map(() => ({
+        value: 0,
+        color: FAKE_CELL_COLOR,
+        active: false,
+      }),new Array(200)),
     };
   
   const reducer = (state = initialState, action) => {

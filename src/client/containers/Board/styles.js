@@ -4,6 +4,7 @@ import { DARK_MAIN_COLOR, MAIN_RED } from '../../constants/colors';
 import { CELL_SIZE, CELL_MARGIN } from '../../constants';
 
 export const Container = styled.div`
+    position:relative;
     display:flex;
     justify-content: flex-start;
     align-items: flex-start;

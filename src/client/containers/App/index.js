@@ -13,8 +13,8 @@ import {
     AppContainer,
     BoardContainer
 } from './styles';
-import { getMyBoard  } from '../../selectors/board';
-import { getIsGameStarted } from '../../selectors/game';
+import { getMyBoard, getEnemyBoard  } from '../../selectors/board';
+import { getIsGameStarted, getDisplayModal } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
 import Board from '../Board';
@@ -22,24 +22,35 @@ import StartButton  from '../../components/StartButton';
 
 const propTypes = {
     myBoard: array.isRequired,
+    enemyBoard: array.isRequired,
     move: func.isRequired,
     moveCycle: func.isRequired,
     startGame: func.isRequired,
     isGameStarted: bool.isRequired,
+    displayModal: bool.isRequired,
 };
 
 const App = ({
     myBoard,
+    enemyBoard,
     move,
     startGame,
     isGameStarted,
     moveCycle,
+    displayModal,
 }) =>
 (
     <AppContainer>
         <BoardContainer>
             <EventListener target={document} onKeyDown={move} />
-            <Board board={myBoard} />
+            <Board
+                board={myBoard}
+                displayModal={displayModal}
+            />
+            {/* <Board
+                board={enemyBoard}
+                displayModal={displayModal}
+            /> */}
         </BoardContainer>
         <StartButton startGame={startGame} isGameStarted={isGameStarted}/>
     </AppContainer>
@@ -55,7 +66,9 @@ const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
 
 const mapStateToProps = state => ({
     myBoard: getMyBoard(state),
+    enemyBoard: getEnemyBoard(state),
     isGameStarted: getIsGameStarted(state),
+    displayModal: getDisplayModal(state),
 });
 
 App.propTypes = propTypes;
