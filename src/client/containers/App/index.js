@@ -1,5 +1,5 @@
 import React from 'react';
-import { compose } from 'recompose';
+import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import {
@@ -15,7 +15,7 @@ import {
 } from './styles';
 import { getMyBoard  } from '../../selectors/board';
 import { getIsGameStarted } from '../../selectors/game';
-import { move } from '../../actions/move';
+import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
 import Board from '../Board';
 import StartButton  from '../../components/StartButton';
@@ -23,16 +23,19 @@ import StartButton  from '../../components/StartButton';
 const propTypes = {
     myBoard: array.isRequired,
     move: func.isRequired,
+    moveCycle: func.isRequired,
     startGame: func.isRequired,
     isGameStarted: bool.isRequired,
-}
+};
 
 const App = ({
     myBoard,
     move,
     startGame,
     isGameStarted,
-}) => (
+    moveCycle,
+}) =>
+(
     <AppContainer>
         <BoardContainer>
             <EventListener target={document} onKeyDown={move} />
@@ -45,6 +48,7 @@ const App = ({
 const actions = {
     move,
     startGame,
+    moveCycle,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
@@ -58,4 +62,13 @@ App.propTypes = propTypes;
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
+    lifecycle({
+        componentWillReceiveProps(nextProps) {
+            const gameInterval = setInterval(() => {this.props.moveCycle()},500);
+            if(nextProps.isGameStarted && this.props.isGameStarted === false) {
+                gameInterval;
+            } else
+                clearInterval(gameInterval);
+        }
+      }),
   )(App);

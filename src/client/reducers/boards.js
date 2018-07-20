@@ -14,6 +14,9 @@
       ADD_PIECE,
       addRandomPiece,
     } from '../actions/piece';
+    import {
+      START_GAME,
+  } from '../actions/game';
     import { FAKE_CELL_COLOR } from '../constants/colors';
 
     const initialState = {
@@ -35,6 +38,8 @@
         return {...state, myBoard: moveLeft(state.myBoard)};
       case MOVE_RIGHT:
         return {...state, myBoard: moveRight(state.myBoard)};
+      case START_GAME:
+        return {...state, myBoard: addRandomPiece(state.myBoard)};
       case ADD_PIECE:
         return {...state, myBoard: addRandomPiece(state.myBoard)};
       default:

@@ -2,6 +2,7 @@ import { map, reverse } from 'ramda';
 
 import { BOARD_WIDTH, BOARD_LENGTH } from '../constants/board';
 import { INITIAL_CELL } from '../constants/cell';
+import { addRandomPiece } from './piece';
 
 export const MOVE_TOP = 'MOVE_TOP';
 export const MOVE_BOTTOM = 'MOVE_BOTTOM';
@@ -22,15 +23,17 @@ const setAllCellsInactive = board => board.map((cell, id) => {
 export const moveBottom = board => {
     const newBoard = [...board];
     let idToDelete = [];
+    let canMove = true;
     board.map((cell, id) => {
         let { active } = cell;
         let onLastLine = id >= (BOARD_LENGTH - BOARD_WIDTH);
         let isBlocked = onLastLine || !board[id + BOARD_WIDTH].active && board[id + BOARD_WIDTH].value !== 0;
         if(active && isBlocked) {
             setAllCellsInactive(board);
-            return;
+            canMove = false;
         }
     })
+    if(!canMove) return addRandomPiece(newBoard);
     reverse(newBoard).map((cell, id) => {
         let { value, active} = cell;
         if(!active) return cell
@@ -65,8 +68,7 @@ export const moveRight = board => {
         let reversedId = BOARD_LENGTH - id - 1;
         if(board[reversedId - 1].value === 0)
             idToDelete = [...idToDelete, reversedId];
-        if((reversedId + 1) % BOARD_WIDTH !== 0)
-            newBoard[reversedId + 1] = board[reversedId];
+        newBoard[reversedId + 1] = board[reversedId];
     });
     map(id => {
         newBoard[id] = INITIAL_CELL;
@@ -113,3 +115,5 @@ export const move = event => (dispatch) => {
         dispatch(({ type: MOVE_RIGHT }));
     };
 }
+
+export const moveCycle = () => (dispatch) => dispatch(({ type: MOVE_BOTTOM }));

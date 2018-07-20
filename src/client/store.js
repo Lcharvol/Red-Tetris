@@ -18,7 +18,7 @@ window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ ?
 const enhancer = composeEnhancers(
   applyMiddleware(
     thunk,
-    logger
+    logger,
   ),
 );
 
