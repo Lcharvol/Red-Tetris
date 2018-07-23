@@ -5,6 +5,7 @@
       MOVE_BOTTOM,
       MOVE_LEFT,
       MOVE_RIGHT,
+      DELETE_LINE,
       moveTop,
       moveBottom,
       moveLeft,

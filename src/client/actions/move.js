@@ -15,10 +15,36 @@ export const rotate = board => {
     return newBoard;
 };
 
+const deletLine = (board, line) => {
+    board.map((cell, id) => {
+        if(Math.floor(id / BOARD_WIDTH) === line) {
+            board[id] = INITIAL_CELL;
+        }
+    })
+    return board;
+}
+
 const setAllCellsInactive = board => board.map((cell, id) => {
     if(cell.active)
         board[id].active = false;
 });
+
+const checkBoard = board => {
+    let actualLine = 0;
+    let fullLine = true;
+    board.map((cell, id) => {
+        if(cell.value === 0 && !cell.active)
+            fullLine = false;
+        if((id + 1) % BOARD_WIDTH === 0) {
+            if(fullLine) {
+                board = deletLine(board, actualLine);
+            }
+            fullLine = true;
+            actualLine += 1;
+        }
+    })
+    return board;
+}
 
 export const moveBottom = board => {
     const newBoard = [...board];
@@ -47,7 +73,8 @@ export const moveBottom = board => {
     });
     map(id => {
         newBoard[id] = INITIAL_CELL;
-    },idToDelete)
+    },idToDelete);
+    checkBoard(newBoard);
     return newBoard;
 }
 
@@ -116,4 +143,4 @@ export const move = event => (dispatch) => {
     };
 }
 
-export const moveCycle = () => (dispatch) => dispatch(({ type: MOVE_BOTTOM }));
+export const moveCycle = () => dispatch => dispatch(({ type: MOVE_BOTTOM }));
