@@ -1,37 +1,14 @@
-require('@babel/register');
 
-const path = require('path');
-const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
-const historyApiFallback = require('connect-history-api-fallback');
+var path = require('path');
 
 module.exports = {
   entry: './src/client/index.js',
+
   output: {
-    filename: 'bundle.js',
-    path: path.resolve(__dirname, 'public'),
-    publicPath: '/',
+    path: path.join(__dirname, 'build'),
+    filename: 'bundle.js'
   },
-  plugins: [
-    new BrowserSyncPlugin({
-      host: '0.0.0.0',
-      port: 8080,
-      browser: 'google chrome',
-      server: {
-        baseDir: 'public',
-      },
-      logSnippet: false,
-      reloadOnRestart: true,
-      notify: true,
-      middleware: [historyApiFallback()],
-      snippetOptions: {
-        blacklist: '*',
-        rule: {
-          match: /<\/body>/i,
-          fn: () => '',
-        },
-      },
-    }),
-  ],
+
   module: {
     rules: [
       {

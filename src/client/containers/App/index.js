@@ -78,9 +78,9 @@ export default compose(
     lifecycle({
         componentWillReceiveProps(nextProps) {
             const gameInterval = setInterval(() => {this.props.moveCycle()},500);
-            if(nextProps.isGameStarted && this.props.isGameStarted === false) {
+            if(nextProps.isGameStarted && this.props.isGameStarted === false)
                 gameInterval;
-            } else
+            else
                 clearInterval(gameInterval);
         }
       }),

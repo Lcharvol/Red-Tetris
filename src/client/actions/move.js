@@ -17,9 +17,8 @@ export const rotate = board => {
 
 const deletLine = (board, line) => {
     board.map((cell, id) => {
-        if(Math.floor(id / BOARD_WIDTH) === line) {
+        if(Math.floor(id / BOARD_WIDTH) === line)
             board[id] = INITIAL_CELL;
-        }
     })
     return board;
 }
