@@ -1,10 +1,12 @@
 import express from 'express';
 import socketIo from 'socket.io';
 import bodyParser from 'body-parser';
+
 import debug from 'debug';
 import fs from 'fs';
 
 import { getUrl, bindError, bindLogger, bindCtx } from './helpers';
+import createRoom from './routes/createRoom';
 
 const logger = debug('tetris:http');
 const logerror = debug('tetris:http:error');
@@ -18,18 +20,13 @@ const init = async ctx => {
     });
   
     const io = socketIo(httpServer);
+    console.log('io: ', io)
     const currentSocketId = [];
     const socketIdToDelete = [];
     const tmp = [];
-    io.on('connection', async socket => {
-      if (!socket.handshake.query.matchaToken) return null;
-      currentSocketId[0] = socket.id;
-      logger('user connected at socket.io', socket.id);
-      socket.on('disconnect', async () => {
-        logger('user disconnected at socket.io', socket.id);
-        socketIdToDelete[0] = socket.id;
+    io.on('connection', function(socket){
+        console.log('a user connected');
       });
-    });
 
     const handler = (req, res) => {
         const file = req.url === '/bundle.js' ? '/../../../build/bundle.js' : '/../../../public/index.html';
@@ -45,9 +42,12 @@ const init = async ctx => {
     }
   
     await app
-      .use(bindCtx(ctx))
-      .use(bindError)
-      .use('/', handler);
+        .use(bodyParser.json())
+        .use(bodyParser.urlencoded({ extended: true }))
+        .use(bindCtx(ctx))
+        .use(bindError)
+        // .post('/api/create_room', createRoom)
+        .use('/', handler);
 
     return ({ ...ctx, http: httpServer });
   };
