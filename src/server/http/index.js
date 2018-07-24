@@ -1,5 +1,6 @@
 import express from 'express';
 import socketIo from 'socket.io';
+import { findIndex, propEq } from 'ramda';
 import bodyParser from 'body-parser';
 
 import debug from 'debug';
@@ -10,6 +11,8 @@ import createRoom from './routes/createRoom';
 
 const logger = debug('tetris:http');
 const logerror = debug('tetris:http:error');
+
+let rooms = [];
 
 const init = async ctx => {
     const app = await express();
@@ -29,14 +32,17 @@ const init = async ctx => {
         socket
             .on('room', function(data) {
                 const { room, user } = data;
-                console.log('room: ', room, ' joined by ', user)
-                socket.join(room);
-                io.to(room).emit('action', { name: 'startGame'})
-            })
-            .on('join', (action) => {
-                const { user, room } = action;
-                ctx.rooms = [...ctx.rooms, room];
-                socket.join(room);
+                const roomIndex = findIndex(propEq('name', room))(rooms);
+                if(roomIndex >= 0 && rooms[roomIndex].users.length >= 2) {
+                    console.log('To many player in the room');    
+                } else {
+                    socket.join(room);
+                    const users = rooms[roomIndex] ? [...rooms[roomIndex].users, {name: user, owner: false}] : [{name: user, owner: true}];
+                    rooms[roomIndex] = {...rooms[roomIndex], users};
+                    rooms = [...rooms, { name: room, users }];
+                    io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users }});
+                    console.log('room: ', room, ' joined by ', user);
+                }
             })
             .on('disconnect', async () => {
                 logger("Socket disconnected: " + currentSocketId)

@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import socketIO from 'socket.io-client';
 import parse from 'url-parse';
+import { dropLast } from 'ramda';
 
 import configureStore from './store';
 import App from './containers/App';
-import { startGame } from './actions/game';
+import { startGame, updateGameInfo } from './actions/game';
 
 const initialState = {};
 const store = configureStore(initialState, io);
@@ -25,9 +26,9 @@ const getRoomName = str => {
 };
 
 const getUser = str => {
-  const lastCharPos = str.indexOf('[')
-  return str.substr(1, str.length);
-}
+  const toCut = str.length - str.indexOf('[') - 1;
+  return dropLast(1,str.substr(-toCut));
+};
 
 const room = getRoomName(hash);
 const user = getUser(hash);
@@ -36,8 +37,13 @@ io.on('action', (data) => {
   const { name } = data;
   if(name === 'startGame') {
     store.dispatch(startGame());
+  };
+  if(name === 'updateGameInfo') {
+    store.dispatch(updateGameInfo(data.body));
   }
 });
+
+store.dispatch(updateGameInfo({me: user}));
 
 
 io.emit('room', {room, user});

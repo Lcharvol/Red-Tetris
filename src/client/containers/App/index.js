@@ -14,7 +14,7 @@ import {
     BoardContainer
 } from './styles';
 import { getMyBoard, getEnemyBoard  } from '../../selectors/board';
-import { getIsGameStarted, getDisplayModal } from '../../selectors/game';
+import { getIsGameStarted, getDisplayModal, getOwner } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
 import Board from '../Board';
@@ -38,10 +38,11 @@ const App = ({
     isGameStarted,
     moveCycle,
     displayModal,
-    io,
+    owner,
 }) =>
 (
     <AppContainer>
+        {console.log('owner: ', owner)}
         <BoardContainer>
             <EventListener target={document} onKeyDown={move} />
             <Board
@@ -53,7 +54,7 @@ const App = ({
                 displayModal={displayModal}
             /> */}
         </BoardContainer>
-        <StartButton startGame={startGame} isGameStarted={isGameStarted} io={io}/>
+        {owner && <StartButton startGame={startGame} isGameStarted={isGameStarted}/>}
     </AppContainer>
 );
 
@@ -70,6 +71,7 @@ const mapStateToProps = state => ({
     enemyBoard: getEnemyBoard(state),
     isGameStarted: getIsGameStarted(state),
     displayModal: getDisplayModal(state),
+    owner: getOwner(state),
 });
 
 App.propTypes = propTypes;

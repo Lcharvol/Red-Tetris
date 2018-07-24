@@ -5,12 +5,16 @@ import {
     END_GAME,
     SET_MODAL_MESSAGE,
     DISPLAY_MODAL,
+    UPDATE_GAME_INFO,
 } from '../actions/game';
 
 const initialState = {
     isGameStarted: false,
     displayModal: false,
     modalMessage: '',
+    gameInfo: {
+        me: undefined,
+    },
 };
 
 const reducer = (state = initialState, action) => {
@@ -23,6 +27,8 @@ switch (action.type) {
         return {...state, modalMessage: action.message};
     case DISPLAY_MODAL:
         return {...state, displayModal: !state.displayModal};
+    case UPDATE_GAME_INFO:
+        return {...state, gameInfo: {...state.gameInfo, ...action.body}}
     default:
         return state;
 }
