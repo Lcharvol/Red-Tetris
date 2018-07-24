@@ -38,6 +38,7 @@ const App = ({
     isGameStarted,
     moveCycle,
     displayModal,
+    io,
 }) =>
 (
     <AppContainer>
@@ -52,7 +53,7 @@ const App = ({
                 displayModal={displayModal}
             /> */}
         </BoardContainer>
-        <StartButton startGame={startGame} isGameStarted={isGameStarted}/>
+        <StartButton startGame={startGame} isGameStarted={isGameStarted} io={io}/>
     </AppContainer>
 );
 

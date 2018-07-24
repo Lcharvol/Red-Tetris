@@ -27,12 +27,29 @@ const init = async ctx => {
         currentSocketId[0] = socket.id;
         logger("Socket connected: " + currentSocketId)
         socket
+            .on('room', function(data) {
+                const { room, user } = data;
+                console.log('room: ', room, ' joined by ', user)
+                socket.join(room);
+                io.to(room).emit('action', { name: 'startGame'})
+            })
             .on('join', (action) => {
                 const { user, room } = action;
+                ctx.rooms = [...ctx.rooms, room];
+                socket.join(room);
             })
             .on('disconnect', async () => {
                 logger("Socket disconnected: " + currentSocketId)
                 socketIdToDelete[0] = socket.id;
+            })
+            .on('action', function(actionSocket) {
+                if(actionSocket.name === 'startGame') {
+                    socket.emit('action', { name: 'startGame' });
+                    logger(`Game start in the room: \"${actionSocket.gameName}\"`)
+                };
+                if(actionSocket.name === 'joinRoom') {
+                    logger(`${actionSocket.user} join the room: ${actionSocket.room}`)
+                }
             });
     });
     const handler = (req, res) => {
@@ -54,7 +71,6 @@ const init = async ctx => {
         .use(bindCtx(ctx))
         .use(bindError)
         .use('/', handler);
-
     return ({ ...ctx, http: httpServer });
   };
   

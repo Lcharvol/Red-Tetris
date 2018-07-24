@@ -15,9 +15,9 @@ const StartButton = ({
     isGameStarted,
 }) => (
     <Container
-        onClick={() =>{
-            if(!isGameStarted) startGame()
-        }}
+        // onClick={() =>{
+        //     if(!isGameStarted) startGame()
+        // }}
         isGameStarted={isGameStarted}
     >
         Start
