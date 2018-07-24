@@ -24785,16 +24785,18 @@ var _App2 = _interopRequireDefault(_App);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var initialState = { io: io };
+var initialState = {};
 var store = (0, _store2.default)(initialState, io);
 
 var matchaToken = 'fakeToken';
 var url = 'http://127.0.0.1:3004';
 var io = _socket2.default.connect(url, { query: matchaToken ? 'matchaToken=' + matchaToken : null });
 
-io.on('notif', function (data) {
-  console.log('io data: ', data);
+io.on('action', function (data) {
+  console.log('data: ', data);
 });
+
+io.emit('join', { room: 'room1', user: 'lcharvol' });
 
 var Root = function Root() {
   return _react2.default.createElement(

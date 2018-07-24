@@ -20,14 +20,21 @@ const init = async ctx => {
     });
   
     const io = socketIo(httpServer);
-    console.log('io: ', io)
     const currentSocketId = [];
     const socketIdToDelete = [];
     const tmp = [];
     io.on('connection', function(socket){
-        console.log('a user connected');
-      });
-
+        currentSocketId[0] = socket.id;
+        logger("Socket connected: " + currentSocketId)
+        socket
+            .on('join', (action) => {
+                const { user, room } = action;
+            })
+            .on('disconnect', async () => {
+                logger("Socket disconnected: " + currentSocketId)
+                socketIdToDelete[0] = socket.id;
+            });
+    });
     const handler = (req, res) => {
         const file = req.url === '/bundle.js' ? '/../../../build/bundle.js' : '/../../../public/index.html';
         fs.readFile(__dirname + file, (err, data) => {
@@ -46,7 +53,6 @@ const init = async ctx => {
         .use(bodyParser.urlencoded({ extended: true }))
         .use(bindCtx(ctx))
         .use(bindError)
-        // .post('/api/create_room', createRoom)
         .use('/', handler);
 
     return ({ ...ctx, http: httpServer });
