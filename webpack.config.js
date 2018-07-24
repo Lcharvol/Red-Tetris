@@ -1,5 +1,7 @@
 
-var path = require('path');
+const path = require('path');
+const BrowserSyncPlugin = require('browser-sync-webpack-plugin');
+const historyApiFallback = require('connect-history-api-fallback');
 
 module.exports = {
   entry: './src/client/index.js',
@@ -8,7 +10,27 @@ module.exports = {
     path: path.join(__dirname, 'build'),
     filename: 'bundle.js'
   },
-
+  plugins: [
+    new BrowserSyncPlugin({
+      host: '0.0.0.0',
+      port: 8080,
+      browser: 'google chrome',
+      server: {
+        baseDir: 'public',
+      },
+      logSnippet: false,
+      reloadOnRestart: true,
+      notify: false,
+      middleware: [historyApiFallback()],
+      snippetOptions: {
+        blacklist: '*',
+        rule: {
+          match: /<\/body>/i,
+          fn: () => '',
+        },
+      },
+    }),
+  ],
   module: {
     rules: [
       {

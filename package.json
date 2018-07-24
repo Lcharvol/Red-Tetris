@@ -7,9 +7,10 @@
   "author": "Lcharvol <lcharvol@student.42.fr>",
   "scripts": {
     "build": "webpack -p",
-    "cli": "webpack --progress --colors",
+    "cli-dev": "webpack --watch --display none",
+    "cli-prod": "NODE_ENV=production webpack --progress --colors",
     "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/main.js",
-    "srv-dist": "DEBUG=tetris:* babel src --out-dir dist"
+    "srv-prod": "DEBUG=tetris:* babel src --out-dir dist"
   },
   "contributors": [
     {
@@ -59,7 +60,7 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-promise-to-bluebird": "^1.1.1",
     "browser-sync": "^2.18.13",
-    "browser-sync-webpack-plugin": "^1.2.0",
+    "browser-sync-webpack-plugin": "^2.2.2",
     "concurrently": "^3.5.1",
     "eslint": "^4.9.0",
     "eslint-config-airbnb": "^16.1.0",
