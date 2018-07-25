@@ -39,7 +39,7 @@ const init = async ctx => {
                     logger('To many player in the room');    
                 } else {
                     socket.join(room);
-                    const users = !isNil(rooms[roomIndex]) ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0]}] : [{name: user, owner: true, id: currentSocketId[0]}];
+                    const users = !isNil(rooms[roomIndex]) ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard}] : [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];
                     if(roomIndex < 0) rooms = [...rooms, {users, turn: 0, name: room}]
                     else rooms[roomIndex] = {...rooms[roomIndex], users, name: room};   
                     io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users }});
@@ -54,8 +54,7 @@ const init = async ctx => {
                 if(actionSocket.name === 'startGame') {
                     const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
                     if(roomIndex < 0) return;
-                    rooms[roomIndex].users[0] = initialBoard;
-                    rooms[roomIndex].users[1] = initialBoard;
+
                     io.to(actionSocket.gameName).emit('action', {
                             name: 'updateGameInfo',
                             body: { 
@@ -64,7 +63,7 @@ const init = async ctx => {
                             }
                         });
                     setInterval(() => {
-                        rooms[roomIndex].turn += 1;
+                        rooms[roomIndex].turn += 1;3
                         io.to(actionSocket.gameName).emit('action', {
                             name: 'updateGameInfo',
                             body: {
@@ -78,6 +77,7 @@ const init = async ctx => {
                 }
             });
     });
+
     const handler = (req, res) => {
         const file = req.url === '/bundle.js' ? '/../../../build/bundle.js' : '/../../../public/index.html';
         fs.readFile(__dirname + file, (err, data) => {

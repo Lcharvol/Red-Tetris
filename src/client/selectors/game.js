@@ -1,4 +1,4 @@
-import { findIndex, propEq } from 'ramda';
+import { findIndex, propEq, remove } from 'ramda';
 
 export const getIsGameStarted = state => state.game.isGameStarted;
 
@@ -19,3 +19,20 @@ export const getOwner = state => {
 export const getRoomName = state => state.game.name;
 
 export const getModalMessage = state => state.game.modalMessage;
+
+export const getMyBoard = state => {
+    if(state.game.users) {
+        const myUserIndex = findIndex(propEq('name', state.game.me))(state.game.users);
+        return state.game.users[myUserIndex].board
+    };
+    return [];
+};
+
+export const getEnemyBoard = state => {
+    if(state.game.users) {
+        const myUserIndex = findIndex(propEq('name', state.game.me))(state.game.users);
+        const enemy = remove(myUserIndex, 1, state.game.users)[0];
+        if(enemy) return enemy.board;
+    };
+    return [];
+};

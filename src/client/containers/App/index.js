@@ -2,6 +2,7 @@ import React from 'react';
 import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { isEmpty } from 'ramda';
 import {
     bool,
     array,
@@ -14,13 +15,14 @@ import {
     AppContainer,
     BoardContainer
 } from './styles';
-import { getMyBoard, getEnemyBoard  } from '../../selectors/board';
 import {
     getIsGameStarted,
     getDisplayModal,
     getOwner,
     getRoomName,
     getModalMessage,
+    getMyBoard,
+    getEnemyBoard,
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -61,10 +63,10 @@ const App = ({
                 displayModal={displayModal}
                 modalMessage={modalMessage}
             />
-            {/* <Board
+            {!isEmpty(enemyBoard) && <Board
                 board={enemyBoard}
                 displayModal={displayModal}
-            /> */}
+            />}
         </BoardContainer>
         {owner &&
             <StartButton
