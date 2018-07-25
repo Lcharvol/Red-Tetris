@@ -99,12 +99,12 @@ App.propTypes = propTypes;
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     lifecycle({
-        componentWillReceiveProps(nextProps) {
-            const gameInterval = setInterval(() => {this.props.moveCycle()},500);
-            if(nextProps.isGameStarted && this.props.isGameStarted === false)
-                gameInterval;
-            else
-                clearInterval(gameInterval);
-        }
+        // componentWillReceiveProps(nextProps) {
+        //     const gameInterval = setInterval(() => {this.props.moveCycle()},500);
+        //     if(nextProps.isGameStarted && this.props.isGameStarted === false)
+        //         gameInterval;
+        //     else
+        //         clearInterval(gameInterval);
+        // }
       }),
   )(App);

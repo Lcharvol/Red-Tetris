@@ -33,7 +33,6 @@ const init = async ctx => {
         socket
             .on('room', function(data) {
                 const { room, user } = data;
-                console.log('rooms: ', rooms)
                 const roomIndex = findIndex(propEq('name', room))(rooms);
                 if(roomIndex >= 0 && length(rooms[roomIndex].users) >= 2) {
                     socket.emit('gameError', { type: "fullRoom", message: 'This room is full'});
@@ -41,7 +40,7 @@ const init = async ctx => {
                 } else {
                     socket.join(room);
                     const users = !isNil(rooms[roomIndex]) ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0]}] : [{name: user, owner: true, id: currentSocketId[0]}];
-                    if(roomIndex < 0) rooms = [...rooms, {users, name: room}]
+                    if(roomIndex < 0) rooms = [...rooms, {users, turn: 0, name: room}]
                     else rooms[roomIndex] = {...rooms[roomIndex], users, name: room};   
                     io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users }});
                     logger('Room "', room, '" joined by ', user);
@@ -54,10 +53,24 @@ const init = async ctx => {
             .on('action', function(actionSocket) {
                 if(actionSocket.name === 'startGame') {
                     const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
+                    if(roomIndex < 0) return;
                     rooms[roomIndex].users[0] = initialBoard;
                     rooms[roomIndex].users[1] = initialBoard;
-                    console.log('started room: ', rooms);
-                    io.to(actionSocket.gameName).emit('action', { name: 'updateGameInfo', body: { name: actionSocket.gameName }});
+                    io.to(actionSocket.gameName).emit('action', {
+                            name: 'updateGameInfo',
+                            body: { 
+                                name: actionSocket.gameName,
+                                isGameStarted: true,
+                            }
+                        });
+                    setInterval(() => {
+                        rooms[roomIndex].turn += 1;
+                        io.to(actionSocket.gameName).emit('action', {
+                            name: 'updateGameInfo',
+                            body: {
+                            }
+                        });
+                    },500);
                     logger(`Game start in the room: \"${actionSocket.gameName}\"`)
                 };
                 if(actionSocket.name === 'joinRoom') {

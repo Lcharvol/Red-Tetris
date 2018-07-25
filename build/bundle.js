@@ -61092,14 +61092,13 @@ var mapStateToProps = function mapStateToProps(state) {
 App.propTypes = propTypes;
 
 exports.default = (0, _recompose.compose)((0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps), (0, _recompose.lifecycle)({
-    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
-        var _this = this;
-
-        var gameInterval = setInterval(function () {
-            _this.props.moveCycle();
-        }, 500);
-        if (nextProps.isGameStarted && this.props.isGameStarted === false) gameInterval;else clearInterval(gameInterval);
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     const gameInterval = setInterval(() => {this.props.moveCycle()},500);
+    //     if(nextProps.isGameStarted && this.props.isGameStarted === false)
+    //         gameInterval;
+    //     else
+    //         clearInterval(gameInterval);
+    // }
 }))(App);
 
 /***/ }),
