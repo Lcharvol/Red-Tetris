@@ -9,7 +9,11 @@ import fs from 'fs';
 import { getUrl, bindError, bindLogger, bindCtx } from './helpers';
 import createRoom from './routes/createRoom';
 import { initialBoard } from '../constants/board';
-import { addRandomPiece, moveBottom } from '../boardManager';
+import {
+    addRandomPiece,
+    moveBottom,
+    moveRight,
+} from '../boardManager';
 
 const logger = debug('tetris:http');
 const logerror = debug('tetris:http:error');
@@ -52,8 +56,8 @@ const init = async ctx => {
                 socketIdToDelete[0] = socket.id;
             })
             .on('action', function(actionSocket) {
+                const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
                 if(actionSocket.name === 'startGame') {
-                    const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
                     if(roomIndex < 0) return;
 
                     const newUsersBoard = [
@@ -99,6 +103,17 @@ const init = async ctx => {
                 };
                 if(actionSocket.name === 'joinRoom') {
                     logger(`${actionSocket.user} join the room: ${actionSocket.room}`)
+                };
+                if(actionSocket.name === 'moveRight') {
+                    const { user } = actionSocket;
+                    const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
+                    rooms[roomIndex].users[userRoomIndex].board = moveRight(rooms[roomIndex].users[userRoomIndex].board);
+                    io.to(actionSocket.gameName).emit('action', {
+                        name: 'updateGameInfo',
+                        body: {
+                            users: rooms[roomIndex].users,
+                        }
+                    });
                 }
             });
     });

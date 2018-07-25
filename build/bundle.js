@@ -18841,7 +18841,7 @@ var moveLeft = exports.moveLeft = function moveLeft(board) {
     return newBoard;
 };
 
-var move = exports.move = function move(event) {
+var move = exports.move = function move(event, io, me, roomName) {
     return function (dispatch) {
         var key = event.key;
 
@@ -18855,7 +18855,8 @@ var move = exports.move = function move(event) {
             dispatch({ type: MOVE_LEFT });
         };
         if (key === 'ArrowRight') {
-            dispatch({ type: MOVE_RIGHT });
+            io.emit('action', { name: 'moveRight', gameName: roomName, user: me });
+            // dispatch(({ type: MOVE_RIGHT }));
         };
     };
 };
@@ -61030,7 +61031,8 @@ var propTypes = {
     isGameStarted: _propTypes.bool.isRequired,
     displayModal: _propTypes.bool.isRequired,
     getRoomName: _propTypes.string,
-    modalMessage: _propTypes.string
+    modalMessage: _propTypes.string,
+    me: _propTypes.string
 };
 
 var App = function App(_ref) {
@@ -61044,15 +61046,17 @@ var App = function App(_ref) {
         owner = _ref.owner,
         io = _ref.io,
         roomName = _ref.roomName,
-        modalMessage = _ref.modalMessage;
+        modalMessage = _ref.modalMessage,
+        me = _ref.me;
     return _react2.default.createElement(
         _styles.AppContainer,
         null,
-        console.log('myBoard: ', myBoard),
         _react2.default.createElement(
             _styles.BoardContainer,
             null,
-            _react2.default.createElement(_reactEventListener2.default, { target: document, onKeyDown: move }),
+            _react2.default.createElement(_reactEventListener2.default, { target: document, onKeyDown: function onKeyDown(event) {
+                    return move(event, io, me, roomName);
+                } }),
             _react2.default.createElement(_Board2.default, {
                 board: myBoard,
                 displayModal: displayModal,
@@ -61090,7 +61094,8 @@ var mapStateToProps = function mapStateToProps(state) {
         displayModal: (0, _game.getDisplayModal)(state),
         owner: (0, _game.getOwner)(state),
         roomName: (0, _game.getRoomName)(state),
-        modalMessage: (0, _game.getModalMessage)(state)
+        modalMessage: (0, _game.getModalMessage)(state),
+        me: (0, _game.getMe)(state)
     };
 };
 

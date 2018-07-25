@@ -23,6 +23,7 @@ import {
     getModalMessage,
     getMyBoard,
     getEnemyBoard,
+    getMe,
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -39,6 +40,7 @@ const propTypes = {
     displayModal: bool.isRequired,
     getRoomName: string,
     modalMessage: string,
+    me: string,
 };
 
 const App = ({
@@ -53,12 +55,12 @@ const App = ({
     io,
     roomName,
     modalMessage,
+    me,
 }) =>
 (
     <AppContainer>
-        {console.log('myBoard: ', myBoard)}
         <BoardContainer>
-            <EventListener target={document} onKeyDown={move} />
+            <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
             <Board
                 board={myBoard}
                 displayModal={displayModal}
@@ -95,6 +97,7 @@ const mapStateToProps = state => ({
     owner: getOwner(state),
     roomName: getRoomName(state),
     modalMessage: getModalMessage(state),
+    me: getMe(state),
 });
 
 App.propTypes = propTypes;

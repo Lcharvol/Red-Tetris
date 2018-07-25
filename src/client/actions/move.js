@@ -126,7 +126,7 @@ export const moveLeft = board => {
     return newBoard;
 }
 
-export const move = event => (dispatch) => {
+export const move = (event, io, me, roomName) => (dispatch) => {
     const { key } = event
     if (key === 'ArrowUp') {
         dispatch(({ type: ADD_PIECE }));
@@ -138,7 +138,8 @@ export const move = event => (dispatch) => {
         dispatch(({ type: MOVE_LEFT }));
     };
     if (key === 'ArrowRight') {
-        dispatch(({ type: MOVE_RIGHT }));
+        io.emit('action', { name: 'moveRight', gameName: roomName, user: me })
+        // dispatch(({ type: MOVE_RIGHT }));
     };
 }
 
