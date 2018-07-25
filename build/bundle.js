@@ -18848,9 +18848,9 @@ var move = exports.move = function move(event, io, me, roomName) {
         if (key === 'ArrowUp') {
             dispatch({ type: ADD_PIECE });
         };
-        if (key === 'ArrowDown') io.emit('action', { name: 'moveBottom', gameName: roomName, user: me });
-        if (key === 'ArrowLeft') io.emit('action', { name: 'moveLeft', gameName: roomName, user: me });
-        if (key === 'ArrowRight') io.emit('action', { name: 'moveRight', gameName: roomName, user: me });
+        if (key === 'ArrowDown') io.emit('action', { name: 'move', type: 'bottom', gameName: roomName, user: me });
+        if (key === 'ArrowLeft') io.emit('action', { name: 'move', type: 'left', gameName: roomName, user: me });
+        if (key === 'ArrowRight') io.emit('action', { name: 'move', type: 'right', gameName: roomName, user: me });
     };
 };
 
@@ -18901,7 +18901,7 @@ exports.INITIAL_CELL = exports.CELL_MARGIN = exports.CELL_SIZE = undefined;
 
 var _colors = __webpack_require__(71);
 
-var CELL_SIZE = exports.CELL_SIZE = '40';
+var CELL_SIZE = exports.CELL_SIZE = '30';
 
 var CELL_MARGIN = exports.CELL_MARGIN = '1';
 

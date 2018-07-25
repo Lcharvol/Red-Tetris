@@ -1,6 +1,6 @@
 import { FAKE_CELL_COLOR } from './colors';
 
-export const CELL_SIZE = '40';
+export const CELL_SIZE = '30';
 
 export const CELL_MARGIN = '1';
 
