@@ -4,6 +4,7 @@ import {
     array,
     bool,
     string,
+    number,
 } from 'prop-types';
 
 import {
@@ -15,12 +16,18 @@ import GameModal from '../../components/GameModal';
 
 const propTypes = {
     board: array.isRequired,
-    displayModal: bool.isRequired,
-    modalMessage: string.isRequired,
+    displayModal: bool,
+    modalMessage: string,
+    opacity: number,
 }
 
-const Board = ({ board, displayModal, modalMessage }) => (
-    <Container>
+const Board = ({
+    board = [],
+    displayModal = false,
+    modalMessage = '',
+    opacity = 1,
+}) => (
+    <Container opacity={opacity}>
         {displayModal && <GameModal value={modalMessage}/>}
         <InnerBoard>
             {board.map((cell, id) => (

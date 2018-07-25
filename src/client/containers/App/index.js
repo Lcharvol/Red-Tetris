@@ -56,6 +56,7 @@ const App = ({
 }) =>
 (
     <AppContainer>
+        {console.log('myBoard: ', myBoard)}
         <BoardContainer>
             <EventListener target={document} onKeyDown={move} />
             <Board
@@ -65,7 +66,7 @@ const App = ({
             />
             {!isEmpty(enemyBoard) && <Board
                 board={enemyBoard}
-                displayModal={displayModal}
+                opacity={0.4}
             />}
         </BoardContainer>
         {owner &&

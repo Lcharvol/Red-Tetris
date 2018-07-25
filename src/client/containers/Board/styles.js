@@ -19,6 +19,7 @@ export const Container = styled.div`
     -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);
     box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);
     filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);
+    opacity: ${({ opacity }) => opacity};
 `;
 
 export const InnerBoard = styled.div`

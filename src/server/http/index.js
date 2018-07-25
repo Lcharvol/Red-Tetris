@@ -9,6 +9,7 @@ import fs from 'fs';
 import { getUrl, bindError, bindLogger, bindCtx } from './helpers';
 import createRoom from './routes/createRoom';
 import { initialBoard } from '../constants/board';
+import { addRandomPiece, moveBottom } from '../boardManager';
 
 const logger = debug('tetris:http');
 const logerror = debug('tetris:http:error');
@@ -55,18 +56,42 @@ const init = async ctx => {
                     const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
                     if(roomIndex < 0) return;
 
+                    const newUsersBoard = [
+                        {
+                            ...rooms[roomIndex].users[0],
+                            board: addRandomPiece(rooms[roomIndex].users[0].board),
+                        },
+                        {
+                            ...rooms[roomIndex].users[1],
+                            board: addRandomPiece(rooms[roomIndex].users[1].board),
+                        },
+                    ];
                     io.to(actionSocket.gameName).emit('action', {
                             name: 'updateGameInfo',
                             body: { 
                                 name: actionSocket.gameName,
                                 isGameStarted: true,
+                                users: newUsersBoard,
                             }
                         });
+                    rooms[roomIndex] = {...rooms[roomIndex], users: newUsersBoard}
                     setInterval(() => {
-                        rooms[roomIndex].turn += 1;3
+                        rooms[roomIndex].turn += 1;
+                        const newUsers = [
+                            {
+                                ...rooms[roomIndex].users[0],
+                                board: moveBottom(rooms[roomIndex].users[0].board),
+                            },
+                            {
+                                ...rooms[roomIndex].users[1],
+                                board: moveBottom(rooms[roomIndex].users[1].board),
+                            },
+                        ];
+                        rooms[roomIndex] = {...rooms[roomIndex], users: newUsers}
                         io.to(actionSocket.gameName).emit('action', {
                             name: 'updateGameInfo',
                             body: {
+                                users: newUsers,
                             }
                         });
                     },500);

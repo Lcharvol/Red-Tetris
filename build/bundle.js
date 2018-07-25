@@ -61048,6 +61048,7 @@ var App = function App(_ref) {
     return _react2.default.createElement(
         _styles.AppContainer,
         null,
+        console.log('myBoard: ', myBoard),
         _react2.default.createElement(
             _styles.BoardContainer,
             null,
@@ -61059,7 +61060,7 @@ var App = function App(_ref) {
             }),
             !(0, _ramda.isEmpty)(enemyBoard) && _react2.default.createElement(_Board2.default, {
                 board: enemyBoard,
-                displayModal: displayModal
+                opacity: 0.4
             })
         ),
         owner && _react2.default.createElement(_StartButton2.default, {
@@ -63779,17 +63780,23 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var propTypes = {
     board: _propTypes.array.isRequired,
-    displayModal: _propTypes.bool.isRequired,
-    modalMessage: _propTypes.string.isRequired
+    displayModal: _propTypes.bool,
+    modalMessage: _propTypes.string,
+    opacity: _propTypes.number
 };
 
 var Board = function Board(_ref) {
-    var board = _ref.board,
-        displayModal = _ref.displayModal,
-        modalMessage = _ref.modalMessage;
+    var _ref$board = _ref.board,
+        board = _ref$board === undefined ? [] : _ref$board,
+        _ref$displayModal = _ref.displayModal,
+        displayModal = _ref$displayModal === undefined ? false : _ref$displayModal,
+        _ref$modalMessage = _ref.modalMessage,
+        modalMessage = _ref$modalMessage === undefined ? '' : _ref$modalMessage,
+        _ref$opacity = _ref.opacity,
+        opacity = _ref$opacity === undefined ? 1 : _ref$opacity;
     return _react2.default.createElement(
         _styles.Container,
-        null,
+        { opacity: opacity },
         displayModal && _react2.default.createElement(_GameModal2.default, { value: modalMessage }),
         _react2.default.createElement(
             _styles.InnerBoard,
@@ -63821,7 +63828,7 @@ var _taggedTemplateLiteral2 = __webpack_require__(101);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin:25px;\n    background: url(\'https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg\');\n    background-repeat: repeat;\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n'], ['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin:25px;\n    background: url(\'https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg\');\n    background-repeat: repeat;\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n']),
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin:25px;\n    background: url(\'https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg\');\n    background-repeat: repeat;\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    opacity: ', ';\n'], ['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin:25px;\n    background: url(\'https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg\');\n    background-repeat: repeat;\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    opacity: ', ';\n']),
     _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n'], ['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n']);
 
 var _styledComponents = __webpack_require__(102);
@@ -63834,7 +63841,10 @@ var _constants = __webpack_require__(212);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Container = exports.Container = _styledComponents2.default.div(_templateObject);
+var Container = exports.Container = _styledComponents2.default.div(_templateObject, function (_ref) {
+    var opacity = _ref.opacity;
+    return opacity;
+});
 
 var InnerBoard = exports.InnerBoard = _styledComponents2.default.div(_templateObject2, _constants.CELL_SIZE * 10 + _constants.CELL_MARGIN * 20, _constants.CELL_SIZE * 20 + _constants.CELL_MARGIN * 40, _colors.MAIN_RED);
 
