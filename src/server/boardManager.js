@@ -45,7 +45,7 @@ export const moveBottom = board => {
         let onLastLine = id >= (BOARD_LENGTH - BOARD_WIDTH);
         let isBlocked = onLastLine || !board[id + BOARD_WIDTH].active && board[id + BOARD_WIDTH].value !== 0;
         if(active && isBlocked) {
-             
+            setAllCellsInactive(board);
             canMove = false;
         }
     })
@@ -91,4 +91,28 @@ export const moveRight = board => {
         newBoard[id] = INITIAL_CELL;
     },idToDelete)
     return newBoard;
-}
+};
+
+export const moveLeft = board => {
+    const newBoard = [...board];
+    let idToDelete = [];
+    let canMove = true;
+    board.map((cell, id) => {
+        let { active } = cell;
+        let onFirstColumn = id % BOARD_WIDTH === 0;
+        let isBlocked = onFirstColumn || !board[id - 1].active && board[id - 1].value !== 0;
+        if(active && isBlocked) canMove = false;
+    })
+    if(!canMove) return board;
+    newBoard.map((cell, id) => {
+        let { value, active} = cell;
+        if(!active) return cell
+        if(board[id + 1].value === 0)
+            idToDelete = [...idToDelete, id];
+        newBoard[id - 1] = board[id];
+    });
+    map(id => {
+        newBoard[id] = INITIAL_CELL;
+    },idToDelete)
+    return newBoard;
+};

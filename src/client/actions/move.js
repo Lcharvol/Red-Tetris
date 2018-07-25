@@ -131,16 +131,12 @@ export const move = (event, io, me, roomName) => (dispatch) => {
     if (key === 'ArrowUp') {
         dispatch(({ type: ADD_PIECE }));
     };
-    if (key === 'ArrowDown') {
-        dispatch(({ type: MOVE_BOTTOM }));
-    };
-    if (key === 'ArrowLeft') {
-        dispatch(({ type: MOVE_LEFT }));
-    };
-    if (key === 'ArrowRight') {
-        io.emit('action', { name: 'moveRight', gameName: roomName, user: me })
-        // dispatch(({ type: MOVE_RIGHT }));
-    };
+    if (key === 'ArrowDown')
+        io.emit('action', { name: 'moveBottom', gameName: roomName, user: me });
+    if (key === 'ArrowLeft')
+        io.emit('action', { name: 'moveLeft', gameName: roomName, user: me });
+    if (key === 'ArrowRight')
+        io.emit('action', { name: 'moveRight', gameName: roomName, user: me });
 }
 
 export const moveCycle = () => dispatch => dispatch(({ type: MOVE_BOTTOM }));

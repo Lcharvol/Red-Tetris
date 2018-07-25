@@ -13,6 +13,7 @@ import {
     addRandomPiece,
     moveBottom,
     moveRight,
+    moveLeft,
 } from '../boardManager';
 
 const logger = debug('tetris:http');
@@ -108,6 +109,28 @@ const init = async ctx => {
                     const { user } = actionSocket;
                     const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
                     rooms[roomIndex].users[userRoomIndex].board = moveRight(rooms[roomIndex].users[userRoomIndex].board);
+                    io.to(actionSocket.gameName).emit('action', {
+                        name: 'updateGameInfo',
+                        body: {
+                            users: rooms[roomIndex].users,
+                        }
+                    });
+                }
+                if(actionSocket.name === 'moveLeft') {
+                    const { user } = actionSocket;
+                    const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
+                    rooms[roomIndex].users[userRoomIndex].board = moveLeft(rooms[roomIndex].users[userRoomIndex].board);
+                    io.to(actionSocket.gameName).emit('action', {
+                        name: 'updateGameInfo',
+                        body: {
+                            users: rooms[roomIndex].users,
+                        }
+                    });
+                }
+                if(actionSocket.name === 'moveBottom') {
+                    const { user } = actionSocket;
+                    const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
+                    rooms[roomIndex].users[userRoomIndex].board = moveBottom(rooms[roomIndex].users[userRoomIndex].board);
                     io.to(actionSocket.gameName).emit('action', {
                         name: 'updateGameInfo',
                         body: {

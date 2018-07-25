@@ -28,7 +28,6 @@ const StartButton = ({
         }}
         isGameStarted={isGameStarted}
     >
-    {console.log('roomName: ', roomName)}
         Start
     </Container>
 );
