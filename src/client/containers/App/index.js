@@ -1,5 +1,4 @@
 import React from 'react';
-import { compose, lifecycle } from 'recompose';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { isEmpty } from 'ramda';
@@ -34,7 +33,6 @@ const propTypes = {
     myBoard: array.isRequired,
     enemyBoard: array.isRequired,
     move: func.isRequired,
-    moveCycle: func.isRequired,
     startGame: func.isRequired,
     isGameStarted: bool.isRequired,
     displayModal: bool.isRequired,
@@ -49,7 +47,6 @@ const App = ({
     move,
     startGame,
     isGameStarted,
-    moveCycle,
     displayModal,
     owner,
     io,
@@ -85,7 +82,6 @@ const App = ({
 const actions = {
     move,
     startGame,
-    moveCycle,
 };
 
 const mapDispatchToProps = dispatch => bindActionCreators(actions, dispatch);
@@ -103,15 +99,4 @@ const mapStateToProps = state => ({
 
 App.propTypes = propTypes;
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps),
-    lifecycle({
-        // componentWillReceiveProps(nextProps) {
-        //     const gameInterval = setInterval(() => {this.props.moveCycle()},500);
-        //     if(nextProps.isGameStarted && this.props.isGameStarted === false)
-        //         gameInterval;
-        //     else
-        //         clearInterval(gameInterval);
-        // }
-      }),
-  )(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

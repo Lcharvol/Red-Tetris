@@ -5,6 +5,31 @@ import { CELLS_COLORS, FAKE_CELL_COLOR } from '../client/constants/colors';
 import { BOARD_LENGTH, BOARD_WIDTH } from '../client/constants/board';
 import { INITIAL_CELL } from '../client/constants/cell';
 
+const deletLine = (board, line) => {
+    board.map((cell, id) => {
+        if(Math.floor(id / BOARD_WIDTH) === line)
+            board[id] = INITIAL_CELL;
+    })
+    return board;
+};
+
+const checkBoard = board => {
+    let actualLine = 0;
+    let fullLine = true;
+    board.map((cell, id) => {
+        if(cell.value === 0 && !cell.active)
+            fullLine = false;
+        if((id + 1) % BOARD_WIDTH === 0) {
+            if(fullLine) {
+                board = deletLine(board, actualLine);
+            }
+            fullLine = true;
+            actualLine += 1;
+        }
+    })
+    return board;
+};
+
 export const getCellColor = () => CELLS_COLORS[getRandomNumber(0, length(CELLS_COLORS) - 1)];
 
 export const getRandomNumber = (min , max) => {

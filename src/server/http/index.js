@@ -26,7 +26,7 @@ const init = async ctx => {
     const { server: { host, port } } = ctx.config;
     const httpServer = await app.listen(port, host, () => {
       httpServer.url = getUrl(httpServer);
-      logger(`Connected at this address: ${httpServer.url}`); // eslint-disable-line no-console
+      logger(`Connected at this address: ${httpServer.url}`);
     });
   
     const io = socketIo(httpServer);
@@ -34,15 +34,21 @@ const init = async ctx => {
     const socketIdToDelete = [];
     const tmp = [];
     io.on('connection', function(socket){
+
         currentSocketId[0] = socket.id;
-        logger("Socket connected: " + currentSocketId)
+        logger("Socket connected: " + currentSocketId);
+
         socket
-            .on('room', function(data) {
+            .on('disconnect', async () => {
+                logger("Socket disconnected: " + currentSocketId)
+                socketIdToDelete[0] = socket.id;
+            })
+            .on('joinRoom', function(data) {
                 const { room, user } = data;
                 const roomIndex = findIndex(propEq('name', room))(rooms);
                 if(roomIndex >= 0 && length(rooms[roomIndex].users) >= 2) {
                     socket.emit('gameError', { type: "fullRoom", message: 'This room is full'});
-                    logger('To many player in the room');    
+                    logger('Too many player in the room');    
                 } else {
                     socket.join(room);
                     const users = !isNil(rooms[roomIndex]) ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard}] : [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];
@@ -51,10 +57,6 @@ const init = async ctx => {
                     io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users }});
                     logger('Room "', room, '" joined by ', user);
                 }
-            })
-            .on('disconnect', async () => {
-                logger("Socket disconnected: " + currentSocketId)
-                socketIdToDelete[0] = socket.id;
             })
             .on('action', function(actionSocket) {
                 const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
@@ -111,39 +113,6 @@ const init = async ctx => {
                 if(actionSocket.name === 'joinRoom') {
                     logger(`${actionSocket.user} join the room: ${actionSocket.room}`)
                 };
-                if(actionSocket.name === 'moveRight') {
-                    const { user } = actionSocket;
-                    const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
-                    rooms[roomIndex].users[userRoomIndex].board = moveRight(rooms[roomIndex].users[userRoomIndex].board);
-                    io.to(actionSocket.gameName).emit('action', {
-                        name: 'updateGameInfo',
-                        body: {
-                            users: rooms[roomIndex].users,
-                        }
-                    });
-                }
-                if(actionSocket.name === 'moveLeft') {
-                    const { user } = actionSocket;
-                    const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
-                    rooms[roomIndex].users[userRoomIndex].board = moveLeft(rooms[roomIndex].users[userRoomIndex].board);
-                    io.to(actionSocket.gameName).emit('action', {
-                        name: 'updateGameInfo',
-                        body: {
-                            users: rooms[roomIndex].users,
-                        }
-                    });
-                }
-                if(actionSocket.name === 'moveBottom') {
-                    const { user } = actionSocket;
-                    const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
-                    rooms[roomIndex].users[userRoomIndex].board = moveBottom(rooms[roomIndex].users[userRoomIndex].board);
-                    io.to(actionSocket.gameName).emit('action', {
-                        name: 'updateGameInfo',
-                        body: {
-                            users: rooms[roomIndex].users,
-                        }
-                    });
-                }
                 if(actionSocket.name === 'move') {
                     const { user, type } = actionSocket;
                     const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);

@@ -51,7 +51,7 @@ io.on('gameError', data => {
 store.dispatch(updateGameInfo({me: user}));
 
 
-io.emit('room', {room, user});
+io.emit('joinRoom', {room, user});
 
 const Root = () => (
     <Provider store={store}>
