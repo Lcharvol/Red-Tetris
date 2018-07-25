@@ -17,6 +17,7 @@
     } from '../actions/piece';
     import {
       START_GAME,
+      UPDATE_GAME_INFO,
   } from '../actions/game';
     import { FAKE_CELL_COLOR } from '../constants/colors';
 
@@ -47,6 +48,8 @@
         return {...state, myBoard: addRandomPiece(state.myBoard)};
       case ADD_PIECE:
         return {...state, myBoard: addRandomPiece(state.myBoard)};
+      case UPDATE_GAME_INFO:
+        return {...state}
       default:
         return state;
     }

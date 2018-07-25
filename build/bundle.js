@@ -60625,6 +60625,8 @@ var reducer = function reducer() {
       return (0, _extends3.default)({}, state, { myBoard: (0, _piece.addRandomPiece)(state.myBoard) });
     case _piece.ADD_PIECE:
       return (0, _extends3.default)({}, state, { myBoard: (0, _piece.addRandomPiece)(state.myBoard) });
+    case _game.UPDATE_GAME_INFO:
+      return (0, _extends3.default)({}, state);
     default:
       return state;
   }
@@ -60943,9 +60945,8 @@ var initialState = {
     isGameStarted: false,
     displayModal: false,
     modalMessage: '',
-    gameInfo: {
-        me: undefined
-    }
+    me: undefined,
+    gameName: undefined
 };
 
 var reducer = function reducer() {
@@ -60962,7 +60963,7 @@ var reducer = function reducer() {
         case _game.DISPLAY_MODAL:
             return (0, _extends3.default)({}, state, { displayModal: !state.displayModal });
         case _game.UPDATE_GAME_INFO:
-            return (0, _extends3.default)({}, state, { gameInfo: (0, _extends3.default)({}, state.gameInfo, action.body) });
+            return (0, _extends3.default)({}, state, action.body);
         default:
             return state;
     }
@@ -61024,7 +61025,8 @@ var propTypes = {
     moveCycle: _propTypes.func.isRequired,
     startGame: _propTypes.func.isRequired,
     isGameStarted: _propTypes.bool.isRequired,
-    displayModal: _propTypes.bool.isRequired
+    displayModal: _propTypes.bool.isRequired,
+    getRoomName: _propTypes.string
 };
 
 var App = function App(_ref) {
@@ -61035,11 +61037,12 @@ var App = function App(_ref) {
         isGameStarted = _ref.isGameStarted,
         moveCycle = _ref.moveCycle,
         displayModal = _ref.displayModal,
-        owner = _ref.owner;
+        owner = _ref.owner,
+        io = _ref.io,
+        roomName = _ref.roomName;
     return _react2.default.createElement(
         _styles.AppContainer,
         null,
-        console.log('owner: ', owner),
         _react2.default.createElement(
             _styles.BoardContainer,
             null,
@@ -61049,7 +61052,12 @@ var App = function App(_ref) {
                 displayModal: displayModal
             })
         ),
-        owner && _react2.default.createElement(_StartButton2.default, { startGame: startGame, isGameStarted: isGameStarted })
+        owner && _react2.default.createElement(_StartButton2.default, {
+            startGame: startGame,
+            isGameStarted: isGameStarted,
+            io: io,
+            roomName: roomName
+        })
     );
 };
 
@@ -61069,7 +61077,8 @@ var mapStateToProps = function mapStateToProps(state) {
         enemyBoard: (0, _board.getEnemyBoard)(state),
         isGameStarted: (0, _game.getIsGameStarted)(state),
         displayModal: (0, _game.getDisplayModal)(state),
-        owner: (0, _game.getOwner)(state)
+        owner: (0, _game.getOwner)(state),
+        roomName: (0, _game.getRoomName)(state)
     };
 };
 
@@ -63694,7 +63703,7 @@ var getEnemyBoard = exports.getEnemyBoard = function getEnemyBoard(state) {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getOwner = exports.getMe = exports.getDisplayModal = exports.getIsGameStarted = undefined;
+exports.getRoomName = exports.getOwner = exports.getMe = exports.getDisplayModal = exports.getIsGameStarted = undefined;
 
 var _ramda = __webpack_require__(53);
 
@@ -63707,17 +63716,21 @@ var getDisplayModal = exports.getDisplayModal = function getDisplayModal(state) 
 };
 
 var getMe = exports.getMe = function getMe(state) {
-    return state.game.gameInfo.me;
+    return state.game.me;
 };
 
 var getOwner = exports.getOwner = function getOwner(state) {
-    var me = state.game.gameInfo.me;
+    var me = state.game.me;
     if (me !== undefined) {
-        var users = state.game.gameInfo.users || {};
+        var users = state.game.users || {};
         var myUserId = (0, _ramda.findIndex)((0, _ramda.propEq)('name', me))(users);
         return users[myUserId] ? users[myUserId].owner : false;
     }
     return false;
+};
+
+var getRoomName = exports.getRoomName = function getRoomName(state) {
+    return state.game.name;
 };
 
 /***/ }),
@@ -63943,20 +63956,24 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 var propTypes = {
     startGame: _propTypes.func.isRequired,
-    isGameStarted: _propTypes.bool.isRequired
+    isGameStarted: _propTypes.bool.isRequired,
+    roomName: _propTypes.string.isRequired
 };
 
 var StartButton = function StartButton(_ref) {
     var startGame = _ref.startGame,
-        isGameStarted = _ref.isGameStarted;
+        isGameStarted = _ref.isGameStarted,
+        io = _ref.io,
+        roomName = _ref.roomName;
     return _react2.default.createElement(
-        _styles.Container
-        // onClick={() =>{
-        //     if(!isGameStarted) startGame()
-        // }}
-        ,
-        { isGameStarted: isGameStarted
+        _styles.Container,
+        {
+            onClick: function onClick() {
+                if (!isGameStarted) io.emit('action', { name: 'startGame', gameName: roomName });
+            },
+            isGameStarted: isGameStarted
         },
+        console.log('roomName: ', roomName),
         'Start'
     );
 };

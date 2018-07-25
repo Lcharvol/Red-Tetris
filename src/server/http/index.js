@@ -8,6 +8,7 @@ import fs from 'fs';
 
 import { getUrl, bindError, bindLogger, bindCtx } from './helpers';
 import createRoom from './routes/createRoom';
+import { initialBoard } from '../constants/board';
 
 const logger = debug('tetris:http');
 const logerror = debug('tetris:http:error');
@@ -34,14 +35,14 @@ const init = async ctx => {
                 const { room, user } = data;
                 const roomIndex = findIndex(propEq('name', room))(rooms);
                 if(roomIndex >= 0 && rooms[roomIndex].users.length >= 2) {
-                    console.log('To many player in the room');    
+                    logger('To many player in the room');    
                 } else {
                     socket.join(room);
-                    const users = rooms[roomIndex] ? [...rooms[roomIndex].users, {name: user, owner: false}] : [{name: user, owner: true}];
+                    const users = rooms[roomIndex] ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0]}] : [{name: user, owner: true, id: currentSocketId[0]}];
                     rooms[roomIndex] = {...rooms[roomIndex], users};
                     rooms = [...rooms, { name: room, users }];
                     io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users }});
-                    console.log('room: ', room, ' joined by ', user);
+                    logger('room: ', room, ' joined by ', user);
                 }
             })
             .on('disconnect', async () => {
@@ -50,7 +51,10 @@ const init = async ctx => {
             })
             .on('action', function(actionSocket) {
                 if(actionSocket.name === 'startGame') {
-                    socket.emit('action', { name: 'startGame' });
+                    const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
+                    rooms[roomIndex].users[0] = initialBoard;
+                    rooms[roomIndex].users[1] = initialBoard;
+                    io.to(actionSocket.gameName).emit('action', { name: 'updateGameInfo', body: { name: actionSocket.gameName }});
                     logger(`Game start in the room: \"${actionSocket.gameName}\"`)
                 };
                 if(actionSocket.name === 'joinRoom') {

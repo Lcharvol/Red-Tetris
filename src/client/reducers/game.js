@@ -12,9 +12,8 @@ const initialState = {
     isGameStarted: false,
     displayModal: false,
     modalMessage: '',
-    gameInfo: {
-        me: undefined,
-    },
+    me: undefined,
+    gameName: undefined,
 };
 
 const reducer = (state = initialState, action) => {
@@ -28,7 +27,7 @@ switch (action.type) {
     case DISPLAY_MODAL:
         return {...state, displayModal: !state.displayModal};
     case UPDATE_GAME_INFO:
-        return {...state, gameInfo: {...state.gameInfo, ...action.body}}
+        return {...state, ...action.body}
     default:
         return state;
 }
