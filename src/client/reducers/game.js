@@ -4,7 +4,7 @@ import {
     START_GAME,
     END_GAME,
     SET_MODAL_MESSAGE,
-    DISPLAY_MODAL,
+    DELETE_MODAL_MESSAGE,
     UPDATE_GAME_INFO,
 } from '../actions/game';
 
@@ -23,9 +23,9 @@ switch (action.type) {
     case END_GAME:
         return {...state, isGameStarted: false};
     case SET_MODAL_MESSAGE:
-        return {...state, modalMessage: action.message};
-    case DISPLAY_MODAL:
-        return {...state, displayModal: !state.displayModal};
+        return {...state, displayModal: true, modalMessage: action.message};
+    case DELETE_MODAL_MESSAGE:
+        return {...state, displayModal: false, modalMessage: ''}
     case UPDATE_GAME_INFO:
         return {...state, ...action.body}
     default:

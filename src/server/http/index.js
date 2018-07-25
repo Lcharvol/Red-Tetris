@@ -35,6 +35,7 @@ const init = async ctx => {
                 const { room, user } = data;
                 const roomIndex = findIndex(propEq('name', room))(rooms);
                 if(roomIndex >= 0 && rooms[roomIndex].users.length >= 2) {
+                    socket.emit('gameError', { type: "fullRoom", message: 'This room is full'});
                     logger('To many player in the room');    
                 } else {
                     socket.join(room);
@@ -42,7 +43,7 @@ const init = async ctx => {
                     rooms[roomIndex] = {...rooms[roomIndex], users};
                     rooms = [...rooms, { name: room, users }];
                     io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users }});
-                    logger('room: ', room, ' joined by ', user);
+                    logger('Room "', room, '" joined by ', user);
                 }
             })
             .on('disconnect', async () => {

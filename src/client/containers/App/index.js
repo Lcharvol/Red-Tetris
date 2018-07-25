@@ -20,6 +20,7 @@ import {
     getDisplayModal,
     getOwner,
     getRoomName,
+    getModalMessage,
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -35,6 +36,7 @@ const propTypes = {
     isGameStarted: bool.isRequired,
     displayModal: bool.isRequired,
     getRoomName: string,
+    modalMessage: string,
 };
 
 const App = ({
@@ -48,6 +50,7 @@ const App = ({
     owner,
     io,
     roomName,
+    modalMessage,
 }) =>
 (
     <AppContainer>
@@ -56,6 +59,7 @@ const App = ({
             <Board
                 board={myBoard}
                 displayModal={displayModal}
+                modalMessage={modalMessage}
             />
             {/* <Board
                 board={enemyBoard}
@@ -87,6 +91,7 @@ const mapStateToProps = state => ({
     displayModal: getDisplayModal(state),
     owner: getOwner(state),
     roomName: getRoomName(state),
+    modalMessage: getModalMessage(state),
 });
 
 App.propTypes = propTypes;

@@ -5,11 +5,13 @@ export const Container = styled.div`
     display:flex;
     justify-content: center;
     align-items: center;
+    text-align:center;
     background-color:rgba(25,25,25,0.5);
     width:calc(100% - 20px);
     height:200px;
     top:calc(50% - 100px);
     color:white;
-    font-size:10em;
+    font-size:5em;
     z-index:1000;
+    opacity:0.4;
 `;

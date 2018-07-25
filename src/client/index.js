@@ -7,7 +7,11 @@ import { dropLast } from 'ramda';
 
 import configureStore from './store';
 import App from './containers/App';
-import { startGame, updateGameInfo } from './actions/game';
+import {
+  startGame,
+  updateGameInfo,
+  setModalMessage,
+} from './actions/game';
 
 const initialState = {};
 const store = configureStore(initialState, io);
@@ -33,15 +37,16 @@ const getUser = str => {
 const room = getRoomName(hash);
 const user = getUser(hash);
 
-io.on('action', (data) => {
+io.on('action', data => {
   const { name } = data;
-  if(name === 'startGame') {
-    store.dispatch(startGame());
-  };
-  if(name === 'updateGameInfo') {
-    store.dispatch(updateGameInfo(data.body));
-  }
+  if(name === 'startGame') store.dispatch(startGame());
+  if(name === 'updateGameInfo') store.dispatch(updateGameInfo(data.body));
 });
+
+io.on('gameError', data => {
+  const { type, message } = data;
+  store.dispatch(setModalMessage(message))
+})
 
 store.dispatch(updateGameInfo({me: user}));
 

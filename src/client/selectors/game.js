@@ -17,3 +17,5 @@ export const getOwner = state => {
 };
 
 export const getRoomName = state => state.game.name;
+
+export const getModalMessage = state => state.game.modalMessage;
