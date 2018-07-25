@@ -25,7 +25,7 @@ export const getMyBoard = state => {
         const myUserIndex = findIndex(propEq('name', state.game.me))(state.game.users);
         return state.game.users[myUserIndex].board
     };
-    return [];
+    return undefined;
 };
 
 export const getEnemyBoard = state => {

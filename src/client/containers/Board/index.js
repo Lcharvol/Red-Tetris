@@ -13,21 +13,24 @@ import {
 } from './styles';
 import Cell from '../../components/Cell';
 import GameModal from '../../components/GameModal';
+import { INITIAL_BOARD } from '../../constants/board';
 
 const propTypes = {
     board: array.isRequired,
     displayModal: bool,
     modalMessage: string,
     opacity: number,
+    isSmall: bool,
 }
 
 const Board = ({
-    board = [],
+    board = INITIAL_BOARD,
     displayModal = false,
     modalMessage = '',
     opacity = 1,
+    isSmall = false,
 }) => (
-    <Container opacity={opacity}>
+    <Container opacity={opacity} isSmall={isSmall}>
         {displayModal && <GameModal value={modalMessage}/>}
         <InnerBoard>
             {board.map((cell, id) => (

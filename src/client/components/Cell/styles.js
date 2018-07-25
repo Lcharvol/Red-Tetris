@@ -15,5 +15,5 @@ export const Container = styled.div`
     margin: ${CELL_MARGIN}px;
     background:${({ color }) => color};
     border-radius:3px;
-    opacity:0.8;
+    opacity:0.6;
 `;

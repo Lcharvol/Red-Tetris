@@ -69,6 +69,7 @@ const App = ({
             {!isEmpty(enemyBoard) && <Board
                 board={enemyBoard}
                 opacity={0.4}
+                isSmall={true}
             />}
         </BoardContainer>
         {owner &&
