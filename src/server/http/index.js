@@ -1,6 +1,6 @@
 import express from 'express';
 import socketIo from 'socket.io';
-import { findIndex, propEq } from 'ramda';
+import { findIndex, propEq, isNil, length } from 'ramda';
 import bodyParser from 'body-parser';
 
 import debug from 'debug';
@@ -33,15 +33,16 @@ const init = async ctx => {
         socket
             .on('room', function(data) {
                 const { room, user } = data;
+                console.log('rooms: ', rooms)
                 const roomIndex = findIndex(propEq('name', room))(rooms);
-                if(roomIndex >= 0 && rooms[roomIndex].users.length >= 2) {
+                if(roomIndex >= 0 && length(rooms[roomIndex].users) >= 2) {
                     socket.emit('gameError', { type: "fullRoom", message: 'This room is full'});
                     logger('To many player in the room');    
                 } else {
                     socket.join(room);
-                    const users = rooms[roomIndex] ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0]}] : [{name: user, owner: true, id: currentSocketId[0]}];
-                    rooms[roomIndex] = {...rooms[roomIndex], users};
-                    rooms = [...rooms, { name: room, users }];
+                    const users = !isNil(rooms[roomIndex]) ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0]}] : [{name: user, owner: true, id: currentSocketId[0]}];
+                    if(roomIndex < 0) rooms = [...rooms, {users, name: room}]
+                    else rooms[roomIndex] = {...rooms[roomIndex], users, name: room};   
                     io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users }});
                     logger('Room "', room, '" joined by ', user);
                 }
@@ -55,6 +56,7 @@ const init = async ctx => {
                     const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
                     rooms[roomIndex].users[0] = initialBoard;
                     rooms[roomIndex].users[1] = initialBoard;
+                    console.log('started room: ', rooms);
                     io.to(actionSocket.gameName).emit('action', { name: 'updateGameInfo', body: { name: actionSocket.gameName }});
                     logger(`Game start in the room: \"${actionSocket.gameName}\"`)
                 };
