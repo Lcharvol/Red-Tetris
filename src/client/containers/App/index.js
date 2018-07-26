@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { isEmpty } from 'ramda';
+import { isEmpty, isNil } from 'ramda';
 import {
     bool,
     array,
@@ -23,11 +23,15 @@ import {
     getMyBoard,
     getEnemyBoard,
     getMe,
+    getUsers,
+    getDisplayToast,
+    getToastMessage,
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
 import Board from '../Board';
 import StartButton  from '../../components/StartButton';
+import Toast from '../../components/Toast';
 
 const propTypes = {
     myBoard: array,
@@ -39,6 +43,9 @@ const propTypes = {
     getRoomName: string,
     modalMessage: string,
     me: string,
+    users: array,
+    displayToast: bool.isRequired,
+    toastMessage: string.isRequired,
 };
 
 const App = ({
@@ -53,21 +60,25 @@ const App = ({
     roomName,
     modalMessage,
     me,
+    users,
+    displayToast,
+    toastMessage,
 }) =>
 (
     <AppContainer>
         <BoardContainer>
+            {displayToast && <Toast text={toastMessage}/>}
             <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
             <Board
                 board={myBoard}
                 displayModal={displayModal}
                 modalMessage={modalMessage}
             />
-            {!isEmpty(enemyBoard) && <Board
+            <Board
                 board={enemyBoard}
                 opacity={0.4}
                 isSmall={true}
-            />}
+            />
         </BoardContainer>
         {owner &&
             <StartButton
@@ -95,6 +106,9 @@ const mapStateToProps = state => ({
     roomName: getRoomName(state),
     modalMessage: getModalMessage(state),
     me: getMe(state),
+    users: getUsers(state),
+    displayToast: getDisplayToast(state),
+    toastMessage: getToastMessage(state),
 });
 
 App.propTypes = propTypes;

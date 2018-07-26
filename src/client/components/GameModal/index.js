@@ -1,4 +1,5 @@
 import React from 'react';
+import { compose, lifecycle, withStateHandlers } from 'recompose';
 
 import {
     Container,

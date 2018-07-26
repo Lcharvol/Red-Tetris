@@ -8,6 +8,7 @@ import {
     moveRight,
     moveLeft,
 } from '../boardManager';
+import { TOAST_DURATION } from '../constants/game';
 
 const logger = debug('tetris:http');
 
@@ -37,8 +38,9 @@ const eventListener = (socket, io) => {
                 const users = !isNil(rooms[roomIndex]) ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard}] : [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];
                 if(roomIndex < 0) rooms = [...rooms, {users, name: room}]
                 else rooms[roomIndex] = {...rooms[roomIndex], users, name: room};   
-                io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users }});
-                logger('Room "', room, '" joined by ', user);
+                io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users, displayToast: true, toastMessage: `${user} join the room` }});
+                setTimeout(() => io.to(room).emit('action', { name: 'updateGameInfo', body: { displayToast: false, toastMessage: `` }}), TOAST_DURATION);
+                logger(`${user} join the ${room} room`);
             }
         })
         .on('action', function(actionSocket) {

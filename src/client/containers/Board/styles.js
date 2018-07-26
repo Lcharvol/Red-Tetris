@@ -11,7 +11,10 @@ export const Container = styled.div`
     flex-wrap: wrap;
     border-radius:3px;
     padding:10px;
-    margin:25px;
+    margin-top:30px;
+    margin-bottom:30px;
+    margin-right:10px;
+    margin-left:10px;
     background: url('https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg');
     background-repeat: repeat;
     -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);
@@ -19,8 +22,10 @@ export const Container = styled.div`
     -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);
     box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);
     filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);
-    opacity: ${({ opacity }) => opacity};
-    transform: scale(${({ isSmall }) => isSmall ? 0.6 : 1});
+    transition: opacity 1s;
+    opacity: ${({ size }) => size};
+    width: ${({ size }) => size === 0 ? '0px' : '100%'}
+    overflow:hidden;
 `;
 
 export const InnerBoard = styled.div`

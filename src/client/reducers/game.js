@@ -7,7 +7,9 @@ import {
 const initialState = {
     isGameStarted: false,
     displayModal: false,
+    displayToast: false,
     modalMessage: '',
+    toastMessage: '',
     me: undefined,
     gameName: undefined,
 };

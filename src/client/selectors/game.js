@@ -34,5 +34,11 @@ export const getEnemyBoard = state => {
         const enemy = remove(myUserIndex, 1, state.game.users)[0];
         if(enemy) return enemy.board;
     };
-    return [];
+    return undefined;
 };
+
+export const getUsers = state => state.game.users;
+
+export const getDisplayToast = state => state.game.displayToast;
+
+export const getToastMessage = state => state.game.toastMessage;

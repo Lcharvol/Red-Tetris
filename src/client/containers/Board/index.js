@@ -1,11 +1,12 @@
 import React from 'react';
-import { map } from 'ramda';
+import { map, isNil } from 'ramda';
 import {
     array,
     bool,
     string,
     number,
 } from 'prop-types';
+import { compose, lifecycle, withStateHandlers } from 'recompose';
 
 import {
     Container,
@@ -21,6 +22,7 @@ const propTypes = {
     modalMessage: string,
     opacity: number,
     isSmall: bool,
+    size: number.isRequired,
 }
 
 const Board = ({
@@ -29,8 +31,9 @@ const Board = ({
     modalMessage = '',
     opacity = 1,
     isSmall = false,
+    size,
 }) => (
-    <Container opacity={opacity} isSmall={isSmall}>
+    <Container opacity={opacity} isSmall={isSmall} size={size}>
         {displayModal && <GameModal value={modalMessage}/>}
         <InnerBoard>
             {board.map((cell, id) => (
@@ -42,4 +45,22 @@ const Board = ({
 
 Board.propTypes = propTypes;
 
-export default Board;
+export default compose(
+    withStateHandlers(
+        ({ initialSize = 0 }) => ({
+            size: initialSize,
+        }),
+        {
+            handleChangeSize: () => (value) => ({
+                size: value,
+            }),
+        }
+    ),
+    lifecycle({
+        componentWillReceiveProps(nextProps) {
+            if (isNil(this.props.board) && nextProps.board !== this.props.board) {
+                this.props.handleChangeSize(1)
+            }
+          }
+    })
+)(Board);
