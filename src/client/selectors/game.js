@@ -39,6 +39,4 @@ export const getEnemyBoard = state => {
 
 export const getUsers = state => state.game.users;
 
-export const getDisplayToast = state => state.game.displayToast;
-
-export const getToastMessage = state => state.game.toastMessage;
+export const getToasts = state => state.game.toasts;

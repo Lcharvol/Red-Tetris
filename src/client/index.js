@@ -10,6 +10,7 @@ import {
   startGame,
   updateGameInfo,
   setModalMessage,
+  removeToast,
 } from './actions/game';
 import { getRoomName, getUser } from './utils';
 const initialState = {};
@@ -29,6 +30,7 @@ io.on('action', data => {
   const { name } = data;
   if(name === 'startGame') store.dispatch(startGame());
   if(name === 'updateGameInfo') store.dispatch(updateGameInfo(data.body));
+  if(name === 'removeToast') store.dispatch(removeToast());
 });
 
 io.on('gameError', data => {

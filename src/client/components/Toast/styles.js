@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    position:absolute;
+    position:relative;
     display:flex;
     justify-content: flex-start;
     align-items: center;
     background-color:rgba(40,40,40,0.8);
-    min-width:200px;
     height:40px;
     border-radius: 3px;
     padding-left:10px;
@@ -15,5 +14,8 @@ export const Container = styled.div`
     left:25px;
     color:white;
     font-weight:0;
-    opacity: ${({ opacity }) => opacity};
+    opacity: 0.7;
+    transition: opacity 0.7s;
+    margin-top:10px;
+    margin-bottom:10px;
 `;

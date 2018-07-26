@@ -1,15 +1,16 @@
+import { without, drop } from 'ramda';
 import {
     SET_MODAL_MESSAGE,
     DELETE_MODAL_MESSAGE,
     UPDATE_GAME_INFO,
+    REMOVE_TOAST,
 } from '../actions/game';
 
 const initialState = {
     isGameStarted: false,
     displayModal: false,
-    displayToast: false,
+    toasts: [],
     modalMessage: '',
-    toastMessage: '',
     me: undefined,
     gameName: undefined,
 };
@@ -21,7 +22,12 @@ switch (action.type) {
     case DELETE_MODAL_MESSAGE:
         return {...state, displayModal: false, modalMessage: ''}
     case UPDATE_GAME_INFO:
+        if(action.body.toast) {
+            return {...state, ...action.body, toasts: [...state.toasts, action.body.toast]}
+        }
         return {...state, ...action.body}
+    case REMOVE_TOAST:
+        return {...state, toasts: drop(1,state.toasts)}
     default:
         return state;
 }

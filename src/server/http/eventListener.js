@@ -1,5 +1,6 @@
 import { findIndex, propEq, isNil, length } from 'ramda';
 import debug from 'debug';
+import uuidv1 from 'uuid/v1';
 
 import { initialBoard } from '../constants/board';
 import {
@@ -14,7 +15,7 @@ const logger = debug('tetris:http');
 
 let rooms = [];
 
-const removeToast = (io, room) => setTimeout(() => io.to(room).emit('action', { name: 'updateGameInfo', body: { displayToast: false, toastMessage: `` }}), TOAST_DURATION);
+const removeToast = (io, room) => setTimeout(() => io.to(room).emit('action', { name: 'removeToast'}), TOAST_DURATION);
 
 const emitToRoom = (io, room, type, name, body) => io.to(room).emit(type, { name, body });
 
@@ -44,7 +45,7 @@ const eventListener = (socket, io) => {
                 const users = !isNil(rooms[roomIndex]) ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard}] : [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];
                 if(roomIndex < 0) rooms = [...rooms, {users, name: room}]
                 else rooms[roomIndex] = {...rooms[roomIndex], users, name: room};   
-                emitToRoom(io, room, 'action', 'updateGameInfo', { name: room, users, displayToast: true, toastMessage: `${user} join the room` });
+                emitToRoom(io, room, 'action', 'updateGameInfo', { name: room, users, toast: { id: uuidv1(), message:`${user} join the room`} });
                 removeToast(io, room);
                 logger(`${user} join the ${room} room`);
             }
@@ -53,7 +54,7 @@ const eventListener = (socket, io) => {
             const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
             if(actionSocket.name === 'startGame') {
                 if(roomIndex < 0) return;
-                io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'3', displayToast: true, toastMessage: `${actionSocket.user} start the game`}});
+                io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'3', toast: { id: uuidv1(), message:`${actionSocket.user} start the game`}}});
                 removeToast(io, actionSocket.gameName);
                 setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'2'}), 1000);
                 setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'1'}), 2000);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { isEmpty, isNil } from 'ramda';
+import { map, isEmpty, isNil } from 'ramda';
 import {
     bool,
     array,
@@ -12,7 +12,8 @@ import EventListener from 'react-event-listener';
 
 import {
     AppContainer,
-    BoardContainer
+    BoardContainer,
+    ToastsContainer
 } from './styles';
 import {
     getIsGameStarted,
@@ -24,8 +25,7 @@ import {
     getEnemyBoard,
     getMe,
     getUsers,
-    getDisplayToast,
-    getToastMessage,
+    getToasts,
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -44,8 +44,7 @@ const propTypes = {
     modalMessage: string,
     me: string,
     users: array,
-    displayToast: bool.isRequired,
-    toastMessage: string.isRequired,
+    toasts: array.isRequired,
 };
 
 const App = ({
@@ -61,13 +60,14 @@ const App = ({
     modalMessage,
     me,
     users,
-    displayToast,
-    toastMessage,
+    toasts,
 }) =>
 (
     <AppContainer>
         <BoardContainer>
-            {displayToast && <Toast text={toastMessage}/>}
+            <ToastsContainer>
+                {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
+            </ToastsContainer>
             <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
             <Board
                 board={myBoard}
@@ -108,8 +108,7 @@ const mapStateToProps = state => ({
     modalMessage: getModalMessage(state),
     me: getMe(state),
     users: getUsers(state),
-    displayToast: getDisplayToast(state),
-    toastMessage: getToastMessage(state),
+    toasts: getToasts(state),
 });
 
 App.propTypes = propTypes;
