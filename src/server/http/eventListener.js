@@ -14,6 +14,12 @@ const logger = debug('tetris:http');
 
 let rooms = [];
 
+const removeToast = (io, room) => setTimeout(() => io.to(room).emit('action', { name: 'updateGameInfo', body: { displayToast: false, toastMessage: `` }}), TOAST_DURATION);
+
+const emitToRoom = (io, room, type, name, body) => io.to(room).emit(type, { name, body });
+
+const emitToSocket = (socket, type, name, message) =>  socket.emit(type, { name, message });
+
 const eventListener = (socket, io) => {
     const currentSocketId = [];
     const socketIdToDelete = [];
@@ -31,15 +37,15 @@ const eventListener = (socket, io) => {
             const { room, user } = data;
             const roomIndex = findIndex(propEq('name', room))(rooms);
             if(roomIndex >= 0 && length(rooms[roomIndex].users) >= 2) {
-                socket.emit('gameError', { type: "fullRoom", message: 'This room is full'});
+                emitToSocket(socket, 'gameError', 'fullRoom', 'This room is full')
                 logger('Too many player in the room');    
             } else {
                 socket.join(room);
                 const users = !isNil(rooms[roomIndex]) ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard}] : [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];
                 if(roomIndex < 0) rooms = [...rooms, {users, name: room}]
                 else rooms[roomIndex] = {...rooms[roomIndex], users, name: room};   
-                io.to(room).emit('action', { name: 'updateGameInfo', body: { name: room, users, displayToast: true, toastMessage: `${user} join the room` }});
-                setTimeout(() => io.to(room).emit('action', { name: 'updateGameInfo', body: { displayToast: false, toastMessage: `` }}), TOAST_DURATION);
+                emitToRoom(io, room, 'action', 'updateGameInfo', { name: room, users, displayToast: true, toastMessage: `${user} join the room` });
+                removeToast(io, room);
                 logger(`${user} join the ${room} room`);
             }
         })
@@ -47,12 +53,13 @@ const eventListener = (socket, io) => {
             const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
             if(actionSocket.name === 'startGame') {
                 if(roomIndex < 0) return;
-                io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'3'}});
-                setTimeout(() => io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'2'}}), 1000);
-                setTimeout(() => io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'1'}}), 2000);
-                setTimeout(() => io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'GO'}}), 3000);
+                io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'3', displayToast: true, toastMessage: `${actionSocket.user} start the game`}});
+                removeToast(io, actionSocket.gameName);
+                setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'2'}), 1000);
+                setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'1'}), 2000);
+                setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'GO'}), 3000);
                 setTimeout(() => {
-                    io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: false, modalMessage:''}});
+                    emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: false, modalMessage:''})
                     const newUsersBoard = [
                         {
                             ...rooms[roomIndex].users[0],
@@ -63,14 +70,7 @@ const eventListener = (socket, io) => {
                             board: addRandomPiece(rooms[roomIndex].users[1].board),
                         },
                     ];
-                    io.to(actionSocket.gameName).emit('action', {
-                            name: 'updateGameInfo',
-                            body: { 
-                                name: actionSocket.gameName,
-                                isGameStarted: true,
-                                users: newUsersBoard,
-                            }
-                        });
+                    emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { name: actionSocket.gameName, isGameStarted: true, users: newUsersBoard });
                     rooms[roomIndex] = {...rooms[roomIndex], users: newUsersBoard}
                     setInterval(() => {
                         const newUsers = [
@@ -83,20 +83,15 @@ const eventListener = (socket, io) => {
                                 board: moveBottom(rooms[roomIndex].users[1].board),
                             },
                         ];
-                        rooms[roomIndex] = {...rooms[roomIndex], users: newUsers}
-                        io.to(actionSocket.gameName).emit('action', {
-                            name: 'updateGameInfo',
-                            body: {
-                                users: newUsers,
-                            }
-                        });
+                        rooms[roomIndex] = {...rooms[roomIndex], users: newUsers};
+                        emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { users: newUsers });
                     },500);
                     logger(`Game start in the room: \"${actionSocket.gameName}\"`)
                 }, 3500);
             };
-            if(actionSocket.name === 'joinRoom') {
-                logger(`${actionSocket.user} join the room: ${actionSocket.room}`)
-            };
+
+            if(actionSocket.name === 'joinRoom') logger(`${actionSocket.user} join the room: ${actionSocket.room}`);
+
             if(actionSocket.name === 'move') {
                 const { user, type } = actionSocket;
                 const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
@@ -106,12 +101,7 @@ const eventListener = (socket, io) => {
                     rooms[roomIndex].users[userRoomIndex].board = moveRight(rooms[roomIndex].users[userRoomIndex].board);
                 if(type === 'left')
                     rooms[roomIndex].users[userRoomIndex].board = moveLeft(rooms[roomIndex].users[userRoomIndex].board);
-                io.to(actionSocket.gameName).emit('action', {
-                    name: 'updateGameInfo',
-                    body: {
-                        users: rooms[roomIndex].users,
-                    }
-                });
+                emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { users: rooms[roomIndex].users });
             }
         });
 };

@@ -32,7 +32,7 @@ io.on('action', data => {
 });
 
 io.on('gameError', data => {
-  const { type, message } = data;
+  const { name, message } = data;
   store.dispatch(setModalMessage(message))
 })
 

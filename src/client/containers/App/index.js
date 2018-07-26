@@ -86,6 +86,7 @@ const App = ({
                 isGameStarted={isGameStarted}
                 io={io}
                 roomName={roomName}
+                me={me}
             />}
     </AppContainer>
 );

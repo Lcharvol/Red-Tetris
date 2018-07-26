@@ -24451,7 +24451,7 @@ io.on('action', function (data) {
 });
 
 io.on('gameError', function (data) {
-  var type = data.type,
+  var name = data.name,
       message = data.message;
 
   store.dispatch((0, _game.setModalMessage)(message));
@@ -52529,7 +52529,8 @@ var App = function App(_ref) {
             startGame: startGame,
             isGameStarted: isGameStarted,
             io: io,
-            roomName: roomName
+            roomName: roomName,
+            me: me
         })
     );
 };
@@ -63504,19 +63505,21 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var propTypes = {
     startGame: _propTypes.func,
     isGameStarted: _propTypes.bool.isRequired,
-    roomName: _propTypes.string.isRequired
+    roomName: _propTypes.string.isRequired,
+    me: _propTypes.string.isRequired
 };
 
 var StartButton = function StartButton(_ref) {
     var startGame = _ref.startGame,
         isGameStarted = _ref.isGameStarted,
         io = _ref.io,
-        roomName = _ref.roomName;
+        roomName = _ref.roomName,
+        me = _ref.me;
     return _react2.default.createElement(
         _styles.Container,
         {
             onClick: function onClick() {
-                if (!isGameStarted) io.emit('action', { name: 'startGame', gameName: roomName });
+                if (!isGameStarted) io.emit('action', { name: 'startGame', gameName: roomName, user: me });
             },
             isGameStarted: isGameStarted
         },

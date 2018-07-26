@@ -28,7 +28,7 @@ export const bindLogger = (req, res, next) => {
     const { stack } = new Error();
     const regex = /\(.*[Mm]atcha\/src\/server\/(.*):(\d*):(\d*)\)/igm;
     const matches = regex.exec(stack.split('\n')[2]);
-    const [, file, line] = matches;
+    const [file, line] = matches;
     const log = debug(`tetris:${file}:${line}`);
     log(msg);
   };

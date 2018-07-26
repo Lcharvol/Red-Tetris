@@ -14,6 +14,7 @@ const propTypes = {
     startGame: func,
     isGameStarted: bool.isRequired,
     roomName: string.isRequired,
+    me: string.isRequired,
 }
 
 const StartButton = ({
@@ -21,10 +22,11 @@ const StartButton = ({
     isGameStarted,
     io,
     roomName,
+    me,
 }) => (
     <Container
         onClick={() => {
-            if(!isGameStarted) io.emit('action', {name: 'startGame', gameName: roomName});
+            if(!isGameStarted) io.emit('action', {name: 'startGame', gameName: roomName, user: me});
         }}
         isGameStarted={isGameStarted}
     >
