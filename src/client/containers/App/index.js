@@ -30,10 +30,10 @@ import Board from '../Board';
 import StartButton  from '../../components/StartButton';
 
 const propTypes = {
-    myBoard: array.isRequired,
-    enemyBoard: array.isRequired,
+    myBoard: array,
+    enemyBoard: array,
     move: func.isRequired,
-    startGame: func.isRequired,
+    startGame: func,
     isGameStarted: bool.isRequired,
     displayModal: bool.isRequired,
     getRoomName: string,

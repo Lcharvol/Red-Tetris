@@ -11,7 +11,7 @@ import {
 } from './styles';
 
 const propTypes = {
-    startGame: func.isRequired,
+    startGame: func,
     isGameStarted: bool.isRequired,
     roomName: string.isRequired,
 }
@@ -23,7 +23,7 @@ const StartButton = ({
     roomName,
 }) => (
     <Container
-        onClick={() =>{
+        onClick={() => {
             if(!isGameStarted) io.emit('action', {name: 'startGame', gameName: roomName});
         }}
         isGameStarted={isGameStarted}

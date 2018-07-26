@@ -16,7 +16,7 @@ import GameModal from '../../components/GameModal';
 import { INITIAL_BOARD } from '../../constants/board';
 
 const propTypes = {
-    board: array.isRequired,
+    board: array,
     displayModal: bool,
     modalMessage: string,
     opacity: number,
