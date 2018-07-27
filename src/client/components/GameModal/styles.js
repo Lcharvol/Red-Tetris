@@ -13,5 +13,5 @@ export const Container = styled.div`
     color:white;
     font-size:5em;
     z-index:1000;
-    opacity:0.8;
+    opacity:0.6;
 `;

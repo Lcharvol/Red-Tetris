@@ -76,7 +76,7 @@ const App = ({
             />
             <Board
                 board={enemyBoard}
-                opacity={0.4}
+                opacity={0.6}
                 isSmall={true}
             />
         </BoardContainer>

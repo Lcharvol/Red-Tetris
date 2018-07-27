@@ -15,8 +15,8 @@ export const Container = styled.div`
     margin-bottom:30px;
     margin-right:10px;
     margin-left:10px;
-    background: url('https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg');
     background-repeat: repeat;
+    background:${MAIN_RED};
     -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);
     -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);
     -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);

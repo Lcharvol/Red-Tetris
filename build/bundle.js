@@ -6843,9 +6843,12 @@ var LIGHT_MAIN_COLOR = exports.LIGHT_MAIN_COLOR = 'rgb(30,30,30)';
 
 var MAIN_RED = exports.MAIN_RED = 'linear-gradient(179.79637885748025deg, rgba(255, 59, 59,1) -3.8012445095168346%,rgba(226, 47, 54,1) 24.08995241581259%,rgba(204, 38, 51,1) 45.65123230844314%,rgba(158, 19, 44,1) 91.14751098096633%)';
 
-var FAKE_CELL_COLOR = exports.FAKE_CELL_COLOR = 'rgba(25,25,25, 0.4)';
+var FAKE_CELL_COLOR = exports.FAKE_CELL_COLOR = 'rgba(25,25,25, 0.5)';
 
-var CELLS_COLORS = exports.CELLS_COLORS = ['linear-gradient(179.79637885748025deg, rgba(255, 59, 59,1) -3.8012445095168346%,rgba(226, 47, 54,1) 24.08995241581259%,rgba(204, 38, 51,1) 45.65123230844314%,rgba(158, 19, 44, 1) 91.14751098096633%)'];
+var CELLS_COLORS = exports.CELLS_COLORS = ['linear-gradient(to right, #f00000, #dc281e)', // red
+'linear-gradient(to bottom, #00d2ff, #928dab)', // blue
+'linear-gradient(to bottom, #ff4b1f, #ff9068)', // orange
+'linear-gradient(to bottom, #000000, #434343)'];
 
 /***/ }),
 /* 89 */
@@ -60705,7 +60708,7 @@ var App = function App(_ref) {
             }),
             _react2.default.createElement(_Board2.default, {
                 board: enemyBoard,
-                opacity: 0.4,
+                opacity: 0.6,
                 isSmall: true
             })
         ),
@@ -63562,7 +63565,7 @@ var _taggedTemplateLiteral2 = __webpack_require__(86);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin-top:30px;\n    margin-bottom:30px;\n    margin-right:10px;\n    margin-left:10px;\n    background: url(\'https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg\');\n    background-repeat: repeat;\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    width: ', '\n    visibility: ', '\n    overflow:hidden;\n'], ['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin-top:30px;\n    margin-bottom:30px;\n    margin-right:10px;\n    margin-left:10px;\n    background: url(\'https://i.pinimg.com/736x/b6/f7/97/b6f797a70b411b2d6c4481dac17a323a--d-texture-paint-texture.jpg\');\n    background-repeat: repeat;\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    width: ', '\n    visibility: ', '\n    overflow:hidden;\n']),
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin-top:30px;\n    margin-bottom:30px;\n    margin-right:10px;\n    margin-left:10px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    width: ', '\n    visibility: ', '\n    overflow:hidden;\n'], ['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin-top:30px;\n    margin-bottom:30px;\n    margin-right:10px;\n    margin-left:10px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    width: ', '\n    visibility: ', '\n    overflow:hidden;\n']),
     _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n'], ['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n']);
 
 var _styledComponents = __webpack_require__(87);
@@ -63575,7 +63578,7 @@ var _constants = __webpack_require__(212);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Container = exports.Container = _styledComponents2.default.div(_templateObject, function (_ref) {
+var Container = exports.Container = _styledComponents2.default.div(_templateObject, _colors.MAIN_RED, function (_ref) {
     var opacity = _ref.opacity;
     return opacity;
 }, function (_ref2) {
@@ -63699,7 +63702,7 @@ var _taggedTemplateLiteral2 = __webpack_require__(86);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    width:calc(100% - 20px);\n    height:200px;\n    top:calc(50% - 100px);\n    color:white;\n    font-size:5em;\n    z-index:1000;\n    opacity:0.8;\n'], ['\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    width:calc(100% - 20px);\n    height:200px;\n    top:calc(50% - 100px);\n    color:white;\n    font-size:5em;\n    z-index:1000;\n    opacity:0.8;\n']);
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    width:calc(100% - 20px);\n    height:200px;\n    top:calc(50% - 100px);\n    color:white;\n    font-size:5em;\n    z-index:1000;\n    opacity:0.4;\n'], ['\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    width:calc(100% - 20px);\n    height:200px;\n    top:calc(50% - 100px);\n    color:white;\n    font-size:5em;\n    z-index:1000;\n    opacity:0.4;\n']);
 
 var _styledComponents = __webpack_require__(87);
 
