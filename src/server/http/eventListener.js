@@ -27,7 +27,6 @@ const eventListener = (socket, io) => {
         .on('disconnect', async () => {
             logger("Socket disconnected: " + currentSocketId)
             socketIdToDelete[0] = socket.id;
-            let roomIndex = undefined;
             rooms.map((room, id) => {
                 let userIndex = findIndex(propEq('id', socketIdToDelete[0]))(room.users);
                 if(userIndex >= 0) {
@@ -38,6 +37,7 @@ const eventListener = (socket, io) => {
                     roomLogger(`${user.name} leave the ${name} room`);
                     socket.leave(name);
                     users = newUsers;
+                    rooms[id].users = newUsers;
                     emitToRoom(io, name, 'action', 'updateGameInfo', { name: room, users: newUsers, toast: { id: uuidv1(), message:`${user.name} leave the room`} });
                 }
             })
@@ -46,9 +46,11 @@ const eventListener = (socket, io) => {
             const { room, user } = data;
             const roomIndex = findIndex(propEq('name', room))(rooms);
             if(roomIndex >= 0 && length(rooms[roomIndex].users) >= 2) {
-                const userAllreadyIn = !isNil(find(propEq('name', user))(rooms[roomIndex].users));
-                if(userAllreadyIn)
+                const allreadyInRoom= !isNil(find(propEq('name', user))(rooms[roomIndex].users));
+                if(allreadyInRoom) {
                     roomLogger(`${user} try to join the ${room} room, but he's allready in`);
+                    emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`);
+                }
                 else {
                     emitToSocket(socket, 'gameError', 'fullRoom', 'This room is full')
                     roomLogger('Too many player in the room');
@@ -57,6 +59,7 @@ const eventListener = (socket, io) => {
                 const isRoomDefined = !isNil(rooms[roomIndex]);
                 const allreadyInRoom = !isRoomDefined ? false : !isNil(find(propEq('name', user),rooms[roomIndex].users));
                 if(allreadyInRoom) {
+                    roomLogger(`${user} try to join the ${room} room, but he's allready in`);
                     emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`)
                 } else {
                     const users = isRoomDefined ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard}] : [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];

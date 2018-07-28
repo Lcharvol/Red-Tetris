@@ -1,4 +1,10 @@
-import { findIndex, propEq, remove } from 'ramda';
+import {
+    findIndex,
+    propEq,
+    remove,
+    map,
+    isNil,
+} from 'ramda';
 
 export const getIsGameStarted = state => state.game.isGameStarted;
 
@@ -37,8 +43,26 @@ export const getEnemyBoard = state => {
     return undefined;
 };
 
-export const getUsers = state => state.game.users;
-
 export const getToasts = state => state.game.toasts;
 
 export const getErrorMessage = state => state.game.errorMessage;
+
+export const getUsers = state => state.game.users;
+
+export const getUsersNames = state => {
+    const { game: { users } } = state;
+    if(isNil(users))
+        return [];
+    let usersNames = [];
+    map(user => usersNames = [...usersNames, user.name],users);
+    return usersNames;
+};
+
+export const getOwnerName = state => {
+    const { game: { users } } = state;
+    if(isNil(users))
+        return undefined;
+    let owner = undefined;
+    map(user => user.owner ? owner = user.name : null,users);
+    return owner;
+};

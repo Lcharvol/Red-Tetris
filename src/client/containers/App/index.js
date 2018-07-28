@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { map, isEmpty, isNil } from 'ramda';
@@ -30,6 +30,7 @@ import {
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
+import GameInfo from '../GameInfo';
 import Board from '../Board';
 import StartButton  from '../../components/StartButton';
 import Toast from '../../components/Toast';
@@ -71,30 +72,33 @@ const App = ({
     <AppContainer>
         <Title topValue={'Red'} bottomValue={'Tetris'}/>
         {!isNil(errorMessage) && <ErrorModal value={errorMessage}/>}
-        <BoardContainer>
-            <ToastsContainer>
-                {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
-            </ToastsContainer>
-            <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
-            <Board
-                board={myBoard}
-                displayModal={displayModal}
-                modalMessage={modalMessage}
-            />
-            <Board
-                board={enemyBoard}
-                opacity={0.6}
-                isSmall={true}
-            />
-        </BoardContainer>
-        {owner &&
-            <StartButton
-                startGame={startGame}
-                isGameStarted={isGameStarted}
-                io={io}
-                roomName={roomName}
-                me={me}
-            />}
+        {isNil(errorMessage) && <Fragment>
+            <GameInfo/>
+            <BoardContainer>
+                <ToastsContainer>
+                    {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
+                </ToastsContainer>
+                <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
+                <Board
+                    board={myBoard}
+                    displayModal={displayModal}
+                    modalMessage={modalMessage}
+                />
+                <Board
+                    board={enemyBoard}
+                    opacity={0.6}
+                    isSmall={true}
+                />
+            </BoardContainer>
+            {owner &&
+                <StartButton
+                    startGame={startGame}
+                    isGameStarted={isGameStarted}
+                    io={io}
+                    roomName={roomName}
+                    me={me}
+                />}
+        </Fragment>}
     </AppContainer>
 );
 
