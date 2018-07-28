@@ -10,11 +10,6 @@ export const Container = styled.div`
     align-items: flex-start;
     flex-wrap: wrap;
     border-radius:3px;
-    padding:10px;
-    margin-top:30px;
-    margin-bottom:30px;
-    margin-right:10px;
-    margin-left:10px;
     background-repeat: repeat;
     background:${MAIN_RED};
     -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);
@@ -24,8 +19,10 @@ export const Container = styled.div`
     filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);
     transition: opacity 1s;
     opacity: ${({ opacity }) => opacity};
-    width: ${({ size }) => size === 0 ? '0px' : '100%'}
-    visibility: ${({ size }) => size === 0 ? 'hidden' : 'visible'}
+    margin: ${({ size }) => size === 0 ? '0px' : '30px 10px 30px 10px'};
+    padding:${({ size }) => size === 0 ? '0px' : '10px'};
+    width: ${({ size }) => size === 0 ? '0px' : '100%'};
+    visibility: ${({ size }) => size === 0 ? 'hidden' : 'visible'};
     overflow:hidden;
 `;
 

@@ -6845,10 +6845,7 @@ var MAIN_RED = exports.MAIN_RED = 'linear-gradient(179.79637885748025deg, rgba(2
 
 var FAKE_CELL_COLOR = exports.FAKE_CELL_COLOR = 'rgba(25,25,25, 0.5)';
 
-var CELLS_COLORS = exports.CELLS_COLORS = ['linear-gradient(to right, #f00000, #dc281e)', // red
-'linear-gradient(to bottom, #00d2ff, #928dab)', // blue
-'linear-gradient(to bottom, #ff4b1f, #ff9068)', // orange
-'linear-gradient(to bottom, #000000, #434343)'];
+var CELLS_COLORS = exports.CELLS_COLORS = [MAIN_RED];
 
 /***/ }),
 /* 89 */
@@ -63565,7 +63562,7 @@ var _taggedTemplateLiteral2 = __webpack_require__(86);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin-top:30px;\n    margin-bottom:30px;\n    margin-right:10px;\n    margin-left:10px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    width: ', '\n    visibility: ', '\n    overflow:hidden;\n'], ['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    padding:10px;\n    margin-top:30px;\n    margin-bottom:30px;\n    margin-right:10px;\n    margin-left:10px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    width: ', '\n    visibility: ', '\n    overflow:hidden;\n']),
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    margin: ', ';\n    padding:', ';\n    width: ', ';\n    visibility: ', ';\n    overflow:hidden;\n'], ['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    margin: ', ';\n    padding:', ';\n    width: ', ';\n    visibility: ', ';\n    overflow:hidden;\n']),
     _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n'], ['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n']);
 
 var _styledComponents = __webpack_require__(87);
@@ -63583,9 +63580,15 @@ var Container = exports.Container = _styledComponents2.default.div(_templateObje
     return opacity;
 }, function (_ref2) {
     var size = _ref2.size;
-    return size === 0 ? '0px' : '100%';
+    return size === 0 ? '0px' : '30px 10px 30px 10px';
 }, function (_ref3) {
     var size = _ref3.size;
+    return size === 0 ? '0px' : '10px';
+}, function (_ref4) {
+    var size = _ref4.size;
+    return size === 0 ? '0px' : '100%';
+}, function (_ref5) {
+    var size = _ref5.size;
     return size === 0 ? 'hidden' : 'visible';
 });
 
@@ -63702,7 +63705,7 @@ var _taggedTemplateLiteral2 = __webpack_require__(86);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    width:calc(100% - 20px);\n    height:200px;\n    top:calc(50% - 100px);\n    color:white;\n    font-size:5em;\n    z-index:1000;\n    opacity:0.4;\n'], ['\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    width:calc(100% - 20px);\n    height:200px;\n    top:calc(50% - 100px);\n    color:white;\n    font-size:5em;\n    z-index:1000;\n    opacity:0.4;\n']);
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    width:calc(100% - 20px);\n    height:200px;\n    top:calc(50% - 100px);\n    color:white;\n    font-size:5em;\n    z-index:1000;\n    opacity:0.6;\n'], ['\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    width:calc(100% - 20px);\n    height:200px;\n    top:calc(50% - 100px);\n    color:white;\n    font-size:5em;\n    z-index:1000;\n    opacity:0.6;\n']);
 
 var _styledComponents = __webpack_require__(87);
 
