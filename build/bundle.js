@@ -64022,7 +64022,7 @@ var _taggedTemplateLiteral2 = __webpack_require__(58);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    display:flex;\n    top:0;\n    bottom:0;\n    left:0;\n    right:0;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    color:white;\n    font-size: 4em;\n    font-weight:0;\n'], ['\n    position:absolute;\n    display:flex;\n    top:0;\n    bottom:0;\n    left:0;\n    right:0;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    color:white;\n    font-size: 4em;\n    font-weight:0;\n']);
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    display:flex;\n    top:0;\n    bottom:0;\n    left:0;\n    right:0;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    color:white;\n    font-size: 3em;\n    font-weight:0;\n'], ['\n    position:absolute;\n    display:flex;\n    top:0;\n    bottom:0;\n    left:0;\n    right:0;\n    justify-content: center;\n    align-items: center;\n    text-align:center;\n    background-color:rgba(25,25,25,0.5);\n    color:white;\n    font-size: 3em;\n    font-weight:0;\n']);
 
 var _styledComponents = __webpack_require__(59);
 
