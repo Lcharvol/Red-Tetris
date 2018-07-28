@@ -32,6 +32,7 @@ import { startGame } from '../../actions/game';
 import Board from '../Board';
 import StartButton  from '../../components/StartButton';
 import Toast from '../../components/Toast';
+import Title from '../../components/Title';
 
 const propTypes = {
     myBoard: array,
@@ -64,6 +65,7 @@ const App = ({
 }) =>
 (
     <AppContainer>
+        <Title topValue={'Red'} bottomValue={'Tetris'}/>
         <BoardContainer>
             <ToastsContainer>
                 {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
