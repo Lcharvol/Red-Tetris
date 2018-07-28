@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import socketIO from 'socket.io-client';
 import parse from 'url-parse';
+import { equals } from 'ramda';
 
 import configureStore from './store';
 import App from './containers/App';
@@ -11,6 +12,7 @@ import {
   updateGameInfo,
   setModalMessage,
   removeToast,
+  setErrorMessage,
 } from './actions/game';
 import { getRoomName, getUser } from './utils';
 const initialState = {};
@@ -28,14 +30,14 @@ const user = getUser(hash);
 
 io.on('action', data => {
   const { name } = data;
-  if(name === 'startGame') store.dispatch(startGame());
-  if(name === 'updateGameInfo') store.dispatch(updateGameInfo(data.body));
-  if(name === 'removeToast') store.dispatch(removeToast());
+  if(equals(name,'startGame')) store.dispatch(startGame());
+  if(equals(name,'updateGameInfo')) store.dispatch(updateGameInfo(data.body));
+  if(equals(name,'removeToast')) store.dispatch(removeToast());
 });
 
 io.on('gameError', data => {
   const { name, message } = data;
-  store.dispatch(setModalMessage(message))
+  store.dispatch(setErrorMessage(message))
 })
 
 store.dispatch(updateGameInfo({me: user}));

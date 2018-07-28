@@ -4,6 +4,7 @@ import {
     DELETE_MODAL_MESSAGE,
     UPDATE_GAME_INFO,
     REMOVE_TOAST,
+    SET_ERROR_MESSAGE,
 } from '../actions/game';
 
 const initialState = {
@@ -11,6 +12,7 @@ const initialState = {
     displayModal: false,
     toasts: [],
     modalMessage: '',
+    errorMessage: undefined,
     me: undefined,
     gameName: undefined,
 };
@@ -20,14 +22,15 @@ switch (action.type) {
     case SET_MODAL_MESSAGE:
         return {...state, displayModal: true, modalMessage: action.message};
     case DELETE_MODAL_MESSAGE:
-        return {...state, displayModal: false, modalMessage: ''}
+        return {...state, displayModal: false, modalMessage: ''};
     case UPDATE_GAME_INFO:
-        if(action.body.toast) {
-            return {...state, ...action.body, toasts: [...state.toasts, action.body.toast]}
-        }
+        if(action.body.toast)
+            return {...state, ...action.body, toasts: [...state.toasts, action.body.toast]};
         return {...state, ...action.body}
     case REMOVE_TOAST:
-        return {...state, toasts: drop(1,state.toasts)}
+        return {...state, toasts: drop(1,state.toasts)};
+    case SET_ERROR_MESSAGE:
+        return {...state, errorMessage: action.message};
     default:
         return state;
 }

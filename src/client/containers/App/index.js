@@ -26,6 +26,7 @@ import {
     getMe,
     getUsers,
     getToasts,
+    getErrorMessage,
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -33,6 +34,7 @@ import Board from '../Board';
 import StartButton  from '../../components/StartButton';
 import Toast from '../../components/Toast';
 import Title from '../../components/Title';
+import ErrorModal from '../../components/ErrorModal';
 
 const propTypes = {
     myBoard: array,
@@ -46,6 +48,7 @@ const propTypes = {
     me: string,
     users: array,
     toasts: array.isRequired,
+    errorMessage: string,
 };
 
 const App = ({
@@ -62,10 +65,12 @@ const App = ({
     me,
     users,
     toasts,
+    errorMessage,
 }) =>
 (
     <AppContainer>
         <Title topValue={'Red'} bottomValue={'Tetris'}/>
+        {!isNil(errorMessage) && <ErrorModal value={errorMessage}/>}
         <BoardContainer>
             <ToastsContainer>
                 {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
@@ -111,6 +116,7 @@ const mapStateToProps = state => ({
     me: getMe(state),
     users: getUsers(state),
     toasts: getToasts(state),
+    errorMessage: getErrorMessage(state),
 });
 
 App.propTypes = propTypes;
