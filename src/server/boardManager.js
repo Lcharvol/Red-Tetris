@@ -1,4 +1,4 @@
-import { map, reverse, length } from 'ramda';
+import { map, drop, reverse, length } from 'ramda';
 
 import { pieces } from './constants/pieces';
 import { CELLS_COLORS, FAKE_CELL_COLOR } from '../client/constants/colors';
@@ -61,7 +61,23 @@ export const addRandomPiece = board => {
     return newBoard;
 };
 
-export const moveBottom = board => {
+export const addPiece = (board, piece) => {
+    const newBoard = [...board];
+    const newValue = getRandomNumber(1, 1000);
+    const newColor = getCellColor();
+    piece.map((value, id) => {
+        if(value === 0) return
+        let newId = (id % 4) + (10 * Math.floor(id / 4)) + Math.floor(10 / 3);
+        newBoard[newId] = {
+            value: newValue,
+            color: value === 0 ? FAKE_CELL_COLOR : newColor,
+            active: newValue === 0 ? false : true,
+        };
+    })
+    return newBoard;
+};
+
+export const moveBottom = (board, pieces) => {
     const newBoard = [...board];
     let idToDelete = [];
     let canMove = true;
@@ -74,7 +90,10 @@ export const moveBottom = board => {
             canMove = false;
         }
     })
-    if(!canMove) return addRandomPiece(newBoard);
+    if(!canMove) return {
+        board: addPiece(newBoard, pieces[0]),
+        pieces: drop(1, pieces),
+    }
     reverse(newBoard).map((cell, id) => {
         let { value, active} = cell;
         if(!active) return cell
@@ -90,7 +109,10 @@ export const moveBottom = board => {
         newBoard[id] = INITIAL_CELL;
     },idToDelete);
     // checkBoard(newBoard);
-    return newBoard;
+    return {
+        board: newBoard,
+        pieces,
+    };
 };
 
 export const moveRight = board => {

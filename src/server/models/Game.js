@@ -1,4 +1,13 @@
-import { findIndex, propEq, isNil, length, find, contains, remove } from 'ramda';
+import {
+    findIndex,
+    propEq,
+    isNil,
+    length,
+    find,
+    contains,
+    remove,
+    equals
+} from 'ramda';
 import debug from 'debug';
 import uuidv1 from 'uuid/v1';
 
@@ -6,10 +15,12 @@ import { removeToast, emitToRoom, emitToSocket } from './utils';
 import { initialBoard } from '../constants/board';
 import {
     addRandomPiece,
+    addPiece,
     moveBottom,
     moveRight,
     moveLeft,
 } from '../boardManager';
+import Piece from './Piece';
 
 const logger = debug('tetris:http');
 const roomLogger = debug('tetris:room');
@@ -25,27 +36,39 @@ const Game = {
         setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'GO'}), 3000);
         setTimeout(() => {
             emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: false, modalMessage:''})
-            const newUsersBoard = [
+            const newPiece = Piece.newPiece();
+            const initialPiece = Piece.newPiece();
+            const newUsers = [
                 {
                     ...rooms[roomIndex].users[0],
-                    board: addRandomPiece(rooms[roomIndex].users[0].board),
+                    board: addPiece(rooms[roomIndex].users[0].board, initialPiece),
+                    pieces: [newPiece],
                 },
                 {
                     ...rooms[roomIndex].users[1],
-                    board: addRandomPiece(rooms[roomIndex].users[1].board),
+                    board: addPiece(rooms[roomIndex].users[1].board, initialPiece),
+                    pieces: [newPiece],
                 },
             ];
-            emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { name: actionSocket.gameName, isGameStarted: true, users: newUsersBoard });
-            rooms[roomIndex] = {...rooms[roomIndex], users: newUsersBoard}
+            emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { name: actionSocket.gameName, isGameStarted: true, users: newUsers });
+            rooms[roomIndex] = {...rooms[roomIndex], users: newUsers}
             setInterval(() => {
+                const user1 = rooms[roomIndex].users[0];
+                const user2 = rooms[roomIndex].users[1];
+                const newUser1 = moveBottom(user1.board, user1.pieces);
+                const newUser2 = moveBottom(user2.board, user2.pieces);
+                const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
+                const newPiece = Piece.newPiece();
                 const newUsers = [
                     {
                         ...rooms[roomIndex].users[0],
-                        board: moveBottom(rooms[roomIndex].users[0].board),
+                        board: newUser1.board,
+                        pieces: needNewPiece ? [...newUser1.pieces, newPiece] : newUser1.pieces,
                     },
                     {
                         ...rooms[roomIndex].users[1],
-                        board: moveBottom(rooms[roomIndex].users[1].board),
+                        board: newUser2.board,
+                        pieces: needNewPiece ? [...newUser2.pieces, newPiece] : newUser2.pieces,
                     },
                 ];
                 rooms[roomIndex] = {...rooms[roomIndex], users: newUsers};
@@ -60,11 +83,15 @@ const Game = {
         const { user, type } = actionSocket;
         const userRoomIndex = findIndex(propEq('name', user))(rooms[roomIndex].users);
         
-        if(type === 'bottom')
-            rooms[roomIndex].users[userRoomIndex].board = moveBottom(rooms[roomIndex].users[userRoomIndex].board);
-        if(type === 'right')
+        if(equals(type,'bottom')) {
+            const user = rooms[roomIndex].users[userRoomIndex]
+            const newUser = moveBottom(user.board, user.pieces);
+            const needNewPiece = length(user.pieces) <= 1;
+            rooms[roomIndex].users[userRoomIndex] = {...user, board: newUser.board, pieces: needNewPiece ? [...newUser.pieces, Piece.newPiece()] : newUser.pieces }
+        };
+        if(equals(type, 'right'))
             rooms[roomIndex].users[userRoomIndex].board = moveRight(rooms[roomIndex].users[userRoomIndex].board);
-        if(type === 'left')
+        if(equals(type,'left'))
             rooms[roomIndex].users[userRoomIndex].board = moveLeft(rooms[roomIndex].users[userRoomIndex].board);
         emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { users: rooms[roomIndex].users });
         return rooms;

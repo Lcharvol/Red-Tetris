@@ -8,7 +8,7 @@ import { initialBoard } from '../constants/board';
 const playerLogger = debug('tetris:player');
 
 const Player = {
-    
+
     disconnect(socket, io, rooms, socketIdToDelete) {
         rooms.map((room, id) => {
             let userIndex = findIndex(propEq('id', socketIdToDelete[0]))(room.users);
@@ -30,8 +30,11 @@ const Player = {
     joinRoom(socket, io, data, rooms, currentSocketId) {
         const { room, user } = data;
         const roomIndex = findIndex(propEq('name', room))(rooms);
-        if(roomIndex >= 0 && length(rooms[roomIndex].users) >= 2) {
+        const fullRoom = roomIndex >= 0 && length(rooms[roomIndex].users) >= 2;
+
+        if(fullRoom) {
             const allreadyInRoom= !isNil(find(propEq('name', user))(rooms[roomIndex].users));
+
             if(allreadyInRoom) {
                 playerLogger(`${user} try to join the ${room} room, but he's allready in`);
                 emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`);
@@ -43,11 +46,15 @@ const Player = {
         } else {
             const isRoomDefined = !isNil(rooms[roomIndex]);
             const allreadyInRoom = !isRoomDefined ? false : !isNil(find(propEq('name', user),rooms[roomIndex].users));
+
             if(allreadyInRoom) {
                 playerLogger(`${user} try to join the ${room} room, but he's allready in`);
                 emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`)
             } else {
-                const users = isRoomDefined ? [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard}] : [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];
+                const users = isRoomDefined ?
+                    [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard }] :
+                    [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];
+
                 socket.join(room);
                 if(roomIndex < 0) rooms = [...rooms, {users, name: room}]
                 else rooms[roomIndex] = {...rooms[roomIndex], users, name: room};   

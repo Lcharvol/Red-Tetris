@@ -1,4 +1,4 @@
-import { findIndex, propEq } from 'ramda';
+import { findIndex, propEq, equals } from 'ramda';
 import debug from 'debug';
 
 import Player from '../models/Player';
@@ -15,6 +15,7 @@ const eventListener = (socket, io) => {
 
     currentSocketId[0] = socket.id;
     logger("Socket connected: " + currentSocketId);
+    
     socket
         .on('disconnect', async () => {
             logger("Socket disconnected: " + currentSocketId)
@@ -27,11 +28,11 @@ const eventListener = (socket, io) => {
         .on('action', async actionSocket => {
             const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
 
-            if(actionSocket.name === 'startGame') rooms = Game.startGame(io, actionSocket, roomIndex, rooms);
+            if(equals(actionSocket.name,'startGame')) rooms = Game.startGame(io, actionSocket, roomIndex, rooms);
 
-            if(actionSocket.name === 'joinRoom') logger(`${actionSocket.user} join the room: ${actionSocket.room}`);
+            if(equals(actionSocket.name, 'joinRoom')) logger(`${actionSocket.user} join the room: ${actionSocket.room}`);
 
-            if(actionSocket.name === 'move') rooms = Game.move(io, actionSocket, roomIndex, rooms);
+            if(equals(actionSocket.name, 'move')) rooms = Game.move(io, actionSocket, roomIndex, rooms);
         });
 };
 
