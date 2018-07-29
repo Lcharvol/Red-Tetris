@@ -19,9 +19,9 @@ const init = async ctx => {
       httpServer.url = getUrl(httpServer);
       logger(`Connected at this address: ${httpServer.url}`);
     });
-
     const io = socketIo(httpServer);
-    io.on('connection', function(socket){
+
+    io.on('connection', async socket => {
         eventListener(socket, io);
     });
 
