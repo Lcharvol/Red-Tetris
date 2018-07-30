@@ -36,17 +36,25 @@ const Game = {
         setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'GO'}), 3000);
         setTimeout(() => {
             emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: false, modalMessage:''})
+            const room = rooms[roomIndex];
             const newPiece = Piece.newPiece();
             const initialPiece = Piece.newPiece();
-            const newUsers = [
+            const numberOfPlayer = length(room.users);
+            const newUsers = numberOfPlayer === 2 ? [
                 {
-                    ...rooms[roomIndex].users[0],
-                    board: addPiece(rooms[roomIndex].users[0].board, initialPiece),
+                    ...room.users[0],
+                    board: addPiece(room.users[0].board, initialPiece),
                     pieces: [newPiece],
                 },
                 {
-                    ...rooms[roomIndex].users[1],
-                    board: addPiece(rooms[roomIndex].users[1].board, initialPiece),
+                    ...room.users[1],
+                    board: addPiece(room.users[1].board, initialPiece),
+                    pieces: [newPiece],
+                },
+            ] : [
+                {
+                    ...room.users[0],
+                    board: addPiece(room.users[0].board, initialPiece),
                     pieces: [newPiece],
                 },
             ];
@@ -56,10 +64,10 @@ const Game = {
                 const user1 = rooms[roomIndex].users[0];
                 const user2 = rooms[roomIndex].users[1];
                 const newUser1 = moveBottom(user1.board, user1.pieces);
-                const newUser2 = moveBottom(user2.board, user2.pieces);
+                const newUser2 = !isNil(user2) ? moveBottom(user2.board, user2.pieces) : user1;
                 const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
                 const newPiece = Piece.newPiece();
-                const newUsers = [
+                const newUsers = numberOfPlayer === 2 ? [
                     {
                         ...rooms[roomIndex].users[0],
                         board: newUser1.board,
@@ -69,6 +77,12 @@ const Game = {
                         ...rooms[roomIndex].users[1],
                         board: newUser2.board,
                         pieces: needNewPiece ? [...newUser2.pieces, newPiece] : newUser2.pieces,
+                    },
+                ] : [
+                    {
+                        ...rooms[roomIndex].users[0],
+                        board: newUser1.board,
+                        pieces: needNewPiece ? [...newUser1.pieces, newPiece] : newUser1.pieces,
                     },
                 ];
                 rooms[roomIndex] = {...rooms[roomIndex], users: newUsers};

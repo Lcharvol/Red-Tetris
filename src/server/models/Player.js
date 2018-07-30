@@ -32,6 +32,8 @@ const Player = {
         const roomIndex = findIndex(propEq('name', room))(rooms);
         const fullRoom = roomIndex >= 0 && length(rooms[roomIndex].users) >= 2;
 
+        if(length(room) === 0 || length(user) === 0)
+            return rooms;
         if(fullRoom) {
             const allreadyInRoom= !isNil(find(propEq('name', user))(rooms[roomIndex].users));
 
