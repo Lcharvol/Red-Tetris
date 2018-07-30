@@ -22,8 +22,7 @@ import {
 } from '../boardManager';
 import Piece from './Piece';
 
-const logger = debug('tetris:http');
-const roomLogger = debug('tetris:room');
+const gameLogger = debug('tetris:game');
 
 const Game = {
     
@@ -88,7 +87,7 @@ const Game = {
                 rooms[roomIndex] = {...rooms[roomIndex], users: newUsers};
                 emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { users: newUsers });
             },500);
-            logger(`Game start in the room: \"${actionSocket.gameName}\"`)
+            gameLogger(`Game start in tgamehe room: \"${actionSocket.gameName}\"`)
         }, 3500);
         return rooms;
     },
@@ -109,6 +108,10 @@ const Game = {
             rooms[roomIndex].users[userRoomIndex].board = moveLeft(rooms[roomIndex].users[userRoomIndex].board);
         emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { users: rooms[roomIndex].users });
         return rooms;
+    },
+
+    deleteRoom(rooms,id) {
+        return remove(id, 1, rooms);
     }
 };
 export default Game;

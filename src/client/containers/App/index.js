@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { map, isEmpty, isNil } from 'ramda';
+import { map, isEmpty, isNil, equals } from 'ramda';
 import {
     bool,
     array,
@@ -79,16 +79,15 @@ const App = ({
                     {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
                 </ToastsContainer>
                 <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
-                <Board
-                    board={myBoard}
-                    displayModal={displayModal}
-                    modalMessage={modalMessage}
-                />
-                <Board
-                    board={enemyBoard}
-                    opacity={0.6}
-                    isSmall={true}
-                />
+                {map(user => (
+                    <Board
+                        key={user.id}
+                        board={user.board}
+                        displayModal={equals(user.name, me) ? displayModal : false}
+                        modalMessage={equals(user.name, me) ? modalMessage : ''}
+                        opacity={equals(user.name, me) ? 1 : 0.6}
+                    />)
+                ,users)}
             </BoardContainer>
             {owner &&
                 <StartButton

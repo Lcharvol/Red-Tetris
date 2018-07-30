@@ -47,7 +47,7 @@ Board.propTypes = propTypes;
 
 export default compose(
     withStateHandlers(
-        ({ initialSize = 0 }) => ({
+        ({ initialSize = 1 }) => ({
             size: initialSize,
         }),
         {

@@ -5,6 +5,8 @@ import uuidv1 from 'uuid/v1';
 import { removeToast, emitToRoom, emitToSocket } from './utils';
 import { initialBoard } from '../constants/board';
 
+import Game from './Game';
+
 const playerLogger = debug('tetris:player');
 
 const Player = {
@@ -16,11 +18,13 @@ const Player = {
                 let { name, users } = rooms[id]
                 let user = users[userIndex];
                 let newUsers = remove(userIndex, 1, users);
-
                 playerLogger(`${user.name} leave the ${name} room`);
                 socket.leave(name);
-                users = newUsers;
+                if(length(newUsers) === 1)
+                    newUsers[0].owner = true;
                 rooms[id].users = newUsers;
+                if(length(newUsers) === 0)
+                    rooms = Game.deleteRoom(rooms, id);
                 emitToRoom(io, name, 'action', 'updateGameInfo', { name: room, users: newUsers, toast: { id: uuidv1(), message:`${user.name} leave the room`} });
             }
         })

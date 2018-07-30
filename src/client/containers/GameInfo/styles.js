@@ -26,8 +26,8 @@ export const Name = styled.div`
     display:flex;
     justify-content: flex-start;
     align-items: center;
-    font-size:1.5em;
-    font-weight:0; 
+    font-size:1.3em;
+    font-weight:100; 
     color:white;
     margin-left:15px;
     margin-top:5px;

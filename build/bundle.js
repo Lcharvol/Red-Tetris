@@ -18805,7 +18805,7 @@ var getErrorMessage = exports.getErrorMessage = function getErrorMessage(state) 
 };
 
 var getUsers = exports.getUsers = function getUsers(state) {
-    return state.game.users;
+    return state.game.users || [];
 };
 
 var getUsersNames = exports.getUsersNames = function getUsersNames(state) {
@@ -60830,16 +60830,15 @@ var App = function App(_ref) {
                 _react2.default.createElement(_reactEventListener2.default, { target: document, onKeyDown: function onKeyDown(event) {
                         return move(event, io, me, roomName);
                     } }),
-                _react2.default.createElement(_Board2.default, {
-                    board: myBoard,
-                    displayModal: displayModal,
-                    modalMessage: modalMessage
-                }),
-                _react2.default.createElement(_Board2.default, {
-                    board: enemyBoard,
-                    opacity: 0.6,
-                    isSmall: true
-                })
+                (0, _ramda.map)(function (user) {
+                    return _react2.default.createElement(_Board2.default, {
+                        key: user.id,
+                        board: user.board,
+                        displayModal: (0, _ramda.equals)(user.name, me) ? displayModal : false,
+                        modalMessage: (0, _ramda.equals)(user.name, me) ? modalMessage : '',
+                        opacity: (0, _ramda.equals)(user.name, me) ? 1 : 0.6
+                    });
+                }, users)
             ),
             owner && _react2.default.createElement(_StartButton2.default, {
                 startGame: startGame,
@@ -63560,14 +63559,14 @@ var GameInfo = function GameInfo(_ref) {
             null,
             'Players'
         ),
-        (0, _ramda.map)(function (name) {
+        usersNames.map(function (name) {
             return _react2.default.createElement(
                 _styles.Name,
                 null,
                 name,
                 (0, _ramda.equals)(name, owner) && _react2.default.createElement(_styles.OwnerIcon, null)
             );
-        }, usersNames)
+        })
     );
 };
 
@@ -63600,7 +63599,7 @@ var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
 var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    display:flex;\n    flex-direction: column;\n    justify-content: flex-start;\n    left:35px;\n    bottom:25px;\n    min-width:200px;\n    min-height:50px;\n    color:white;\n'], ['\n    position:absolute;\n    display:flex;\n    flex-direction: column;\n    justify-content: flex-start;\n    left:35px;\n    bottom:25px;\n    min-width:200px;\n    min-height:50px;\n    color:white;\n']),
     _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n    font-size:2.5em;\n    font-weight:600;\n    background:', ';\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n'], ['\n    font-size:2.5em;\n    font-weight:600;\n    background:', ';\n    -webkit-background-clip: text;\n    -webkit-text-fill-color: transparent;\n']),
-    _templateObject3 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    justify-content: flex-start;\n    align-items: center;\n    font-size:1.5em;\n    font-weight:0; \n    color:white;\n    margin-left:15px;\n    margin-top:5px;\n    margin-bottom:5px;\n'], ['\n    display:flex;\n    justify-content: flex-start;\n    align-items: center;\n    font-size:1.5em;\n    font-weight:0; \n    color:white;\n    margin-left:15px;\n    margin-top:5px;\n    margin-bottom:5px;\n']),
+    _templateObject3 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    justify-content: flex-start;\n    align-items: center;\n    font-size:1.3em;\n    font-weight:100; \n    color:white;\n    margin-left:15px;\n    margin-top:5px;\n    margin-bottom:5px;\n'], ['\n    display:flex;\n    justify-content: flex-start;\n    align-items: center;\n    font-size:1.3em;\n    font-weight:100; \n    color:white;\n    margin-left:15px;\n    margin-top:5px;\n    margin-bottom:5px;\n']),
     _templateObject4 = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    width:10px;\n    height:10px;\n    border-radius:100%;\n    background:', ';\n    margin-left:15px;\n'], ['\n    position:relative;\n    display:flex;\n    width:10px;\n    height:10px;\n    border-radius:100%;\n    background:', ';\n    margin-left:15px;\n']);
 
 var _styledComponents = __webpack_require__(53);
@@ -63693,7 +63692,7 @@ Board.propTypes = propTypes;
 
 exports.default = (0, _recompose.compose)((0, _recompose.withStateHandlers)(function (_ref2) {
     var _ref2$initialSize = _ref2.initialSize,
-        initialSize = _ref2$initialSize === undefined ? 0 : _ref2$initialSize;
+        initialSize = _ref2$initialSize === undefined ? 1 : _ref2$initialSize;
     return {
         size: initialSize
     };

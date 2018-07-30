@@ -47,7 +47,7 @@ export const getToasts = state => state.game.toasts;
 
 export const getErrorMessage = state => state.game.errorMessage;
 
-export const getUsers = state => state.game.users;
+export const getUsers = state => state.game.users || [];
 
 export const getUsersNames = state => {
     const { game: { users } } = state;

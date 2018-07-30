@@ -19,11 +19,11 @@ const propTypes = {
 const GameInfo = ({ usersNames, owner }) => (
     <Container>
         <Label>Players</Label>
-        {map(name => 
+        {usersNames.map(name => 
             <Name>
-            {name}{equals(name, owner) && <OwnerIcon/>}
+                {name}{equals(name, owner) && <OwnerIcon/>}
             </Name>
-        , usersNames)}
+        )}
     </Container>
 );
 
