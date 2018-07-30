@@ -11,6 +11,7 @@ import { compose, lifecycle, withStateHandlers } from 'recompose';
 import {
     Container,
     InnerBoard,
+    Back,
 } from './styles';
 import Cell from '../../components/Cell';
 import GameModal from '../../components/GameModal';
@@ -33,14 +34,16 @@ const Board = ({
     isSmall = false,
     size,
 }) => (
-    <Container opacity={opacity} isSmall={isSmall} size={size}>
-        {displayModal && <GameModal value={modalMessage}/>}
-        <InnerBoard>
-            {board.map((cell, id) => (
-                <Cell key={id} cell={cell} />
-            ))}
-        </InnerBoard>
-    </Container>
+    <Back>
+        <Container opacity={opacity} isSmall={isSmall} size={size}>
+            {displayModal && <GameModal value={modalMessage}/>}
+            <InnerBoard>
+                {board.map((cell, id) => (
+                    <Cell key={id} cell={cell} />
+                ))}
+            </InnerBoard>
+        </Container>
+    </Back>
 );
 
 Board.propTypes = propTypes;

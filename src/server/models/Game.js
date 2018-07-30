@@ -28,7 +28,7 @@ const Game = {
     
     startGame(io, actionSocket, roomIndex, rooms) {
         if(roomIndex < 0) return;
-        io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'3', toast: { id: uuidv1(), message:`${actionSocket.user} start the game`}}});
+        io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'3', isGameStarted: true, toast: { id: uuidv1(), message:`${actionSocket.user} start the game`}}});
         removeToast(io, actionSocket.gameName);
         setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'2'}), 1000);
         setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'1'}), 2000);
@@ -38,7 +38,7 @@ const Game = {
             const room = rooms[roomIndex];
             const newPiece = Piece.newPiece();
             const initialPiece = Piece.newPiece();
-            const numberOfPlayer = length(room.users);
+            const numberOfPlayer = length(room.users); 
             const newUsers = numberOfPlayer === 2 ? [
                 {
                     ...room.users[0],
@@ -66,7 +66,7 @@ const Game = {
                 const newUser2 = !isNil(user2) ? moveBottom(user2.board, user2.pieces) : user1;
                 const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
                 const newPiece = Piece.newPiece();
-                const newUsers = numberOfPlayer === 2 ? [
+                const newUsers = !isNil(user2) ? [
                     {
                         ...rooms[roomIndex].users[0],
                         board: newUser1.board,

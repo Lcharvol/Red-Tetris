@@ -5527,7 +5527,7 @@ if (typeof __g == 'number') __g = global; // eslint-disable-line no-undef
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-var MAIN_COLOR = exports.MAIN_COLOR = 'rgb(25,25,25)';
+var MAIN_COLOR = exports.MAIN_COLOR = 'rgb(22,22,22)';
 
 var DARK_MAIN_COLOR = exports.DARK_MAIN_COLOR = 'rgb(20,20,20)';
 
@@ -61357,7 +61357,7 @@ var _taggedTemplateLiteral2 = __webpack_require__(52);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n    display:flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    width: 100vw;\n    height:100vh;\n    background-color:", ";\n    overflow: hidden;\n    font-family: 'Abel', sans-serif;\n"], ["\n    display:flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    width: 100vw;\n    height:100vh;\n    background-color:", ";\n    overflow: hidden;\n    font-family: 'Abel', sans-serif;\n"]),
+var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n    display:flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    width: 100vw;\n    height:100vh;\n    background-color:", ";\n    overflow: hidden;\n    font-family: 'Abel', sans-serif;\n    user-select: none;\n"], ["\n    display:flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    width: 100vw;\n    height:100vh;\n    background-color:", ";\n    overflow: hidden;\n    font-family: 'Abel', sans-serif;\n    user-select: none;\n"]),
     _templateObject2 = (0, _taggedTemplateLiteral3.default)(["\n    display:flex;\n    justify-content: center;\n    align-items: center;\n"], ["\n    display:flex;\n    justify-content: center;\n    align-items: center;\n"]),
     _templateObject3 = (0, _taggedTemplateLiteral3.default)(["\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: flex-start;\n    flex-direction:column;\n    top:0;\n    left:0;\n    padding:20px;\n    z-index:1000;\n"], ["\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: flex-start;\n    flex-direction:column;\n    top:0;\n    left:0;\n    padding:20px;\n    z-index:1000;\n"]);
 
@@ -63675,15 +63675,19 @@ var Board = function Board(_ref) {
         isSmall = _ref$isSmall === undefined ? false : _ref$isSmall,
         size = _ref.size;
     return _react2.default.createElement(
-        _styles.Container,
-        { opacity: opacity, isSmall: isSmall, size: size },
-        displayModal && _react2.default.createElement(_GameModal2.default, { value: modalMessage }),
+        _styles.Back,
+        null,
         _react2.default.createElement(
-            _styles.InnerBoard,
-            null,
-            board.map(function (cell, id) {
-                return _react2.default.createElement(_Cell2.default, { key: id, cell: cell });
-            })
+            _styles.Container,
+            { opacity: opacity, isSmall: isSmall, size: size },
+            displayModal && _react2.default.createElement(_GameModal2.default, { value: modalMessage }),
+            _react2.default.createElement(
+                _styles.InnerBoard,
+                null,
+                board.map(function (cell, id) {
+                    return _react2.default.createElement(_Cell2.default, { key: id, cell: cell });
+                })
+            )
         )
     );
 };
@@ -63722,14 +63726,15 @@ exports.default = (0, _recompose.compose)((0, _recompose.withStateHandlers)(func
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.InnerBoard = exports.Container = undefined;
+exports.InnerBoard = exports.Container = exports.Back = undefined;
 
 var _taggedTemplateLiteral2 = __webpack_require__(52);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    margin: ', ';\n    padding:', ';\n    width: ', ';\n    visibility: ', ';\n    overflow:hidden;\n'], ['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    margin: ', ';\n    padding:', ';\n    width: ', ';\n    visibility: ', ';\n    overflow:hidden;\n']),
-    _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n'], ['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n']);
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    background-color:', ';\n    margin: ', ';\n'], ['\n    position:relative;\n    display:flex;\n    background-color:', ';\n    margin: ', ';\n']),
+    _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    padding:', ';\n    width: ', ';\n    visibility: ', ';\n    overflow:hidden;\n'], ['\n    position:relative;\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    border-radius:3px;\n    background-repeat: repeat;\n    background:', ';\n    -moz-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -webkit-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    -o-box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    box-shadow: 0px 0px 50px 5px rgba(0,0,0,0.3);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);\n    transition: opacity 1s;\n    opacity: ', ';\n    padding:', ';\n    width: ', ';\n    visibility: ', ';\n    overflow:hidden;\n']),
+    _templateObject3 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n'], ['\n    display:flex;\n    justify-content: flex-start;\n    align-items: flex-start;\n    flex-wrap: wrap;\n    width:', 'px;\n    height:', 'px;\n    background:', ';\n    padding:10px;\n    border-radius:2px;\n    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);\n    filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);\n    overflow: hidden;\n']);
 
 var _styledComponents = __webpack_require__(53);
 
@@ -63741,12 +63746,14 @@ var _constants = __webpack_require__(213);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Container = exports.Container = _styledComponents2.default.div(_templateObject, _colors.MAIN_RED, function (_ref) {
-    var opacity = _ref.opacity;
-    return opacity;
-}, function (_ref2) {
-    var size = _ref2.size;
+var Back = exports.Back = _styledComponents2.default.div(_templateObject, _colors.MAIN_COLOR, function (_ref) {
+    var size = _ref.size;
     return size === 0 ? '0px' : '30px 10px 30px 10px';
+});
+
+var Container = exports.Container = _styledComponents2.default.div(_templateObject2, _colors.MAIN_RED, function (_ref2) {
+    var opacity = _ref2.opacity;
+    return opacity;
 }, function (_ref3) {
     var size = _ref3.size;
     return size === 0 ? '0px' : '10px';
@@ -63758,7 +63765,7 @@ var Container = exports.Container = _styledComponents2.default.div(_templateObje
     return size === 0 ? 'hidden' : 'visible';
 });
 
-var InnerBoard = exports.InnerBoard = _styledComponents2.default.div(_templateObject2, _constants.CELL_SIZE * 10 + _constants.CELL_MARGIN * 20, _constants.CELL_SIZE * 20 + _constants.CELL_MARGIN * 40, _colors.MAIN_RED);
+var InnerBoard = exports.InnerBoard = _styledComponents2.default.div(_templateObject3, _constants.CELL_SIZE * 10 + _constants.CELL_MARGIN * 20, _constants.CELL_SIZE * 20 + _constants.CELL_MARGIN * 40, _colors.MAIN_RED);
 
 /***/ }),
 /* 894 */

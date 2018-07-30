@@ -1,8 +1,6 @@
 export const move = (event, io, me, roomName) => (dispatch) => {
     const { key } = event
-    // if (key === 'ArrowUp') {
-    //     dispatch(({ type: ADD_PIECE }));
-    // };
+    
     if (key === 'ArrowDown')
         io.emit('action', { name: 'move', type: 'bottom', gameName: roomName, user: me });
     if (key === 'ArrowLeft')

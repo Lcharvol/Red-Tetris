@@ -1,7 +1,14 @@
 import styled from 'styled-components';
 
-import { DARK_MAIN_COLOR, MAIN_RED } from '../../constants/colors';
+import { DARK_MAIN_COLOR, MAIN_RED, MAIN_COLOR } from '../../constants/colors';
 import { CELL_SIZE, CELL_MARGIN } from '../../constants';
+
+export const Back = styled.div`
+    position:relative;
+    display:flex;
+    background-color:${MAIN_COLOR};
+    margin: ${({ size }) => size === 0 ? '0px' : '30px 10px 30px 10px'};
+`;
 
 export const Container = styled.div`
     position:relative;
@@ -19,7 +26,6 @@ export const Container = styled.div`
     filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);
     transition: opacity 1s;
     opacity: ${({ opacity }) => opacity};
-    margin: ${({ size }) => size === 0 ? '0px' : '30px 10px 30px 10px'};
     padding:${({ size }) => size === 0 ? '0px' : '10px'};
     width: ${({ size }) => size === 0 ? '0px' : '100%'};
     visibility: ${({ size }) => size === 0 ? 'hidden' : 'visible'};

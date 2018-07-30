@@ -14,6 +14,7 @@ export const AppContainer = styled.div`
     background-color:${MAIN_COLOR};
     overflow: hidden;
     font-family: 'Abel', sans-serif;
+    user-select: none;
 `;
 
 export const BoardContainer = styled.div`

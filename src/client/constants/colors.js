@@ -1,4 +1,4 @@
-export const MAIN_COLOR = 'rgb(25,25,25)';
+export const MAIN_COLOR = 'rgb(22,22,22)';
 
 export const DARK_MAIN_COLOR = 'rgb(20,20,20)';
 

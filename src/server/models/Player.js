@@ -25,7 +25,7 @@ const Player = {
                 rooms[id].users = newUsers;
                 if(length(newUsers) === 0)
                     rooms = Game.deleteRoom(rooms, id);
-                emitToRoom(io, name, 'action', 'updateGameInfo', { name: room, users: newUsers, toast: { id: uuidv1(), message:`${user.name} leave the room`} });
+                emitToRoom(io, name, 'action', 'updateGameInfo', { name: room.name, users: newUsers, toast: { id: uuidv1(), message:`${user.name} leave the room`} });
             }
         })
         return rooms;
