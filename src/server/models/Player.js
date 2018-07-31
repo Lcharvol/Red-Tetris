@@ -52,10 +52,13 @@ const Player = {
         } else {
             const isRoomDefined = !isNil(rooms[roomIndex]);
             const allreadyInRoom = !isRoomDefined ? false : !isNil(find(propEq('name', user),rooms[roomIndex].users));
+            const gameStarted = isRoomDefined ? rooms[roomIndex].isGameStarted : false;
 
-            if(allreadyInRoom) {
+            if(gameStarted) {
+                emitToSocket(socket, 'gameError', 'gameStarted', 'Game in progress in this room !');
+            } else if(allreadyInRoom) {
                 playerLogger(`${user} try to join the ${room} room, but he's allready in`);
-                emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`)
+                emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`);
             } else {
                 const users = isRoomDefined ?
                     [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard, win: null }] :

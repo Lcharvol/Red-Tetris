@@ -26,11 +26,12 @@ const gameLogger = debug('tetris:game')
 
 const Game = {
 
-    endGame(intv, io, actionSocket) {
+    endGame(intv, io, actionSocket, users) {
+        const winner = find(propEq('win', false))(users);
         clearInterval(intv);
         emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {
             displayModal: true,
-            modalMessage: 'END',
+            modalMessage: `${winner.name} loose`,
             isGameStarted: false
         });
     },
@@ -45,6 +46,7 @@ const Game = {
     
     startGame(io, actionSocket, roomIndex, rooms) {
         if(roomIndex < 0) return;
+        rooms[roomIndex] = {...rooms[roomIndex], isGameStarted: true}
         Game.initStart(io, actionSocket);
         setTimeout(() => {
             const room = rooms[roomIndex];
@@ -75,6 +77,8 @@ const Game = {
             const intv = setInterval(function(){
                 const user1 = rooms[roomIndex].users[0];
                 const user2 = rooms[roomIndex].users[1];
+                if(!isNil(user1.win) || (!isNil(user2) && !isNil(user2.win)))
+                    Game.endGame(intv, io, actionSocket, rooms[roomIndex].users);
                 const newUser1 = moveBottom(user1.board, user1.pieces);
                 const newUser2 = !isNil(user2) ? moveBottom(user2.board, user2.pieces) : user1;
                 const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
@@ -102,12 +106,10 @@ const Game = {
                 ];
                 rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intvId: uuidv1()};
                 emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { users: newUsers });
-                if(!isNil(newUser1.win) || !isNil(newUser2.win))
-                    Game.endGame(intv, io, actionSocket);
             },500);
             
             emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { name: actionSocket.gameName, isGameStarted: true, users: newUsers, displayModal: false, modalMessage:'' });
-            rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intv}
+            rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intv, isGameStarted: true}
             gameLogger(`Game start in the room: \"${actionSocket.gameName}\"`)
         }, 3500);
         return rooms;
