@@ -68,6 +68,9 @@ export const addPiece = (board, piece) => {
     piece.map((value, id) => {
         if(value === 0) return
         let newId = (id % 4) + (10 * Math.floor(id / 4)) + Math.floor(10 / 3);
+        if(newBoard[newId].value !== 0) {
+            throw new Error('cant add');
+        }
         newBoard[newId] = {
             value: newValue,
             color: value === 0 ? FAKE_CELL_COLOR : newColor,
@@ -90,9 +93,21 @@ export const moveBottom = (board, pieces) => {
             canMove = false;
         }
     })
-    if(!canMove) return {
-        board: addPiece(newBoard, pieces[0]),
-        pieces: drop(1, pieces),
+    if(!canMove) {
+        try {
+            const enhancedBoard = addPiece(newBoard, pieces[0]);
+            return {
+                board: enhancedBoard,
+                pieces: drop(1, pieces),
+                win: null,
+            }
+        } catch (e) {
+            return {
+                board,
+                pieces,
+                win: false,
+            }
+        }
     }
     reverse(newBoard).map((cell, id) => {
         let { value, active} = cell;
@@ -108,7 +123,6 @@ export const moveBottom = (board, pieces) => {
     map(id => {
         newBoard[id] = INITIAL_CELL;
     },idToDelete);
-    // checkBoard(newBoard);
     return {
         board: newBoard,
         pieces,

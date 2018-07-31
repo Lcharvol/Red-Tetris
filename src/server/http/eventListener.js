@@ -32,7 +32,7 @@ const eventListener = (socket, io) => {
 
             if(equals(actionSocket.name, 'joinRoom')) logger(`${actionSocket.user} join the room: ${actionSocket.room}`);
 
-            if(equals(actionSocket.name, 'move')) rooms = Game.move(io, actionSocket, roomIndex, rooms);
+            if(equals(actionSocket.name, 'move')) rooms = Game.move(socket, io, actionSocket, roomIndex, rooms);
         });
 };
 

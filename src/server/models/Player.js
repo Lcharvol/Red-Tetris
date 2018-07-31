@@ -58,8 +58,8 @@ const Player = {
                 emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`)
             } else {
                 const users = isRoomDefined ?
-                    [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard }] :
-                    [{name: user, owner: true, id: currentSocketId[0], board: initialBoard}];
+                    [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard, win: null }] :
+                    [{name: user, owner: true, id: currentSocketId[0], board: initialBoard, win: null}];
 
                 socket.join(room);
                 if(roomIndex < 0) rooms = [...rooms, {users, name: room}]
