@@ -3,7 +3,7 @@ import { pieces } from '../constants/pieces';
 
 export const removeToast = (io, room) => setTimeout(() => io.to(room).emit('action', { name: 'removeToast'}), TOAST_DURATION);
 
-export const emitToRoom = (io, room, type, name, body) => io.to(room).emit(type, { name, body });
+export const emitToRoom = (io, roomName, type, name, body) => io.to(roomName).emit(type, { name, body });
 
 export const emitToSocket = (socket, type, name, message) =>  socket.emit(type, { name, message });
 

@@ -31,9 +31,9 @@ export const getOwner = state => {
     return false;
 };
 
-export const getRoomName = state => state.game.name;
+export const getRoomName = state => state.game.roomName;
 
-export const getModalMessage = state => state.game.modalMessage;
+export const getModalMessage = state => state.game.modal ? state.game.modal.message : '';
 
 export const getMyBoard = state => {
     if(state.game.users) {

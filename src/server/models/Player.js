@@ -25,24 +25,25 @@ const Player = {
                 rooms[id].users = newUsers;
                 if(length(newUsers) === 0)
                     rooms = Game.deleteRoom(rooms, id);
-                emitToRoom(io, name, 'action', 'updateGameInfo', { name: room.name, users: newUsers, toast: { id: uuidv1(), message:`${user.name} leave the room`} });
+                emitToRoom(io, name, 'action', 'updateGameInfo', { name: room.name, users: newUsers, toast: Game.newToast(`${user.name} leave the room`)});
             }
         })
         return rooms;
     },
 
     joinRoom(socket, io, data, rooms, currentSocketId) {
-        const { room, user } = data;
-        const roomIndex = findIndex(propEq('name', room))(rooms);
+        const { roomName, user } = data;
+        const roomIndex = findIndex(propEq('roomName', roomName))(rooms);
+        const room = rooms[roomIndex];
         const fullRoom = roomIndex >= 0 && length(rooms[roomIndex].users) >= 2;
 
-        if(length(room) === 0 || length(user) === 0)
+        if(length(roomName) === 0 || length(user) === 0)
             return rooms;
         if(fullRoom) {
-            const allreadyInRoom= !isNil(find(propEq('name', user))(rooms[roomIndex].users));
+            const allreadyInRoom = !isNil(find(propEq('name', user))(room.users));
 
             if(allreadyInRoom) {
-                playerLogger(`${user} try to join the ${room} room, but he's allready in`);
+                playerLogger(`${user} try to join the ${roomName} room, but he's allready in`);
                 emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`);
             }
             else {
@@ -50,26 +51,27 @@ const Player = {
                 playerLogger('Too many player in the room');
             }
         } else {
-            const isRoomDefined = !isNil(rooms[roomIndex]);
-            const allreadyInRoom = !isRoomDefined ? false : !isNil(find(propEq('name', user),rooms[roomIndex].users));
-            const gameStarted = isRoomDefined ? rooms[roomIndex].isGameStarted : false;
+            const isRoomDefined = !isNil(room);
+            const allreadyInRoom = !isRoomDefined ? false : !isNil(find(propEq('name', user),room.users));
+            const gameStarted = isRoomDefined ? room.isGameStarted : false;
 
             if(gameStarted) {
                 emitToSocket(socket, 'gameError', 'gameStarted', 'Game in progress in this room !');
             } else if(allreadyInRoom) {
-                playerLogger(`${user} try to join the ${room} room, but he's allready in`);
+                playerLogger(`${user} try to join the ${roomName} room, but he's allready in`);
                 emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`);
             } else {
                 const users = isRoomDefined ?
-                    [...rooms[roomIndex].users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard, win: null }] :
+                    [...room.users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard, win: null }] :
                     [{name: user, owner: true, id: currentSocketId[0], board: initialBoard, win: null}];
 
-                socket.join(room);
-                if(roomIndex < 0) rooms = [...rooms, {users, name: room}]
-                else rooms[roomIndex] = {...rooms[roomIndex], users, name: room};   
-                emitToRoom(io, room, 'action', 'updateGameInfo', { name: room, users, toast: { id: uuidv1(), message:`${user} join the room`} });
-                removeToast(io, room);
-                playerLogger(`${user} join the ${room} room`);
+                socket.join(roomName);
+                if(roomIndex < 0) rooms = Game.addRoom(rooms, users, roomName);
+                else rooms[roomIndex] = {...room, users, name: roomName};
+                const newRoom = rooms[roomIndex] || rooms[findIndex(propEq('roomName', roomName))(rooms)];
+                emitToRoom(io, roomName, 'action', 'updateGameInfo', { ...newRoom, toasts: [ { id: uuidv1(), message:`${user} join the room`}] });
+                removeToast(io, roomName);
+                playerLogger(`${user} join the ${roomName} room`);
             }
         }
         return rooms;

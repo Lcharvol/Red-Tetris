@@ -25,7 +25,7 @@ const gameUrl = window.location.href;
 const parsedGameUrl = parse(gameUrl);
 const { hash } = parsedGameUrl;
 
-const room = getRoomName(hash);
+const roomName = getRoomName(hash);
 const user = getUser(hash);
 
 io.on('action', data => {
@@ -42,7 +42,7 @@ io.on('gameError', data => {
 
 store.dispatch(updateGameInfo({me: user}));
 
-io.emit('joinRoom', {room, user});
+io.emit('joinRoom', {roomName, user});
 
 const Root = () => (
     <Provider store={store}>

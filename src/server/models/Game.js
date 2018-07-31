@@ -14,6 +14,7 @@ import uuidv1 from 'uuid/v1';
 
 import { removeToast, emitToRoom, emitToSocket } from './utils';
 import { initialBoard } from '../constants/board';
+import { roomPattern } from '../constants/game';
 import {
     addRandomPiece,
     addPiece,
@@ -23,9 +24,17 @@ import {
 } from '../boardManager';
 import Piece from './Piece';
 
-const gameLogger = debug('tetris:game')
+const gameLogger = debug('tetris:game');
 
 const Game = {
+
+    newToast(message) {
+      return  { id: uuidv1(), message }
+    },
+
+    addRoom(rooms, users, roomName) {
+        return [...rooms, { ...roomPattern, users, roomName}]
+    },
 
     endGame(intv, io, actionSocket, rooms, roomIndex) {
         const winner = find(propEq('win', false))(rooms[roomIndex].users);
@@ -146,4 +155,5 @@ const Game = {
         return remove(id, 1, rooms);
     },
 };
+
 export default Game;

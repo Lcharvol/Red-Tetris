@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { map, isEmpty, isNil, equals } from 'ramda';
+import { map, length, isEmpty, isNil, equals } from 'ramda';
 import {
     bool,
     array,
@@ -34,6 +34,7 @@ import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
 import GameInfo from '../GameInfo';
 import Board from '../Board';
+import Login from '../Login';
 import StartButton  from '../../components/StartButton';
 import Toast from '../../components/Toast';
 import Title from '../../components/Title';
@@ -76,34 +77,37 @@ const App = ({
     <AppContainer>
         <Title topValue={'Red'} bottomValue={'Tetris'}/>
         {!isNil(errorMessage) && <ErrorModal value={errorMessage}/>}
-        {isNil(errorMessage) && <Fragment>
-            <GameInfo/>
-            <BoardContainer>
-                <ToastsContainer>
-                    {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
-                </ToastsContainer>
-                <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
-                {map(user => (
-                    <Board
-                        key={user.id}
-                        board={user.board}
-                        displayModal={equals(user.name, me) ? displayModal : false}
-                        modalMessage={equals(user.name, me) ? modalMessage : ''}
-                        opacity={equals(user.name, me) ? 1 : 0.6}
-                    />)
-                ,users)}
-            </BoardContainer>
-            {owner ?
-                <StartButton
-                    startGame={startGame}
-                    isGameStarted={isGameStarted}
-                    io={io}
-                    roomName={roomName}
-                    me={me}
-                /> :
-                <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start`}</WaitingLabel>
-            }
-        </Fragment>}
+        {isNil(errorMessage) && length(me) > 0 && 
+            <Fragment>
+                <GameInfo/>
+                <BoardContainer>
+                    <ToastsContainer>
+                        {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
+                    </ToastsContainer>
+                    <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
+                    {map(user => (
+                        <Board
+                            key={user.id}
+                            board={user.board}
+                            displayModal={equals(user.name, me) ? displayModal : false}
+                            modalMessage={equals(user.name, me) ? modalMessage : ''}
+                            opacity={equals(user.name, me) ? 1 : 0.6}
+                        />)
+                    ,users)}
+                </BoardContainer>
+                {owner ?
+                    <StartButton
+                        startGame={startGame}
+                        isGameStarted={isGameStarted}
+                        io={io}
+                        roomName={roomName}
+                        me={me}
+                    /> :
+                    <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start`}</WaitingLabel>
+                }
+            </Fragment>
+        }
+        {!length(me) && <Login />}
     </AppContainer>
 );
 
