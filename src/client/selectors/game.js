@@ -8,7 +8,8 @@ import {
 
 export const getIsGameStarted = state => state.game.isGameStarted;
 
-export const getDisplayModal = state => state.game.displayModal;
+export const getDisplayModal = state => !isNil(state.game.modal) ? state.game.modal.display : false;
+export const getModalMessage = state => !isNil(state.game.modal) ? state.game.modal.message : '';
 
 export const getMe = state => state.game.me;
 
@@ -32,8 +33,6 @@ export const getOwner = state => {
 };
 
 export const getRoomName = state => state.game.roomName;
-
-export const getModalMessage = state => state.game.modal ? state.game.modal.message : '';
 
 export const getMyBoard = state => {
     if(state.game.users) {

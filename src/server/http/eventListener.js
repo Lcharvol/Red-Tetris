@@ -4,6 +4,16 @@ import debug from 'debug';
 import Player from '../models/Player';
 import Game from '../models/Game';
 
+import {
+    DISCONNECT,
+    JOIN_ROOM,
+    ACTION
+} from '../constants/eventsTypes';
+import {
+    START_GAME,
+    MOVE
+} from '../constants/actionsTypes';
+
 const logger = debug('tetris:http');
 
 let rooms = [];
@@ -11,28 +21,27 @@ let rooms = [];
 const eventListener = (socket, io) => {
     const currentSocketId = [];
     const socketIdToDelete = [];
-    const tmp = [];
 
     currentSocketId[0] = socket.id;
-    logger("Socket connected: " + currentSocketId);
+    logger(`Socket connected: ${currentSocketId}`);
     
     socket
-        .on('disconnect', async () => {
-            logger("Socket disconnected: " + currentSocketId)
+        .on(DISCONNECT, async () => {
+            logger(`Socket disconnected: ${currentSocketId}`)
             socketIdToDelete[0] = socket.id;
             rooms = Player.disconnect(socket, io, rooms, socketIdToDelete);
         })
 
-        .on('joinRoom', async data => rooms = Player.joinRoom(socket, io, data, rooms, currentSocketId))
+        .on(JOIN_ROOM, async data => rooms = Player.joinRoom(socket, io, data, rooms, currentSocketId))
 
-        .on('action', async actionSocket => {
-            const roomIndex = findIndex(propEq('name', actionSocket.gameName))(rooms);
+        .on(ACTION, async actionSocket => {
+            const roomIndex = findIndex(propEq('roomName', actionSocket.gameName))(rooms);
 
-            if(equals(actionSocket.name,'startGame')) rooms = Game.startGame(io, actionSocket, roomIndex, rooms);
+            if(equals(actionSocket.name, START_GAME)) rooms = Game.startGame(io, actionSocket, roomIndex, rooms);
 
-            if(equals(actionSocket.name, 'joinRoom')) logger(`${actionSocket.user} join the room: ${actionSocket.room}`);
+            if(equals(actionSocket.name, JOIN_ROOM)) logger(`${actionSocket.user} join the room: ${actionSocket.room}`);
 
-            if(equals(actionSocket.name, 'move')) rooms = Game.move(socket, io, actionSocket, roomIndex, rooms);
+            if(equals(actionSocket.name, MOVE)) rooms = Game.move(socket, io, actionSocket, roomIndex, rooms);
         });
 };
 

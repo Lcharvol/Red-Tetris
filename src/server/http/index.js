@@ -7,6 +7,8 @@ import fs from 'fs';
 
 import { getUrl, bindError, bindLogger, bindCtx } from './helpers';
 import eventListener from './eventListener';
+import { BUNDLE_ERROR } from '../constants/messages';
+import { CONNECTION } from '../constants/eventsTypes';
 
 const logger = debug('tetris:http');
 const logerror = debug('tetris:http:error');
@@ -21,7 +23,7 @@ const init = async ctx => {
     });
     const io = socketIo(httpServer);
 
-    io.on('connection', async socket => {
+    io.on(CONNECTION, async socket => {
         eventListener(socket, io);
     });
 
@@ -31,7 +33,7 @@ const init = async ctx => {
             if (err) {
                 logerror(err)
                 res.writeHead(500)
-                return res.end('Error loading index.html')
+                return res.end(BUNDLE_ERROR)
             }
             res.writeHead(200)
             res.end(data)

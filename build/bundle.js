@@ -18712,7 +18712,7 @@ var INITIAL_BOARD = exports.INITIAL_BOARD = (0, _ramda.map)(function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getOwnerName = exports.getUsersNames = exports.getUsers = exports.getErrorMessage = exports.getToasts = exports.getEnemyBoard = exports.getMyBoard = exports.getModalMessage = exports.getRoomName = exports.getOwner = exports.getEnemyName = exports.getMe = exports.getDisplayModal = exports.getIsGameStarted = undefined;
+exports.getOwnerName = exports.getUsersNames = exports.getUsers = exports.getErrorMessage = exports.getToasts = exports.getEnemyBoard = exports.getMyBoard = exports.getRoomName = exports.getOwner = exports.getEnemyName = exports.getMe = exports.getModalMessage = exports.getDisplayModal = exports.getIsGameStarted = undefined;
 
 var _toConsumableArray2 = __webpack_require__(879);
 
@@ -18727,7 +18727,10 @@ var getIsGameStarted = exports.getIsGameStarted = function getIsGameStarted(stat
 };
 
 var getDisplayModal = exports.getDisplayModal = function getDisplayModal(state) {
-    return state.game.displayModal;
+    return !(0, _ramda.isNil)(state.game.modal) ? state.game.modal.display : false;
+};
+var getModalMessage = exports.getModalMessage = function getModalMessage(state) {
+    return !(0, _ramda.isNil)(state.game.modal) ? state.game.modal.message : '';
 };
 
 var getMe = exports.getMe = function getMe(state) {
@@ -18755,10 +18758,6 @@ var getOwner = exports.getOwner = function getOwner(state) {
 
 var getRoomName = exports.getRoomName = function getRoomName(state) {
     return state.game.roomName;
-};
-
-var getModalMessage = exports.getModalMessage = function getModalMessage(state) {
-    return state.game.modal ? state.game.modal.message : '';
 };
 
 var getMyBoard = exports.getMyBoard = function getMyBoard(state) {

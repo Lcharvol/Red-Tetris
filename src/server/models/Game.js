@@ -15,6 +15,7 @@ import uuidv1 from 'uuid/v1';
 import { removeToast, emitToRoom, emitToSocket } from './utils';
 import { initialBoard } from '../constants/board';
 import { roomPattern } from '../constants/game';
+import { ACTION } from '../constants/eventsTypes';
 import {
     addRandomPiece,
     addPiece,
@@ -28,8 +29,12 @@ const gameLogger = debug('tetris:game');
 
 const Game = {
 
+    deleteRoom(rooms,id) {
+        return remove(id, 1, rooms);
+    },
+    
     newToast(message) {
-      return  { id: uuidv1(), message }
+        return { id: uuidv1(), message }
     },
 
     addRoom(rooms, users, roomName) {
@@ -38,56 +43,59 @@ const Game = {
 
     endGame(intv, io, actionSocket, rooms, roomIndex) {
         const winner = find(propEq('win', false))(rooms[roomIndex].users);
+
         clearInterval(intv);
-        emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {
-            displayModal: true,
-            modalMessage: `${winner.name} loose`,
+        rooms[roomIndex] = {
+            ...rooms[roomIndex],
+            modal: {
+                display: true,
+                message: `${winner.name} loose`,
+            },
             isGameStarted: false
-        });
-        rooms[roomIndex].isGameStarted = false;
+        };
+        emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', rooms[roomIndex]);
         return rooms;
     },
 
-    initStart(io, actionSocket) {
-        io.to(actionSocket.gameName).emit('action', {name: 'updateGameInfo', body: {displayModal: true, modalMessage:'3', isGameStarted: true, toast: { id: uuidv1(), message:`${actionSocket.user} start the game`}}});
-        removeToast(io, actionSocket.gameName);
-        setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'2'}), 1000);
-        setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'1'}), 2000);
-        setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {displayModal: true, modalMessage:'GO'}), 3000);
-    },
-    
-    startGame(io, actionSocket, roomIndex, rooms) {
-        if(roomIndex < 0) return;
-        rooms[roomIndex] = {...rooms[roomIndex], isGameStarted: true}
+    initStart(io, actionSocket, rooms, roomIndex) {
+        rooms[roomIndex] = {...rooms[roomIndex], isGameStarted: true, modal: { display: false, message: ''}}
         map(user => {
             user.board = initialBoard;
         },rooms[roomIndex].users)
-        Game.initStart(io, actionSocket);
+        emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {...rooms[roomIndex], modal: { display: true, message: '3'}, toast: { id: uuidv1(), message:`${actionSocket.user} start the game`}});
+        removeToast(io, actionSocket.gameName);
+        setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {modal: { display: true, message: '2'}}), 1000);
+        setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {modal: { display: true, message: '1'}}), 2000);
+        setTimeout(() => emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {modal: { display: true, message: 'GO'}}), 3000);
+        return rooms;
+    },
+    
+    startGame(io, actionSocket, roomIndex, rooms) {
+        rooms = Game.initStart(io, actionSocket, rooms, roomIndex);
         setTimeout(() => {
             const room = rooms[roomIndex];
             const newPiece = Piece.newPiece();
             const initialPiece = Piece.newPiece();
             const numberOfPlayer = length(room.users); 
             const newUsers = numberOfPlayer === 2 ? [
-                {
-                    ...room.users[0],
-                    board: addPiece(room.users[0].board, initialPiece),
-                    pieces: [newPiece],
-                    win: null,
-                },
-                {
-                    ...room.users[1],
-                    board: addPiece(room.users[1].board, initialPiece),
-                    pieces: [newPiece],
-                    win: null,
-                },
-            ] : [
-                {
-                    ...room.users[0],
-                    board: addPiece(room.users[0].board, initialPiece),
-                    pieces: [newPiece],
-                    win: null,
-                },
+                    {
+                        ...room.users[0],
+                        board: addPiece(room.users[0].board, initialPiece),
+                        pieces: [newPiece],
+                        win: null,
+                    },
+                    {
+                        ...room.users[1],
+                        board: addPiece(room.users[1].board, initialPiece),
+                        pieces: [newPiece],
+                        win: null,
+                    }] : 
+                    [{
+                        ...room.users[0],
+                        board: addPiece(room.users[0].board, initialPiece),
+                        pieces: [newPiece],
+                        win: null,
+                    },
             ];
             const intv = setInterval(function(){
                 const user1 = rooms[roomIndex].users[0];
@@ -110,9 +118,9 @@ const Game = {
                         board: newUser2.board,
                         pieces: needNewPiece ? [...newUser2.pieces, newPiece] : newUser2.pieces,
                         win: !isNil(user1.win) ? user2.win : newUser2.win,
-                    },
-                ] : [
-                    {
+                    }]
+                    :
+                    [{
                         ...rooms[roomIndex].users[0],
                         board: newUser1.board,
                         pieces: needNewPiece ? [...newUser1.pieces, newPiece] : newUser1.pieces,
@@ -120,11 +128,10 @@ const Game = {
                     },
                 ];
                 rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intvId: uuidv1()};
-                emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { users: newUsers });
+                emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...rooms[roomIndex] });
             },500);
-            
-            emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { name: actionSocket.gameName, isGameStarted: true, users: newUsers, displayModal: false, modalMessage:'' });
-            rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intv, isGameStarted: true}
+            rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intv, isGameStarted: true};
+            emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...rooms[roomIndex], modal: { display: false, message: '' } });
             gameLogger(`Game start in the room: \"${actionSocket.gameName}\"`)
         }, 3500);
         return rooms;
@@ -142,17 +149,13 @@ const Game = {
                 rooms[roomIndex].users[userIndex].win = false;
             } else
                 rooms[roomIndex].users[userIndex] = {...user, board: newUser.board, pieces: needNewPiece ? [...newUser.pieces, Piece.newPiece()] : newUser.pieces }
-        };
-        if(equals(type, 'right'))
+        }
+        else if(equals(type, 'right'))
             rooms[roomIndex].users[userIndex].board = moveRight(rooms[roomIndex].users[userIndex].board);
-        if(equals(type,'left'))
+        else if(equals(type,'left'))
             rooms[roomIndex].users[userIndex].board = moveLeft(rooms[roomIndex].users[userIndex].board);
-        emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', { users: rooms[roomIndex].users });
+        emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...rooms[roomIndex] });
         return rooms;
-    },
-
-    deleteRoom(rooms,id) {
-        return remove(id, 1, rooms);
     },
 };
 
