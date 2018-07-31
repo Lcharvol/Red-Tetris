@@ -2,6 +2,7 @@ import React from 'react';
 import { map, equals } from 'ramda';
 import { array, string } from 'prop-types';
 import { connect } from 'react-redux';
+import uuidv1 from 'uuid/v1';
 
 import { getUsersNames, getOwnerName } from '../../selectors/game';
 import {
@@ -20,7 +21,7 @@ const GameInfo = ({ usersNames, owner }) => (
     <Container>
         <Label>Players</Label>
         {usersNames.map(name => 
-            <Name>
+            <Name key={uuidv1()}>
                 {name}{equals(name, owner) && <OwnerIcon/>}
             </Name>
         )}

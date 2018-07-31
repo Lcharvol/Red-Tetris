@@ -12,6 +12,15 @@ export const getDisplayModal = state => state.game.displayModal;
 
 export const getMe = state => state.game.me;
 
+export const getEnemyName = state => {
+    if(state.game.users) {
+        const myUserIndex = findIndex(propEq('name', state.game.me))(state.game.users);
+        const enemy = remove(myUserIndex, 1, state.game.users)[0];
+        if(enemy) return enemy.name;
+    };
+    return undefined;
+};
+
 export const getOwner = state => {
     const me = state.game.me;
     if(me !== undefined) {

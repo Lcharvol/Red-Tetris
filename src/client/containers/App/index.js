@@ -13,7 +13,8 @@ import EventListener from 'react-event-listener';
 import {
     AppContainer,
     BoardContainer,
-    ToastsContainer
+    ToastsContainer,
+    WaitingLabel
 } from './styles';
 import {
     getIsGameStarted,
@@ -27,6 +28,7 @@ import {
     getUsers,
     getToasts,
     getErrorMessage,
+    getEnemyName,
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -50,6 +52,7 @@ const propTypes = {
     users: array,
     toasts: array.isRequired,
     errorMessage: string,
+    enemyName: string,
 };
 
 const App = ({
@@ -67,6 +70,7 @@ const App = ({
     users,
     toasts,
     errorMessage,
+    enemyName,
 }) =>
 (
     <AppContainer>
@@ -89,14 +93,16 @@ const App = ({
                     />)
                 ,users)}
             </BoardContainer>
-            {owner &&
+            {owner ?
                 <StartButton
                     startGame={startGame}
                     isGameStarted={isGameStarted}
                     io={io}
                     roomName={roomName}
                     me={me}
-                />}
+                /> :
+                <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start`}</WaitingLabel>
+            }
         </Fragment>}
     </AppContainer>
 );
@@ -120,6 +126,7 @@ const mapStateToProps = state => ({
     users: getUsers(state),
     toasts: getToasts(state),
     errorMessage: getErrorMessage(state),
+    enemyName: getEnemyName(state),
 });
 
 App.propTypes = propTypes;

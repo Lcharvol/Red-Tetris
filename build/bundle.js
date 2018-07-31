@@ -18739,7 +18739,7 @@ var INITIAL_BOARD = exports.INITIAL_BOARD = (0, _ramda.map)(function () {
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.getOwnerName = exports.getUsersNames = exports.getUsers = exports.getErrorMessage = exports.getToasts = exports.getEnemyBoard = exports.getMyBoard = exports.getModalMessage = exports.getRoomName = exports.getOwner = exports.getMe = exports.getDisplayModal = exports.getIsGameStarted = undefined;
+exports.getOwnerName = exports.getUsersNames = exports.getUsers = exports.getErrorMessage = exports.getToasts = exports.getEnemyBoard = exports.getMyBoard = exports.getModalMessage = exports.getRoomName = exports.getOwner = exports.getEnemyName = exports.getMe = exports.getDisplayModal = exports.getIsGameStarted = undefined;
 
 var _toConsumableArray2 = __webpack_require__(343);
 
@@ -18759,6 +18759,15 @@ var getDisplayModal = exports.getDisplayModal = function getDisplayModal(state) 
 
 var getMe = exports.getMe = function getMe(state) {
     return state.game.me;
+};
+
+var getEnemyName = exports.getEnemyName = function getEnemyName(state) {
+    if (state.game.users) {
+        var myUserIndex = (0, _ramda.findIndex)((0, _ramda.propEq)('name', state.game.me))(state.game.users);
+        var enemy = (0, _ramda.remove)(myUserIndex, 1, state.game.users)[0];
+        if (enemy) return enemy.name;
+    };
+    return undefined;
 };
 
 var getOwner = exports.getOwner = function getOwner(state) {
@@ -24633,7 +24642,7 @@ var _App2 = _interopRequireDefault(_App);
 
 var _game = __webpack_require__(212);
 
-var _utils = __webpack_require__(906);
+var _utils = __webpack_require__(909);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -60756,23 +60765,23 @@ var _GameInfo = __webpack_require__(890);
 
 var _GameInfo2 = _interopRequireDefault(_GameInfo);
 
-var _Board = __webpack_require__(892);
+var _Board = __webpack_require__(895);
 
 var _Board2 = _interopRequireDefault(_Board);
 
-var _StartButton = __webpack_require__(898);
+var _StartButton = __webpack_require__(901);
 
 var _StartButton2 = _interopRequireDefault(_StartButton);
 
-var _Toast = __webpack_require__(900);
+var _Toast = __webpack_require__(903);
 
 var _Toast2 = _interopRequireDefault(_Toast);
 
-var _Title = __webpack_require__(902);
+var _Title = __webpack_require__(905);
 
 var _Title2 = _interopRequireDefault(_Title);
 
-var _ErrorModal = __webpack_require__(904);
+var _ErrorModal = __webpack_require__(907);
 
 var _ErrorModal2 = _interopRequireDefault(_ErrorModal);
 
@@ -60790,7 +60799,8 @@ var propTypes = {
     me: _propTypes.string,
     users: _propTypes.array,
     toasts: _propTypes.array.isRequired,
-    errorMessage: _propTypes.string
+    errorMessage: _propTypes.string,
+    enemyName: _propTypes.string
 };
 
 var App = function App(_ref) {
@@ -60807,7 +60817,8 @@ var App = function App(_ref) {
         me = _ref.me,
         users = _ref.users,
         toasts = _ref.toasts,
-        errorMessage = _ref.errorMessage;
+        errorMessage = _ref.errorMessage,
+        enemyName = _ref.enemyName;
     return _react2.default.createElement(
         _styles.AppContainer,
         null,
@@ -60840,13 +60851,17 @@ var App = function App(_ref) {
                     });
                 }, users)
             ),
-            owner && _react2.default.createElement(_StartButton2.default, {
+            owner ? _react2.default.createElement(_StartButton2.default, {
                 startGame: startGame,
                 isGameStarted: isGameStarted,
                 io: io,
                 roomName: roomName,
                 me: me
-            })
+            }) : _react2.default.createElement(
+                _styles.WaitingLabel,
+                { isGameStarted: isGameStarted },
+                'Waiting for ' + enemyName + ' to start'
+            )
         )
     );
 };
@@ -60872,7 +60887,8 @@ var mapStateToProps = function mapStateToProps(state) {
         me: (0, _game.getMe)(state),
         users: (0, _game.getUsers)(state),
         toasts: (0, _game.getToasts)(state),
-        errorMessage: (0, _game.getErrorMessage)(state)
+        errorMessage: (0, _game.getErrorMessage)(state),
+        enemyName: (0, _game.getEnemyName)(state)
     };
 };
 
@@ -61351,7 +61367,7 @@ module.exports = warning;
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
-exports.ToastsContainer = exports.BoardContainer = exports.AppContainer = undefined;
+exports.WaitingLabel = exports.ToastsContainer = exports.BoardContainer = exports.AppContainer = undefined;
 
 var _taggedTemplateLiteral2 = __webpack_require__(52);
 
@@ -61359,7 +61375,8 @@ var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
 var _templateObject = (0, _taggedTemplateLiteral3.default)(["\n    display:flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    width: 100vw;\n    height:100vh;\n    background-color:", ";\n    overflow: hidden;\n    font-family: 'Abel', sans-serif;\n    user-select: none;\n"], ["\n    display:flex;\n    flex-direction: column;\n    justify-content: center;\n    align-items: center;\n    width: 100vw;\n    height:100vh;\n    background-color:", ";\n    overflow: hidden;\n    font-family: 'Abel', sans-serif;\n    user-select: none;\n"]),
     _templateObject2 = (0, _taggedTemplateLiteral3.default)(["\n    display:flex;\n    justify-content: center;\n    align-items: center;\n"], ["\n    display:flex;\n    justify-content: center;\n    align-items: center;\n"]),
-    _templateObject3 = (0, _taggedTemplateLiteral3.default)(["\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: flex-start;\n    flex-direction:column;\n    top:0;\n    left:0;\n    padding:20px;\n    z-index:1000;\n"], ["\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: flex-start;\n    flex-direction:column;\n    top:0;\n    left:0;\n    padding:20px;\n    z-index:1000;\n"]);
+    _templateObject3 = (0, _taggedTemplateLiteral3.default)(["\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: flex-start;\n    flex-direction:column;\n    top:0;\n    left:0;\n    padding:20px;\n    z-index:1000;\n"], ["\n    position:absolute;\n    display:flex;\n    justify-content: center;\n    align-items: flex-start;\n    flex-direction:column;\n    top:0;\n    left:0;\n    padding:20px;\n    z-index:1000;\n"]),
+    _templateObject4 = (0, _taggedTemplateLiteral3.default)(["\n    color:white;\n    font-size: 1.1em;\n    font-weight:100;\n    transition: opacity 0.7s ease-in-out;\n    opacity:", ";\n"], ["\n    color:white;\n    font-size: 1.1em;\n    font-weight:100;\n    transition: opacity 0.7s ease-in-out;\n    opacity:", ";\n"]);
 
 var _styledComponents = __webpack_require__(53);
 
@@ -61374,6 +61391,11 @@ var AppContainer = exports.AppContainer = _styledComponents2.default.div(_templa
 var BoardContainer = exports.BoardContainer = _styledComponents2.default.div(_templateObject2);
 
 var ToastsContainer = exports.ToastsContainer = _styledComponents2.default.div(_templateObject3);
+
+var WaitingLabel = exports.WaitingLabel = _styledComponents2.default.div(_templateObject4, function (_ref) {
+    var isGameStarted = _ref.isGameStarted;
+    return isGameStarted ? 0 : 1;
+});
 
 /***/ }),
 /* 874 */
@@ -63500,9 +63522,7 @@ Object.defineProperty(exports, "__esModule", {
 var move = exports.move = function move(event, io, me, roomName) {
     return function (dispatch) {
         var key = event.key;
-        // if (key === 'ArrowUp') {
-        //     dispatch(({ type: ADD_PIECE }));
-        // };
+
 
         if (key === 'ArrowDown') io.emit('action', { name: 'move', type: 'bottom', gameName: roomName, user: me });
         if (key === 'ArrowLeft') io.emit('action', { name: 'move', type: 'left', gameName: roomName, user: me });
@@ -63537,9 +63557,13 @@ var _propTypes = __webpack_require__(42);
 
 var _reactRedux = __webpack_require__(172);
 
+var _v = __webpack_require__(891);
+
+var _v2 = _interopRequireDefault(_v);
+
 var _game = __webpack_require__(346);
 
-var _styles = __webpack_require__(891);
+var _styles = __webpack_require__(894);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63562,7 +63586,7 @@ var GameInfo = function GameInfo(_ref) {
         usersNames.map(function (name) {
             return _react2.default.createElement(
                 _styles.Name,
-                null,
+                { key: (0, _v2.default)() },
                 name,
                 (0, _ramda.equals)(name, owner) && _react2.default.createElement(_styles.OwnerIcon, null)
             );
@@ -63583,6 +63607,191 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps)(GameInfo);
 
 /***/ }),
 /* 891 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var rng = __webpack_require__(892);
+var bytesToUuid = __webpack_require__(893);
+
+// **`v1()` - Generate time-based UUID**
+//
+// Inspired by https://github.com/LiosK/UUID.js
+// and http://docs.python.org/library/uuid.html
+
+var _nodeId;
+var _clockseq;
+
+// Previous uuid creation time
+var _lastMSecs = 0;
+var _lastNSecs = 0;
+
+// See https://github.com/broofa/node-uuid for API details
+function v1(options, buf, offset) {
+  var i = buf && offset || 0;
+  var b = buf || [];
+
+  options = options || {};
+  var node = options.node || _nodeId;
+  var clockseq = options.clockseq !== undefined ? options.clockseq : _clockseq;
+
+  // node and clockseq need to be initialized to random values if they're not
+  // specified.  We do this lazily to minimize issues related to insufficient
+  // system entropy.  See #189
+  if (node == null || clockseq == null) {
+    var seedBytes = rng();
+    if (node == null) {
+      // Per 4.5, create and 48-bit node id, (47 random bits + multicast bit = 1)
+      node = _nodeId = [
+        seedBytes[0] | 0x01,
+        seedBytes[1], seedBytes[2], seedBytes[3], seedBytes[4], seedBytes[5]
+      ];
+    }
+    if (clockseq == null) {
+      // Per 4.2.2, randomize (14 bit) clockseq
+      clockseq = _clockseq = (seedBytes[6] << 8 | seedBytes[7]) & 0x3fff;
+    }
+  }
+
+  // UUID timestamps are 100 nano-second units since the Gregorian epoch,
+  // (1582-10-15 00:00).  JSNumbers aren't precise enough for this, so
+  // time is handled internally as 'msecs' (integer milliseconds) and 'nsecs'
+  // (100-nanoseconds offset from msecs) since unix epoch, 1970-01-01 00:00.
+  var msecs = options.msecs !== undefined ? options.msecs : new Date().getTime();
+
+  // Per 4.2.1.2, use count of uuid's generated during the current clock
+  // cycle to simulate higher resolution clock
+  var nsecs = options.nsecs !== undefined ? options.nsecs : _lastNSecs + 1;
+
+  // Time since last uuid creation (in msecs)
+  var dt = (msecs - _lastMSecs) + (nsecs - _lastNSecs)/10000;
+
+  // Per 4.2.1.2, Bump clockseq on clock regression
+  if (dt < 0 && options.clockseq === undefined) {
+    clockseq = clockseq + 1 & 0x3fff;
+  }
+
+  // Reset nsecs if clock regresses (new clockseq) or we've moved onto a new
+  // time interval
+  if ((dt < 0 || msecs > _lastMSecs) && options.nsecs === undefined) {
+    nsecs = 0;
+  }
+
+  // Per 4.2.1.2 Throw error if too many uuids are requested
+  if (nsecs >= 10000) {
+    throw new Error('uuid.v1(): Can\'t create more than 10M uuids/sec');
+  }
+
+  _lastMSecs = msecs;
+  _lastNSecs = nsecs;
+  _clockseq = clockseq;
+
+  // Per 4.1.4 - Convert from unix epoch to Gregorian epoch
+  msecs += 12219292800000;
+
+  // `time_low`
+  var tl = ((msecs & 0xfffffff) * 10000 + nsecs) % 0x100000000;
+  b[i++] = tl >>> 24 & 0xff;
+  b[i++] = tl >>> 16 & 0xff;
+  b[i++] = tl >>> 8 & 0xff;
+  b[i++] = tl & 0xff;
+
+  // `time_mid`
+  var tmh = (msecs / 0x100000000 * 10000) & 0xfffffff;
+  b[i++] = tmh >>> 8 & 0xff;
+  b[i++] = tmh & 0xff;
+
+  // `time_high_and_version`
+  b[i++] = tmh >>> 24 & 0xf | 0x10; // include version
+  b[i++] = tmh >>> 16 & 0xff;
+
+  // `clock_seq_hi_and_reserved` (Per 4.2.2 - include variant)
+  b[i++] = clockseq >>> 8 | 0x80;
+
+  // `clock_seq_low`
+  b[i++] = clockseq & 0xff;
+
+  // `node`
+  for (var n = 0; n < 6; ++n) {
+    b[i + n] = node[n];
+  }
+
+  return buf ? buf : bytesToUuid(b);
+}
+
+module.exports = v1;
+
+
+/***/ }),
+/* 892 */
+/***/ (function(module, exports) {
+
+// Unique ID creation requires a high quality random # generator.  In the
+// browser this is a little complicated due to unknown quality of Math.random()
+// and inconsistent support for the `crypto` API.  We do the best we can via
+// feature-detection
+
+// getRandomValues needs to be invoked in a context where "this" is a Crypto
+// implementation. Also, find the complete implementation of crypto on IE11.
+var getRandomValues = (typeof(crypto) != 'undefined' && crypto.getRandomValues && crypto.getRandomValues.bind(crypto)) ||
+                      (typeof(msCrypto) != 'undefined' && typeof window.msCrypto.getRandomValues == 'function' && msCrypto.getRandomValues.bind(msCrypto));
+
+if (getRandomValues) {
+  // WHATWG crypto RNG - http://wiki.whatwg.org/wiki/Crypto
+  var rnds8 = new Uint8Array(16); // eslint-disable-line no-undef
+
+  module.exports = function whatwgRNG() {
+    getRandomValues(rnds8);
+    return rnds8;
+  };
+} else {
+  // Math.random()-based (RNG)
+  //
+  // If all else fails, use Math.random().  It's fast, but is of unspecified
+  // quality.
+  var rnds = new Array(16);
+
+  module.exports = function mathRNG() {
+    for (var i = 0, r; i < 16; i++) {
+      if ((i & 0x03) === 0) r = Math.random() * 0x100000000;
+      rnds[i] = r >>> ((i & 0x03) << 3) & 0xff;
+    }
+
+    return rnds;
+  };
+}
+
+
+/***/ }),
+/* 893 */
+/***/ (function(module, exports) {
+
+/**
+ * Convert array of 16 byte values to UUID string format of the form:
+ * XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX
+ */
+var byteToHex = [];
+for (var i = 0; i < 256; ++i) {
+  byteToHex[i] = (i + 0x100).toString(16).substr(1);
+}
+
+function bytesToUuid(buf, offset) {
+  var i = offset || 0;
+  var bth = byteToHex;
+  // join used to fix memory issue caused by concatenation: https://bugs.chromium.org/p/v8/issues/detail?id=3175#c4
+  return ([bth[buf[i++]], bth[buf[i++]], 
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]], '-',
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]],
+	bth[buf[i++]], bth[buf[i++]]]).join('');
+}
+
+module.exports = bytesToUuid;
+
+
+/***/ }),
+/* 894 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63619,7 +63828,7 @@ var Name = exports.Name = _styledComponents2.default.div(_templateObject3);
 var OwnerIcon = exports.OwnerIcon = _styledComponents2.default.div(_templateObject4, _colors.MAIN_RED);
 
 /***/ }),
-/* 892 */
+/* 895 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63639,13 +63848,13 @@ var _propTypes = __webpack_require__(42);
 
 var _recompose = __webpack_require__(211);
 
-var _styles = __webpack_require__(893);
+var _styles = __webpack_require__(896);
 
-var _Cell = __webpack_require__(894);
+var _Cell = __webpack_require__(897);
 
 var _Cell2 = _interopRequireDefault(_Cell);
 
-var _GameModal = __webpack_require__(896);
+var _GameModal = __webpack_require__(899);
 
 var _GameModal2 = _interopRequireDefault(_GameModal);
 
@@ -63717,7 +63926,7 @@ exports.default = (0, _recompose.compose)((0, _recompose.withStateHandlers)(func
 }))(Board);
 
 /***/ }),
-/* 893 */
+/* 896 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63768,7 +63977,7 @@ var Container = exports.Container = _styledComponents2.default.div(_templateObje
 var InnerBoard = exports.InnerBoard = _styledComponents2.default.div(_templateObject3, _constants.CELL_SIZE * 10 + _constants.CELL_MARGIN * 20, _constants.CELL_SIZE * 20 + _constants.CELL_MARGIN * 40, _colors.MAIN_RED);
 
 /***/ }),
-/* 894 */
+/* 897 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63782,7 +63991,7 @@ var _react = __webpack_require__(17);
 
 var _react2 = _interopRequireDefault(_react);
 
-var _styles = __webpack_require__(895);
+var _styles = __webpack_require__(898);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63799,7 +64008,7 @@ var Cell = function Cell(_ref) {
 exports.default = Cell;
 
 /***/ }),
-/* 895 */
+/* 898 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63830,7 +64039,7 @@ var Container = exports.Container = _styledComponents2.default.div(_templateObje
 });
 
 /***/ }),
-/* 896 */
+/* 899 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63846,7 +64055,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _recompose = __webpack_require__(211);
 
-var _styles = __webpack_require__(897);
+var _styles = __webpack_require__(900);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63863,7 +64072,7 @@ var GameModal = function GameModal(_ref) {
 exports.default = GameModal;
 
 /***/ }),
-/* 897 */
+/* 900 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63889,7 +64098,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Container = exports.Container = _styledComponents2.default.div(_templateObject);
 
 /***/ }),
-/* 898 */
+/* 901 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63905,7 +64114,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(42);
 
-var _styles = __webpack_require__(899);
+var _styles = __webpack_require__(902);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -63939,7 +64148,7 @@ StartButton.propTypes = propTypes;
 exports.default = StartButton;
 
 /***/ }),
-/* 899 */
+/* 902 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63973,7 +64182,7 @@ var Container = exports.Container = _styledComponents2.default.div(_templateObje
 }, _colors.MAIN_COLOR);
 
 /***/ }),
-/* 900 */
+/* 903 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -63989,7 +64198,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _ramda = __webpack_require__(51);
 
-var _styles = __webpack_require__(901);
+var _styles = __webpack_require__(904);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64005,7 +64214,7 @@ var Toast = function Toast(_ref) {
 exports.default = Toast;
 
 /***/ }),
-/* 901 */
+/* 904 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64031,7 +64240,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Container = exports.Container = _styledComponents2.default.div(_templateObject);
 
 /***/ }),
-/* 902 */
+/* 905 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64047,7 +64256,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(42);
 
-var _styles = __webpack_require__(903);
+var _styles = __webpack_require__(906);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64080,7 +64289,7 @@ Title.propTypes = propTypes;
 exports.default = Title;
 
 /***/ }),
-/* 903 */
+/* 906 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64114,7 +64323,7 @@ var TopText = exports.TopText = _styledComponents2.default.div(_templateObject2)
 var BottomText = exports.BottomText = _styledComponents2.default.div(_templateObject3);
 
 /***/ }),
-/* 904 */
+/* 907 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64130,7 +64339,7 @@ var _react2 = _interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(42);
 
-var _styles = __webpack_require__(905);
+var _styles = __webpack_require__(908);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -64152,7 +64361,7 @@ ErrorModal.propTypes = propTypes;
 exports.default = ErrorModal;
 
 /***/ }),
-/* 905 */
+/* 908 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -64178,7 +64387,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var Container = exports.Container = _styledComponents2.default.div(_templateObject);
 
 /***/ }),
-/* 906 */
+/* 909 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";

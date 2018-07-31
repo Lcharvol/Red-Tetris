@@ -6,7 +6,8 @@ import {
     find,
     contains,
     remove,
-    equals
+    equals,
+    map
 } from 'ramda';
 import debug from 'debug';
 import uuidv1 from 'uuid/v1';
@@ -26,14 +27,16 @@ const gameLogger = debug('tetris:game')
 
 const Game = {
 
-    endGame(intv, io, actionSocket, users) {
-        const winner = find(propEq('win', false))(users);
+    endGame(intv, io, actionSocket, rooms, roomIndex) {
+        const winner = find(propEq('win', false))(rooms[roomIndex].users);
         clearInterval(intv);
         emitToRoom(io, actionSocket.gameName, 'action', 'updateGameInfo', {
             displayModal: true,
             modalMessage: `${winner.name} loose`,
             isGameStarted: false
         });
+        rooms[roomIndex].isGameStarted = false;
+        return rooms;
     },
 
     initStart(io, actionSocket) {
@@ -47,6 +50,9 @@ const Game = {
     startGame(io, actionSocket, roomIndex, rooms) {
         if(roomIndex < 0) return;
         rooms[roomIndex] = {...rooms[roomIndex], isGameStarted: true}
+        map(user => {
+            user.board = initialBoard;
+        },rooms[roomIndex].users)
         Game.initStart(io, actionSocket);
         setTimeout(() => {
             const room = rooms[roomIndex];
@@ -78,7 +84,7 @@ const Game = {
                 const user1 = rooms[roomIndex].users[0];
                 const user2 = rooms[roomIndex].users[1];
                 if(!isNil(user1.win) || (!isNil(user2) && !isNil(user2.win)))
-                    Game.endGame(intv, io, actionSocket, rooms[roomIndex].users);
+                    rooms = Game.endGame(intv, io, actionSocket, rooms, roomIndex);
                 const newUser1 = moveBottom(user1.board, user1.pieces);
                 const newUser2 = !isNil(user2) ? moveBottom(user2.board, user2.pieces) : user1;
                 const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
