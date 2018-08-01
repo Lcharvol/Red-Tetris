@@ -13,7 +13,7 @@ export const Container = styled.div`
     width:${CELL_SIZE}px;
     height:${CELL_SIZE}px;
     margin: ${CELL_MARGIN}px;
-    background:${({ color }) => color};
+    background-color:${({ color }) => color};
     border-radius:3px;
-    opacity:0.6;
+    opacity:0.7;
 `;

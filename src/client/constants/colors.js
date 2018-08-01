@@ -9,5 +9,8 @@ export const MAIN_RED = 'linear-gradient(179.79637885748025deg, rgba(255, 59, 59
 export const FAKE_CELL_COLOR = 'rgba(25,25,25, 0.5)';
 
 export const CELLS_COLORS = [
-    MAIN_RED,
+    'rgba(255, 59, 59,1)',
+    'rgba(226, 47, 54,1)',
+    'rgba(204, 38, 51,1)',
+    'rgba(158, 19, 44,1)',
 ]

@@ -21,6 +21,7 @@ export const BoardContainer = styled.div`
     display:flex;
     justify-content: center;
     align-items: center;
+    margin-bottom:15px;
 `;
 
 export const ToastsContainer = styled.div`
@@ -40,5 +41,5 @@ export const WaitingLabel = styled.div`
     font-size: 1.1em;
     font-weight:100;
     transition: opacity 0.7s ease-in-out;
-    opacity:${({ isGameStarted }) => isGameStarted ? 0 : 1};
+    opacity:${({ isGameStarted }) => isGameStarted ? 0 : 0.8};
 `;

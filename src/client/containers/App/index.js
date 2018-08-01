@@ -92,6 +92,7 @@ const App = ({
                             displayModal={equals(user.name, me) ? displayModal : false}
                             modalMessage={equals(user.name, me) ? modalMessage : ''}
                             opacity={equals(user.name, me) ? 1 : 0.6}
+                            isSmall={equals(user.name, me) ? false : true}
                         />)
                     ,users)}
                 </BoardContainer>

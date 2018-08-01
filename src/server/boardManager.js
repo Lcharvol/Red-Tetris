@@ -81,7 +81,7 @@ export const addPiece = (board, piece) => {
 };
 
 export const moveBottom = (board, pieces) => {
-    const newBoard = [...board];
+    let newBoard = [...board];
     let idToDelete = [];
     let canMove = true;
     board.map((cell, id) => {
@@ -123,6 +123,7 @@ export const moveBottom = (board, pieces) => {
     map(id => {
         newBoard[id] = INITIAL_CELL;
     },idToDelete);
+    newBoard = checkBoard(newBoard);
     return {
         board: newBoard,
         pieces,

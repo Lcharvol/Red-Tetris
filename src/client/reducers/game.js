@@ -1,4 +1,4 @@
-import { without, drop } from 'ramda';
+import { omit, without, drop } from 'ramda';
 import {
     SET_MODAL_MESSAGE,
     DELETE_MODAL_MESSAGE,
@@ -24,8 +24,8 @@ switch (action.type) {
     case DELETE_MODAL_MESSAGE:
         return {...state, displayModal: false, modalMessage: ''};
     case UPDATE_GAME_INFO:
-        if(action.body.toast)
-            return {...state, ...action.body };
+        if(action.body.toasts)
+            return {...state, ...omit(['toasts'],action.body), toasts: [...state.toasts, ...action.body.toasts]}
         return {...state, ...action.body}
     case REMOVE_TOAST:
         return {...state, toasts: drop(1,state.toasts)};

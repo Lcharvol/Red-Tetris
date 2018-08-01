@@ -15,17 +15,21 @@ const Player = {
         rooms.map((room, id) => {
             let userIndex = findIndex(propEq('id', socketIdToDelete[0]))(room.users);
             if(userIndex >= 0) {
-                let { name, users } = rooms[id]
+                let { roomName, users } = rooms[id]
                 let user = users[userIndex];
                 let newUsers = remove(userIndex, 1, users);
-                playerLogger(`${user.name} leave the ${name} room`);
-                socket.leave(name);
+                playerLogger(`${user.name} leave the ${roomName} room`);
+                socket.leave(roomName);
                 if(length(newUsers) === 1)
                     newUsers[0].owner = true;
                 rooms[id].users = newUsers;
                 if(length(newUsers) === 0)
                     rooms = Game.deleteRoom(rooms, id);
-                emitToRoom(io, name, 'action', 'updateGameInfo', { name: room.name, users: newUsers, toast: Game.newToast(`${user.name} leave the room`)});
+                emitToRoom(io, roomName, 'action', 'updateGameInfo', {
+                    ...rooms[id],
+                    toasts: [Game.newToast(`${user.name} leave the room`)]
+                });
+                removeToast(io, roomName);
             }
         })
         return rooms;
@@ -69,7 +73,10 @@ const Player = {
                 if(roomIndex < 0) rooms = Game.addRoom(rooms, users, roomName);
                 else rooms[roomIndex] = {...room, users, name: roomName};
                 const newRoom = rooms[roomIndex] || rooms[findIndex(propEq('roomName', roomName))(rooms)];
-                emitToRoom(io, roomName, 'action', 'updateGameInfo', { ...newRoom, toasts: [ { id: uuidv1(), message:`${user} join the room`}] });
+                emitToRoom(io, roomName, 'action', 'updateGameInfo', {
+                    ...newRoom,
+                    toasts: [ Game.newToast(`${user} join the room`)]
+                });
                 removeToast(io, roomName);
                 playerLogger(`${user} join the ${roomName} room`);
             }
