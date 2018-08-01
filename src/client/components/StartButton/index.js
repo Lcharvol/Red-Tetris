@@ -4,10 +4,13 @@ import {
     func,
     roomName,
     string,
+    number,
 } from 'prop-types';
+import { compose, lifecycle, withStateHandlers } from 'recompose';
 
 import { 
     Container,
+    ButtonText,
 } from './styles';
 
 const propTypes = {
@@ -15,6 +18,8 @@ const propTypes = {
     isGameStarted: bool.isRequired,
     roomName: string.isRequired,
     me: string.isRequired,
+    handleChangeOpacity: func.isRequired,
+    opacity: number.isRequired,
 }
 
 const StartButton = ({
@@ -23,17 +28,34 @@ const StartButton = ({
     io,
     roomName,
     me,
+    handleChangeOpacity,
+    opacity,
 }) => (
     <Container
         onClick={() => {
-            if(!isGameStarted) io.emit('action', {name: 'startGame', gameName: roomName, user: me});
+            if(!isGameStarted) {
+                io.emit('action', {name: 'startGame', gameName: roomName, user: me})
+                handleChangeOpacity(0);
+            };
         }}
         isGameStarted={isGameStarted}
+        opacity={opacity}
     >
-        Start
+        <ButtonText>PLAY</ButtonText>
     </Container>
 );
 
 StartButton.propTypes = propTypes;
 
-export default StartButton;
+export default compose(
+    withStateHandlers(
+        ({ initialOpacity = 0 }) => ({
+            opacity: initialOpacity,
+        }),
+        {
+            handleChangeOpacity: () => (value) => ({
+                opacity: value,
+            }),
+        }
+    ),
+)(StartButton);

@@ -104,7 +104,7 @@ const App = ({
                         roomName={roomName}
                         me={me}
                     /> :
-                    <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start`}</WaitingLabel>
+                    <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start...`}</WaitingLabel>
                 }
             </Fragment>
         }
