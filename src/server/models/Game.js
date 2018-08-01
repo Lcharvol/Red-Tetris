@@ -18,8 +18,6 @@ import { initialBoard } from '../constants/board';
 import { roomPattern, DROP_INTERVAL } from '../constants/game';
 import { ACTION } from '../constants/eventsTypes';
 import {
-    addRandomPiece,
-    addPiece,
     moveBottom,
     moveRight,
     moveLeft,
@@ -103,7 +101,7 @@ const Game = {
                 ...newUsers,
                 {
                     ...room.users[number],
-                    board: addPiece(room.users[number].board, initialPiece),
+                    board: Piece.addPiece(room.users[number].board, initialPiece),
                     pieces: [newPiece],
                     win: null,
                 }
