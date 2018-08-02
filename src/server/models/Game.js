@@ -155,7 +155,7 @@ const Game = {
 
     move(socket, io, actionSocket, roomIndex, rooms) {
         const { user, type } = actionSocket;
-        const room = rooms[roomIndex];
+        const room = {...rooms[roomIndex]};
         const userIndex = findIndex(propEq('name', user))(room.users);
         
         if(!room.isGameStarted) {
@@ -170,8 +170,11 @@ const Game = {
                 rooms[roomIndex].users[userIndex] = {...user, board: newUser.board, pieces: needNewPiece ? [...newUser.pieces, Piece.newPiece()] : newUser.pieces }
         } else if(equals(type, 'right')) {
             rooms[roomIndex].users[userIndex].board = moveRight(room.users[userIndex].board);
-        } else if(equals(type,'left'))
+        } else if(equals(type,'left')) {
             rooms[roomIndex].users[userIndex].board = moveLeft(room.users[userIndex].board);
+        } else if(equals(type, 'rotate')) {
+            rooms[roomIndex].users[userIndex].board = moveLeft(room.users[userIndex].board);
+        };
         emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...room });
         return rooms;
     },

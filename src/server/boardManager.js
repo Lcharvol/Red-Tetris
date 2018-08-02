@@ -4,7 +4,9 @@ import {
     reverse,
     length,
     subtract,
-    add
+    add,
+    times,
+    inc,
 } from 'ramda';
 
 import { pieces } from './constants/pieces';
@@ -13,29 +15,45 @@ import { BOARD_LENGTH, BOARD_WIDTH } from '../client/constants/board';
 import { INITIAL_CELL } from '../client/constants/cell';
 import Piece from './models/Piece';
 
-const deletLine = (board, line) => {
-    board.map((cell, id) => {
-        if(Math.floor(id / BOARD_WIDTH) === line)
-            board[id] = INITIAL_CELL;
-    })
-    return board;
+const deleteLine = (board, line) => {
+    const newBoard = [...board];
+    times(len => {
+        newBoard[(line * BOARD_WIDTH) + len] = INITIAL_CELL;
+    } ,BOARD_WIDTH);
+    return newBoard;
 };
 
+const goDown = (board, line) => {
+    const newBoard = [...board];
+    let idToDelete = [];
+    times(id => {
+        if(board[id] !== 0) {
+            newBoard[id + BOARD_WIDTH] = board[id];
+            if(id > BOARD_WIDTH && board[id - BOARD_WIDTH] === 0)
+                idToDelete = [...idToDelete];
+        }
+    },inc(line * BOARD_WIDTH));
+    map(id => {
+        newBoard[id] = INITIAL_CELL;
+    },idToDelete);
+    return newBoard;
+}
+
 const checkBoard = board => {
+    let newBoard = [...board];
     let actualLine = 0;
     let fullLine = true;
     board.map((cell, id) => {
         if(cell.value === 0 && !cell.active)
             fullLine = false;
         if((id + 1) % BOARD_WIDTH === 0) {
-            if(fullLine) {
-                board = deletLine(board, actualLine);
-            }
+            if(fullLine)
+            newBoard = goDown(deleteLine(newBoard, actualLine),actualLine);
             fullLine = true;
             actualLine += 1;
         }
     })
-    return board;
+    return newBoard;
 };
 
 export const moveBottom = (board, pieces) => {
@@ -53,6 +71,7 @@ export const moveBottom = (board, pieces) => {
         }
     })
     if(!canMove) {
+        newBoard = checkBoard(newBoard);
         try {
             const enhancedBoard = Piece.addPiece(newBoard, pieces[0]);
             return {
@@ -79,7 +98,6 @@ export const moveBottom = (board, pieces) => {
                 newBoard[reversedId + BOARD_WIDTH] = board[reversedId]
         }
     });
-    newBoard = checkBoard(newBoard);
     return {
         board: newBoard,
         pieces,
