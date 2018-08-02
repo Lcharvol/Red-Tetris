@@ -121,7 +121,7 @@ export const moveRight = board => {
         let { value, active} = cell;
         if(!active) return cell
         let reversedId = BOARD_LENGTH - id - 1;
-        if(board[reversedId - 1].value === 0)
+        if(id % BOARD_WIDTH === 0 || !board[reversedId - 1].active)
             idToDelete = [...idToDelete, reversedId];
         newBoard[reversedId + 1] = board[reversedId];
     });
@@ -145,7 +145,7 @@ export const moveLeft = board => {
     newBoard.map((cell, id) => {
         let { value, active} = cell;
         if(!active) return cell
-        if(board[id + 1].value === 0)
+        if(id % BOARD_WIDTH === BOARD_WIDTH - 1 || !board[id + 1].active)
             idToDelete = [...idToDelete, id];
         newBoard[id - 1] = board[id];
     });
@@ -155,8 +155,11 @@ export const moveLeft = board => {
     return newBoard;
 };
 
-export const rotate = board => {
-    const newBoard = [...board];
-    
-    return board;
+export const rotate = user => {
+    const newUser = {...user};
+    const { board, activePiece } = newUser;
+    console.log('activePiece: ', activePiece);
+    const newVersion = inc(activePiece.version) < length(activePiece.piece) ? inc(activePiece.version) : 0;
+    activePiece.version = newVersion;
+    return newUser;
 };

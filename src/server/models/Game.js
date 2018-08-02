@@ -104,6 +104,7 @@ const Game = {
                     ...room.users[number],
                     board: Piece.addPiece(room.users[number].board, initialPiece),
                     pieces: [newPiece],
+                    activePiece: newPiece,
                     win: null,
                 }
             ], numberOfPlayer);
@@ -183,7 +184,7 @@ const Game = {
         } else if(equals(type,'left')) {
             room.users[userIndex].board = moveLeft(room.users[userIndex].board);
         } else if(equals(type, 'rotate')) {
-            room.users[userIndex].board = rotate(room.users[userIndex].board);
+            room.users[userIndex] = rotate(room.users[userIndex]);
         };
         emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...room });
         return rooms;
