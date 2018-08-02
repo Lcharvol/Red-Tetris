@@ -78,12 +78,14 @@ export const moveBottom = (board, pieces) => {
                 board: enhancedBoard,
                 pieces: drop(1, pieces),
                 win: null,
+                activePiece: pieces[0],
             }
         } catch (e) {
             return {
                 board,
                 pieces,
                 win: false,
+                activePiece: pieces[0],
             }
         }
     }
@@ -151,4 +153,10 @@ export const moveLeft = board => {
         newBoard[id] = INITIAL_CELL;
     },idToDelete)
     return newBoard;
+};
+
+export const rotate = board => {
+    const newBoard = [...board];
+    
+    return board;
 };

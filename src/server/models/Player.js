@@ -65,13 +65,19 @@ const Player = {
                 playerLogger(`${user} try to join the ${roomName} room, but he's allready in`);
                 emitToSocket(socket, 'gameError', 'allreadyInRoom', `${user} is allready in this room !`);
             } else {
-                const users = isRoomDefined ?
-                    [...room.users, {name: user, owner: false, id: currentSocketId[0], board: initialBoard, win: null }] :
-                    [{name: user, owner: true, id: currentSocketId[0], board: initialBoard, win: null}];
+                const newUser = 
+                        {
+                            name: user,
+                            owner: isRoomDefined ? false : true,
+                            id: currentSocketId[0],
+                            board: initialBoard,
+                            win: null,
+                            activePiece: null
+                        };
 
                 socket.join(roomName);
-                if(roomIndex < 0) rooms = Game.addRoom(rooms, users, roomName);
-                else rooms[roomIndex] = {...room, users, name: roomName};
+                if(roomIndex < 0) rooms = Game.addRoom(rooms, [newUser], roomName);
+                else rooms[roomIndex] = {...room, users: [...rooms[roomIndex].users, newUser], name: roomName};
                 const newRoom = rooms[roomIndex] || rooms[findIndex(propEq('roomName', roomName))(rooms)];
                 emitToRoom(io, roomName, 'action', 'updateGameInfo', {
                     ...newRoom,

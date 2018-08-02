@@ -6,12 +6,18 @@ import {
 import debug from 'debug';
 import { pieces } from '../constants/pieces';
 import { CELLS_COLORS, FAKE_CELL_COLOR } from '../constants/colors';
+import { BOARD_WIDTH } from '../../client/constants/board';
 
 const pieceLogger = debug('tetris:piece');
 
 const Piece = {
     getRandomPiece() {
-        return pieces[getRandomNumber(0, 6)];
+        const pieceId = getRandomNumber(0, 6);
+        return {
+            piece: pieces[pieceId],
+            pieceId,
+            version: 0,
+        };
     },
     newPiece() {
         return Piece.getRandomPiece();
@@ -26,29 +32,15 @@ const Piece = {
         })
         return board;
     },
-    addRandomPiece(board) {
-        const newPiece = Piece.getRandomPiece();
+    addPiece(board, newPiece) {
+        const { piece, pieceId, version } = newPiece;
         const newBoard = [...board];
         const newValue = getRandomNumber(1, 1000);
         const newColor = Piece.getCellColor();
-        newPiece.map((value, id) => {
+        piece[version].map((value, id) => {
             if(value === 0) return
-            let newId = (id % 4) + (10 * Math.floor(id / 4)) + Math.floor(10 / 3);
-            newBoard[newId] = {
-                value: newValue,
-                color: value === 0 ? FAKE_CELL_COLOR : newColor,
-                active: newValue === 0 ? false : true,
-            };
-        })
-        return newBoard;
-    },
-    addPiece(board, piece) {
-        const newBoard = [...board];
-        const newValue = getRandomNumber(1, 1000);
-        const newColor = Piece.getCellColor();
-        piece.map((value, id) => {
-            if(value === 0) return
-            let newId = (id % 4) + (10 * Math.floor(id / 4)) + Math.floor(10 / 3);
+            const pieceWidth = Math.sqrt(length(piece[version]));
+            let newId = (id % pieceWidth) + (BOARD_WIDTH * Math.floor(id / pieceWidth)) + Math.floor(BOARD_WIDTH / 3);
             if(newBoard[newId].value !== 0)
                 throw new Error('cant add');
             newBoard[newId] = {

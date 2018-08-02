@@ -21,6 +21,7 @@ import {
     moveBottom,
     moveRight,
     moveLeft,
+    rotate,
 } from '../boardManager';
 import Piece from './Piece';
 
@@ -122,12 +123,14 @@ const Game = {
                         board: newUser1.board,
                         pieces: needNewPiece ? [...newUser1.pieces, newPiece] : newUser1.pieces,
                         win: !isNil(user1.win) ? user1.win : newUser1.win,
+                        ativePiece: newUser1.activePiece ? newUser1.activePiece : user1.activePiece,
                     },
                     {
                         ...rooms[roomIndex].users[1],
                         board: newUser2.board,
                         pieces: needNewPiece ? [...newUser2.pieces, newPiece] : newUser2.pieces,
                         win: !isNil(user1.win) ? user2.win : newUser2.win,
+                        ativePiece: newUser2.activePiece ? newUser2.activePiece : user2.activePiece,
                     }]
                     :
                     [{
@@ -135,6 +138,7 @@ const Game = {
                         board: newUser1.board,
                         pieces: needNewPiece ? [...newUser1.pieces, newPiece] : newUser1.pieces,
                         win: !isNil(user1.win) ? user1.win : newUser1.win,
+                        ativePiece: newUser1.activePiece ? newUser1.activePiece : user1.activePiece,
                     },
                 ];
                 rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intvId: uuidv1()};
@@ -157,23 +161,29 @@ const Game = {
         const { user, type } = actionSocket;
         const room = {...rooms[roomIndex]};
         const userIndex = findIndex(propEq('name', user))(room.users);
+        const me = room.users[userIndex];
         
         if(!room.isGameStarted) {
             return rooms;
         } else if(equals(type,'bottom')) {
-            const user = room.users[userIndex]
-            const newUser = moveBottom(user.board, user.pieces);
-            const needNewPiece = length(user.pieces) <= 1;
+            const newUser = moveBottom(me.board, me.pieces);
+            const needNewPiece = length(me.pieces) <= 1;
             if(!isNil(newUser.win)) {
-                rooms[roomIndex].users[userIndex].win = false;
+                me.win = false;
             } else
-                rooms[roomIndex].users[userIndex] = {...user, board: newUser.board, pieces: needNewPiece ? [...newUser.pieces, Piece.newPiece()] : newUser.pieces }
+                room.users[userIndex] = 
+                {
+                    ...me,
+                    board: newUser.board,
+                    pieces: needNewPiece ? [...newUser.pieces, Piece.newPiece()] : newUser.pieces,
+                    activePiece: newUser.activePiece ? newUser.activePiece : me.activePiece,
+                };
         } else if(equals(type, 'right')) {
-            rooms[roomIndex].users[userIndex].board = moveRight(room.users[userIndex].board);
+            room.users[userIndex].board = moveRight(room.users[userIndex].board);
         } else if(equals(type,'left')) {
-            rooms[roomIndex].users[userIndex].board = moveLeft(room.users[userIndex].board);
+            room.users[userIndex].board = moveLeft(room.users[userIndex].board);
         } else if(equals(type, 'rotate')) {
-            rooms[roomIndex].users[userIndex].board = moveLeft(room.users[userIndex].board);
+            room.users[userIndex].board = rotate(room.users[userIndex].board);
         };
         emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...room });
         return rooms;
