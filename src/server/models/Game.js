@@ -114,33 +114,26 @@ const Game = {
                 const user2 = rooms[roomIndex].users[1];
                 if(!isNil(user1.win) || (!isNil(user2) && !isNil(user2.win)))
                     rooms = Game.endGame(intv, io, gameName, rooms, roomIndex);
-                const newUser1 = moveBottom(user1.board, user1.pieces);
-                const newUser2 = !isNil(user2) ? moveBottom(user2.board, user2.pieces) : user1;
+                const newUser1 = moveBottom(user1);
+                const newUser2 = !isNil(user2) ? moveBottom(user2) : user1;
                 const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
                 const newPiece = Piece.newPiece();
-                const newUsers = !isNil(user2) ? [
+                const newUsers = !isNil(user2) ?
+                [
                     {
-                        ...rooms[roomIndex].users[0],
-                        board: newUser1.board,
-                        pieces: needNewPiece ? [...newUser1.pieces, newPiece] : newUser1.pieces,
-                        win: !isNil(user1.win) ? user1.win : newUser1.win,
-                        ativePiece: newUser1.activePiece ? newUser1.activePiece : user1.activePiece,
+                        ...newUser1,
+                        pieces: needNewPiece ? [...newUser1.pieces, newPiece]: newUser1.pieces,
                     },
                     {
-                        ...rooms[roomIndex].users[1],
-                        board: newUser2.board,
-                        pieces: needNewPiece ? [...newUser2.pieces, newPiece] : newUser2.pieces,
-                        win: !isNil(user1.win) ? user2.win : newUser2.win,
-                        ativePiece: newUser2.activePiece ? newUser2.activePiece : user2.activePiece,
-                    }]
-                    :
-                    [{
-                        ...rooms[roomIndex].users[0],
-                        board: newUser1.board,
-                        pieces: needNewPiece ? [...newUser1.pieces, newPiece] : newUser1.pieces,
-                        win: !isNil(user1.win) ? user1.win : newUser1.win,
-                        ativePiece: newUser1.activePiece ? newUser1.activePiece : user1.activePiece,
-                    },
+                        ...newUser2,
+                        pieces: needNewPiece ? [...newUser2.pieces, newPiece]: newUser2.pieces,
+                    }
+                ] : 
+                [
+                    {
+                        ... newUser1,
+                        pieces: needNewPiece ? [...newUser1.pieces, newPiece]: newUser1.pieces,
+                    }
                 ];
                 rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intvId: uuidv1()};
                 emitToRoom(io, gameName, ACTION, 'updateGameInfo', { ...rooms[roomIndex] });
@@ -167,8 +160,8 @@ const Game = {
         if(!room.isGameStarted) {
             return rooms;
         } else if(equals(type,'bottom')) {
-            const newUser = moveBottom(me.board, me.pieces);
-            const needNewPiece = length(me.pieces) <= 1;
+            const newUser = moveBottom(me);
+            const needNewPiece = length(me.pieces) <= 2;
             if(!isNil(newUser.win)) {
                 me.win = false;
             } else
@@ -180,9 +173,9 @@ const Game = {
                     activePiece: newUser.activePiece ? newUser.activePiece : me.activePiece,
                 };
         } else if(equals(type, 'right')) {
-            room.users[userIndex].board = moveRight(room.users[userIndex].board);
+            room.users[userIndex] = moveRight(room.users[userIndex]);
         } else if(equals(type,'left')) {
-            room.users[userIndex].board = moveLeft(room.users[userIndex].board);
+            room.users[userIndex] = moveLeft(room.users[userIndex]);
         } else if(equals(type, 'rotate')) {
             room.users[userIndex] = rotate(room.users[userIndex]);
         };

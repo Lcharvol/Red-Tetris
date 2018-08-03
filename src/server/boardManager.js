@@ -56,8 +56,10 @@ const checkBoard = board => {
     return newBoard;
 };
 
-export const moveBottom = (board, pieces) => {
-    let newBoard = [...board];
+export const moveBottom = user => {
+    const newUser = { ...user };
+    const { board, pieces, activePiece } = newUser;
+    let newBoard = [...board]
     let idToDelete = [];
     let canMove = true;
 
@@ -71,10 +73,11 @@ export const moveBottom = (board, pieces) => {
         }
     })
     if(!canMove) {
-        newBoard = checkBoard(newBoard);
+        newBoard = checkBoard(board);
         try {
             const enhancedBoard = Piece.addPiece(newBoard, pieces[0]);
             return {
+                ...newUser,
                 board: enhancedBoard,
                 pieces: drop(1, pieces),
                 win: null,
@@ -82,6 +85,7 @@ export const moveBottom = (board, pieces) => {
             }
         } catch (e) {
             return {
+                ...newUser,
                 board,
                 pieces,
                 win: false,
@@ -100,39 +104,45 @@ export const moveBottom = (board, pieces) => {
                 newBoard[reversedId + BOARD_WIDTH] = board[reversedId]
         }
     });
+    activePiece.posY += 1;
     return {
+        ...newUser,
         board: newBoard,
         pieces,
     };
 };
 
-export const moveRight = board => {
-    const newBoard = [...board];
+export const moveRight = user => {
+    const newUser = {...user};
+    const { board, activePiece } = newUser;
     let idToDelete = [];
     let canMove = true;
+
     board.map((cell, id) => {
         let { active } = cell;
         let onLastColumn = (id + 1) % BOARD_WIDTH === 0;
         let isBlocked = onLastColumn || !board[id + 1].active && board[id + 1].value !== 0;
         if(active && isBlocked) canMove = false;
     })
-    if(!canMove) return board;
-    reverse(newBoard).map((cell, id) => {
+    if(!canMove) return newUser;
+    reverse(board).map((cell, id) => {
         let { value, active} = cell;
         if(!active) return cell
         let reversedId = BOARD_LENGTH - id - 1;
         if(reversedId % BOARD_WIDTH === 0 || !board[reversedId - 1].active)
             idToDelete = [...idToDelete, reversedId];
-        newBoard[reversedId + 1] = board[reversedId];
+        board[reversedId + 1] = board[reversedId];
     });
     map(id => {
-        newBoard[id] = INITIAL_CELL;
-    },idToDelete)
-    return newBoard;
+        board[id] = INITIAL_CELL;
+    },idToDelete);
+    activePiece.posX += 1;
+    return newUser;
 };
 
-export const moveLeft = board => {
-    const newBoard = [...board];
+export const moveLeft = user => {
+    const newUser = {...user};
+    const { board, activePiece } = newUser;
     let idToDelete = [];
     let canMove = true;
     board.map((cell, id) => {
@@ -141,24 +151,26 @@ export const moveLeft = board => {
         let isBlocked = onFirstColumn || !board[id - 1].active && board[id - 1].value !== 0;
         if(active && isBlocked) canMove = false;
     })
-    if(!canMove) return board;
-    newBoard.map((cell, id) => {
+    if(!canMove) return newUser;
+    board.map((cell, id) => {
         let { value, active} = cell;
         if(!active) return cell
         if(id % BOARD_WIDTH === BOARD_WIDTH - 1 || !board[id + 1].active)
             idToDelete = [...idToDelete, id];
-        newBoard[id - 1] = board[id];
+        board[id - 1] = board[id];
     });
     map(id => {
-        newBoard[id] = INITIAL_CELL;
-    },idToDelete)
-    return newBoard;
+        board[id] = INITIAL_CELL;
+    },idToDelete);
+    activePiece.posX -= 1;
+    return newUser;
 };
 
 export const rotate = user => {
     const newUser = {...user};
-    const { board, activePiece } = newUser;
+    const { board, activePiece, piece } = newUser;
     const newVersion = inc(activePiece.version) < length(activePiece.piece) ? inc(activePiece.version) : 0;
+    const newPiece = activePiece.piece[activePiece.version];
 
     activePiece.version = newVersion;
     return newUser;

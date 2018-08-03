@@ -17,6 +17,8 @@ const Piece = {
             piece: pieces[pieceId],
             pieceId,
             version: 0,
+            posX: 3,
+            posY: 0,
         };
     },
     newPiece() {
@@ -33,14 +35,15 @@ const Piece = {
         return board;
     },
     addPiece(board, newPiece) {
-        const { piece, pieceId, version } = newPiece;
+        const { piece, pieceId, version, posX } = newPiece;
         const newBoard = [...board];
         const newValue = getRandomNumber(1, 1000);
         const newColor = Piece.getCellColor();
+
         piece[version].map((value, id) => {
             if(value === 0) return
             const pieceWidth = Math.sqrt(length(piece[version]));
-            let newId = (id % pieceWidth) + (BOARD_WIDTH * Math.floor(id / pieceWidth)) + Math.floor(BOARD_WIDTH / 3);
+            let newId = (id % pieceWidth) + (BOARD_WIDTH * Math.floor(id / pieceWidth)) + posX;
             if(newBoard[newId].value !== 0)
                 throw new Error('cant add');
             newBoard[newId] = {
