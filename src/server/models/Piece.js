@@ -13,12 +13,14 @@ const pieceLogger = debug('tetris:piece');
 const Piece = {
     getRandomPiece() {
         const pieceId = getRandomNumber(0, 6);
+        const newColor = Piece.getCellColor();
         return {
             piece: pieces[pieceId],
             pieceId,
             version: 0,
             posX: 3,
             posY: 0,
+            color: newColor,
         };
     },
     newPiece() {
@@ -35,10 +37,9 @@ const Piece = {
         return board;
     },
     addPiece(board, newPiece) {
-        const { piece, pieceId, version, posX, posY } = newPiece;
+        const { piece, pieceId, color, version, posX, posY } = newPiece;
         const newBoard = [...board];
         const newValue = getRandomNumber(1, 1000);
-        const newColor = Piece.getCellColor();
 
         piece[version].map((value, id) => {
             if(value === 0) return
@@ -48,7 +49,7 @@ const Piece = {
                 throw new Error('cant add');
             newBoard[newId] = {
                 value: newValue,
-                color: value === 0 ? FAKE_CELL_COLOR : newColor,
+                color: value === 0 ? FAKE_CELL_COLOR : color,
                 active: newValue === 0 ? false : true,
             };
         })

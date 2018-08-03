@@ -73,7 +73,7 @@ export const moveBottom = user => {
         }
     })
     if(!canMove) {
-        newBoard = checkBoard(board);
+        // newBoard = checkBoard(board);
         try {
             const enhancedBoard = Piece.addPiece(newBoard, pieces[0]);
             return {
@@ -86,7 +86,7 @@ export const moveBottom = user => {
         } catch (e) {
             return {
                 ...newUser,
-                board,
+                board: newBoard,
                 pieces,
                 win: false,
                 activePiece: pieces[0],
@@ -180,8 +180,12 @@ export const rotate = user => {
     try {
         newUser.board = Piece.addPiece(board, activePiece);
     } catch(e) {
-        activePiece.version = newVersion > 0 ? newVersion - 1 : length(activePiece.piece);
-        newUser.board = Piece.addPiece(board, activePiece);
+        // activePiece.version = newVersion > 0 ? newVersion - 1 : length(activePiece.piece);
+        // try {
+        //     newUser.board = Piece.addPiece(board, activePiece)
+        // } catch(e) {
+        //     return newUser;
+        // }
         return newUser;
     }
     return newUser;
