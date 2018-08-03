@@ -104,7 +104,7 @@ const Game = {
                     ...room.users[number],
                     board: Piece.addPiece(room.users[number].board, initialPiece),
                     pieces: [newPiece],
-                    activePiece: newPiece,
+                    activePiece: initialPiece,
                     win: null,
                 }
             ], numberOfPlayer);
@@ -167,10 +167,8 @@ const Game = {
             } else
                 room.users[userIndex] = 
                 {
-                    ...me,
-                    board: newUser.board,
+                    ...newUser,
                     pieces: needNewPiece ? [...newUser.pieces, Piece.newPiece()] : newUser.pieces,
-                    activePiece: newUser.activePiece ? newUser.activePiece : me.activePiece,
                 };
         } else if(equals(type, 'right')) {
             room.users[userIndex] = moveRight(room.users[userIndex]);

@@ -168,10 +168,21 @@ export const moveLeft = user => {
 
 export const rotate = user => {
     const newUser = {...user};
-    const { board, activePiece, piece } = newUser;
+    let deletedIds = [];
+    let { board, activePiece, piece } = newUser;
     const newVersion = inc(activePiece.version) < length(activePiece.piece) ? inc(activePiece.version) : 0;
-    const newPiece = activePiece.piece[activePiece.version];
-
     activePiece.version = newVersion;
+    board.map((cell, id) => {
+        if(cell.active)
+            board[id] = INITIAL_CELL;
+            deletedIds = [...deletedIds, id];
+    });
+    try {
+        newUser.board = Piece.addPiece(board, activePiece);
+    } catch(e) {
+        activePiece.version = newVersion > 0 ? newVersion - 1 : length(activePiece.piece);
+        newUser.board = Piece.addPiece(board, activePiece);
+        return newUser;
+    }
     return newUser;
 };
