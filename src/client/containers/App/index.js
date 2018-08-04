@@ -29,12 +29,14 @@ import {
     getToasts,
     getErrorMessage,
     getEnemyName,
+    getUsersNames,
 } from '../../selectors/game';
 import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
 import GameInfo from '../GameInfo';
 import Board from '../Board';
 import Login from '../Login';
+import Spectre from '../Spectre';
 import StartButton  from '../../components/StartButton';
 import Toast from '../../components/Toast';
 import Title from '../../components/Title';
@@ -54,6 +56,7 @@ const propTypes = {
     toasts: array.isRequired,
     errorMessage: string,
     enemyName: string,
+    usersNames: array,
 };
 
 const App = ({
@@ -72,6 +75,7 @@ const App = ({
     toasts,
     errorMessage,
     enemyName,
+    usersNames,
 }) =>
 (
     <AppContainer>
@@ -79,22 +83,21 @@ const App = ({
         {!isNil(errorMessage) && <ErrorModal value={errorMessage}/>}
         {isNil(errorMessage) && length(me) > 0 && 
             <Fragment>
-                <GameInfo/>
+                <GameInfo me={me} usersNames={usersNames}/>
                 <BoardContainer>
                     <ToastsContainer>
                         {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
                     </ToastsContainer>
                     <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
-                    {map(user => (
-                        <Board
-                            key={user.id}
-                            board={user.board}
-                            displayModal={equals(user.name, me) ? displayModal : false}
-                            modalMessage={equals(user.name, me) ? modalMessage : ''}
-                            opacity={equals(user.name, me) ? 1 : 0.6}
-                            isSmall={equals(user.name, me) ? false : true}
-                        />)
-                    ,users)}
+                    <Board
+                        board={myBoard}
+                        displayModal={displayModal}
+                        modalMessage={modalMessage}
+                        opacity={1}
+                    />
+                    {length(users) > 1 && <Spectre
+                        board={enemyBoard}
+                    />}
                 </BoardContainer>
                 {owner ?
                     <StartButton
@@ -129,6 +132,7 @@ const mapStateToProps = state => ({
     modalMessage: getModalMessage(state),
     me: getMe(state),
     users: getUsers(state),
+    usersNames: getUsersNames(state),
     toasts: getToasts(state),
     errorMessage: getErrorMessage(state),
     enemyName: getEnemyName(state),

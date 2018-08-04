@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-import { MAIN_RED } from '../../constants/colors';
+import { MAIN_RED, CELLS_COLORS, LIGHT_MAIN_COLOR } from '../../constants/colors';
 
 export const Container = styled.div`
     position:absolute;
@@ -10,14 +10,14 @@ export const Container = styled.div`
     left:35px;
     bottom:25px;
     min-width:200px;
-    min-height:50px;
+    min-height:120px;
     color:white;
 `;
 
 export const Label = styled.div`
-    font-size:2.5em;
+    font-size:2em;
     font-weight:600;
-    background:${MAIN_RED};
+    background:${CELLS_COLORS[1]};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 `;
@@ -34,12 +34,19 @@ export const Name = styled.div`
     margin-bottom:5px;
 `;
 
-export const OwnerIcon = styled.div`
+export const MeIcon = styled.div`
     position:relative;
     display:flex;
     width:10px;
     height:10px;
     border-radius:100%;
-    background:${MAIN_RED};
+    background:${CELLS_COLORS[1]};
     margin-left:15px;
+`;
+
+export const OwnerLabel = styled.div`
+    display:flex;
+    color:${LIGHT_MAIN_COLOR};
+    font-size:0.9em;
+    margin-left:7.5px;
 `;
