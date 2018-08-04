@@ -9,6 +9,7 @@ profile_picture/
 public/bundle.js
 config/parameters.js
 parameters.*
+build
 src/config/parameters.ts
 .DS_Store
 .DS_Store?
