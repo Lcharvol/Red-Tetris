@@ -1,6 +1,5 @@
 import React from 'react';
 import { array } from 'prop-types';
-import { map } from 'ramda';
 
 import {
     Container,
@@ -16,10 +15,10 @@ const propTypes = {
 const Spectre = ({ board }) => (
     <Container>
         <Content>
-            {map(cell => cell.value === 0 ?
-                <EmptyCell /> :
-                <FullCell />
-            ,board)}
+            {board.map((cell, id) => cell.value === 0 ?
+                <EmptyCell key={id}/> :
+                <FullCell key={id}/>
+            )}
         </Content>
     </Container>
 );

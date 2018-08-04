@@ -72,7 +72,8 @@ const Player = {
                             id: currentSocketId[0],
                             board: initialBoard,
                             win: null,
-                            activePiece: null
+                            activePiece: null,
+                            lineToGive: 0,
                         };
 
                 socket.join(roomName);

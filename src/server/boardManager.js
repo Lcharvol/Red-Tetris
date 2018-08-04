@@ -11,7 +11,7 @@ import {
 } from 'ramda';
 
 import { pieces } from './constants/pieces';
-import { CELLS_COLORS, FAKE_CELL_COLOR } from '../client/constants/colors';
+import { CELLS_COLORS, FAKE_CELL_COLOR, INDESTRUCTIBLE_CELL_COLOR } from '../client/constants/colors';
 import { BOARD_LENGTH, BOARD_WIDTH } from '../client/constants/board';
 import { INITIAL_CELL } from '../client/constants/cell';
 import Piece from './models/Piece';
@@ -23,6 +23,7 @@ const deleteLine = (board, line) => {
     } ,BOARD_WIDTH);
     return newBoard;
 };
+
 
 const goDown = (board, line) => {
     const newBoard = [...board];
@@ -37,17 +38,37 @@ const checkBoard = board => {
     let newBoard = [...board];
     let actualLine = 0;
     let fullLine = true;
+    let lineToGive = 0;
     board.map((cell, id) => {
-        if(cell.value === 0 && !cell.active)
+        if(cell.value <= 0 && !cell.active)
             fullLine = false;
         if((id + 1) % BOARD_WIDTH === 0) {
-            if(fullLine)
+            if(fullLine) {
                 newBoard = goDown(deleteLine(newBoard, actualLine),actualLine);
+                lineToGive += 1;
+            };
             fullLine = true;
             actualLine += 1;
         }
     })
-    return newBoard;
+    return {
+        newBoard,
+        lineToGive,
+    };
+};
+
+export const AddFullLine = board => {
+    let newBoard = [...board];
+    let fullLine = [];
+    newBoard = drop(BOARD_WIDTH, newBoard);
+    times(nb => {
+        fullLine = [...fullLine, {
+            value: -1,
+            color: INDESTRUCTIBLE_CELL_COLOR,
+            active: false,
+        }]
+    },BOARD_WIDTH)
+    return [...newBoard,...fullLine];
 };
 
 export const moveBottom = user => {
@@ -69,13 +90,14 @@ export const moveBottom = user => {
     if(!canMove) {
         try {
             let enhancedBoard = Piece.addPiece(newBoard, pieces[0]);
-            enhancedBoard = checkBoard(enhancedBoard);
+            const checkBoardRes = checkBoard(enhancedBoard);
             return {
                 ...newUser,
-                board: enhancedBoard,
+                board: checkBoardRes.newBoard,
                 pieces: drop(1, pieces),
                 win: null,
                 activePiece: {...pieces[0]},
+                lineToGive: newUser.lineToGive + checkBoardRes.lineToGive,
             }
         } catch (e) {
             return {
@@ -165,7 +187,6 @@ export const rotate = user => {
     let deletedIds = [];
     let { board, activePiece, } = newUser;
     const newVersion = inc(activePiece.version) < length(activePiece.piece) ? inc(activePiece.version) : 0;
-    activePiece.version = newVersion;
     activePiece.version = newVersion;
     if(activePiece.posX < 0 || activePiece.posX + Math.sqrt(length(activePiece.piece[activePiece.version])) > BOARD_WIDTH)
         return newUser;

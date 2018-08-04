@@ -16,7 +16,9 @@ import uuidv1 from 'uuid/v1';
 import { removeToast, emitToRoom, emitToSocket } from './utils';
 import { initialBoard } from '../constants/board';
 import { roomPattern, DROP_INTERVAL } from '../constants/game';
+import { RIGHT, LEFT, BOTTOM, ROTATE } from '../constants/movesTypes';
 import { ACTION } from '../constants/eventsTypes';
+import { UPDATE_GAME_INFO } from '../constants/actionsTypes';
 import {
     moveBottom,
     moveRight,
@@ -68,7 +70,7 @@ const Game = {
             },
             isGameStarted: false
         };
-        emitToRoom(io, gameName, 'action', 'updateGameInfo', {
+        emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {
             ...rooms[roomIndex],
             toasts: [Game.newToast(`${gameName}'s game is finish`)]
         });
@@ -81,7 +83,7 @@ const Game = {
         map(user => {
             user.board = initialBoard;
         },rooms[roomIndex].users)
-        emitToRoom(io, gameName, 'action', 'updateGameInfo', {
+        emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {
             ...rooms[roomIndex],
             modal: {
                 display: true,
@@ -90,9 +92,9 @@ const Game = {
             toasts: [ Game.newToast(`${user} start the game`)]
         });
         removeToast(io, gameName);
-        setTimeout(() => emitToRoom(io, gameName, 'action', 'updateGameInfo', {modal: { display: true, message: '2'}}), 1000);
-        setTimeout(() => emitToRoom(io, gameName, 'action', 'updateGameInfo', {modal: { display: true, message: '1'}}), 2000);
-        setTimeout(() => emitToRoom(io, gameName, 'action', 'updateGameInfo', {modal: { display: true, message: 'GO'}}), 3000);
+        setTimeout(() => emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {modal: { display: true, message: '2'}}), 1000);
+        setTimeout(() => emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {modal: { display: true, message: '1'}}), 2000);
+        setTimeout(() => emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {modal: { display: true, message: 'GO'}}), 3000);
         return rooms;
     },
     
@@ -118,7 +120,7 @@ const Game = {
                     }
                 ], numberOfPlayer);
                 room = {...rooms[roomIndex], users: newUsers, isGameStarted: true};
-                emitToRoom(io, gameName, ACTION, 'updateGameInfo', {
+                emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {
                     ...room,
                     modal: {
                         display: false,
@@ -139,7 +141,7 @@ const Game = {
         
         if(!room.isGameStarted) {
             return rooms[roomIndex];
-        } else if(equals(type,'bottom')) {
+        } else if(equals(type,BOTTOM)) {
             const newUser = moveBottom(me);
             const needNewPiece = length(me.pieces) <= 2;
             if(!isNil(newUser.win)) {
@@ -150,14 +152,14 @@ const Game = {
                     ...newUser,
                     pieces: needNewPiece ? [...newUser.pieces, Piece.newPiece()] : newUser.pieces,
                 };
-        } else if(equals(type, 'right')) {
+        } else if(equals(type, RIGHT)) {
             room.users[userIndex] = moveRight(room.users[userIndex]);
-        } else if(equals(type,'left')) {
+        } else if(equals(type, LEFT)) {
             room.users[userIndex] = moveLeft(room.users[userIndex]);
-        } else if(equals(type, 'rotate')) {
+        } else if(equals(type, ROTATE)) {
             room.users[userIndex] = rotate(room.users[userIndex]);
         };
-        emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...room });
+        emitToRoom(io, actionSocket.gameName, ACTION, UPDATE_GAME_INFO, { ...room });
         return room;
     },
 };

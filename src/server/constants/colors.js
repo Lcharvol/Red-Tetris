@@ -12,4 +12,4 @@ export const CELLS_COLORS = [
     'rgba(255, 59, 59,1)',
     'rgba(226, 47, 54,1)',
     'rgba(204, 38, 51,1)',
-]
+];

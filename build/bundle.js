@@ -4327,6 +4327,10 @@ var slice = /*#__PURE__*/Object(__WEBPACK_IMPORTED_MODULE_1__internal_curry3__["
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
+exports.INDESTRUCTIBLE_CELL_COLOR = exports.CELLS_COLORS = exports.FAKE_CELL_COLOR = exports.FLAT_RED = exports.MAIN_RED = exports.LIGHT_MAIN_COLOR = exports.DARK_MAIN_COLOR = exports.MAIN_COLOR = undefined;
+
+var _ramda = __webpack_require__(38);
+
 var MAIN_COLOR = exports.MAIN_COLOR = 'rgb(22,22,22)';
 
 var DARK_MAIN_COLOR = exports.DARK_MAIN_COLOR = 'rgb(20,20,20)';
@@ -4340,6 +4344,8 @@ var FLAT_RED = exports.FLAT_RED = 'rgba(255, 59, 59,1)';
 var FAKE_CELL_COLOR = exports.FAKE_CELL_COLOR = 'rgba(25,25,25, 0.4)';
 
 var CELLS_COLORS = exports.CELLS_COLORS = ['rgba(255, 59, 59,1)', 'rgba(226, 47, 54,1)', 'rgba(204, 38, 51,1)'];
+
+var INDESTRUCTIBLE_CELL_COLOR = exports.INDESTRUCTIBLE_CELL_COLOR = 'rgba(25,25,25,0.8)';
 
 /***/ }),
 /* 42 */
@@ -63747,8 +63753,6 @@ var _react2 = _interopRequireDefault(_react);
 
 var _propTypes = __webpack_require__(37);
 
-var _ramda = __webpack_require__(38);
-
 var _styles = __webpack_require__(886);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -63765,9 +63769,9 @@ var Spectre = function Spectre(_ref) {
         _react2.default.createElement(
             _styles.Content,
             null,
-            (0, _ramda.map)(function (cell) {
-                return cell.value === 0 ? _react2.default.createElement(_styles.EmptyCell, null) : _react2.default.createElement(_styles.FullCell, null);
-            }, board)
+            board.map(function (cell, id) {
+                return cell.value === 0 ? _react2.default.createElement(_styles.EmptyCell, { key: id }) : _react2.default.createElement(_styles.FullCell, { key: id });
+            })
         )
     );
 };
@@ -63792,7 +63796,7 @@ var _taggedTemplateLiteral2 = __webpack_require__(31);
 
 var _taggedTemplateLiteral3 = _interopRequireDefault(_taggedTemplateLiteral2);
 
-var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    top:25px;\n    right:25px;\n    display:flex;\n    background:', ';\n    border-radius:3px;\n    margin: 30px 10px e30px 10px;\n    padding:3px;\n'], ['\n    position:absolute;\n    top:25px;\n    right:25px;\n    display:flex;\n    background:', ';\n    border-radius:3px;\n    margin: 30px 10px e30px 10px;\n    padding:3px;\n']),
+var _templateObject = (0, _taggedTemplateLiteral3.default)(['\n    position:absolute;\n    top:25px;\n    right:25px;\n    display:flex;\n    background-color:', ';\n    border-radius:3px;\n    margin: 30px 10px e30px 10px;\n    padding:3px;\n'], ['\n    position:absolute;\n    top:25px;\n    right:25px;\n    display:flex;\n    background-color:', ';\n    border-radius:3px;\n    margin: 30px 10px e30px 10px;\n    padding:3px;\n']),
     _templateObject2 = (0, _taggedTemplateLiteral3.default)(['\n    background:', ';\n    position:relative;\n    display:flex;\n    flex-direction:row;\n    flex-wrap:wrap;\n    width:100px;\n    height:200px;\n    border-radius:2px;\n'], ['\n    background:', ';\n    position:relative;\n    display:flex;\n    flex-direction:row;\n    flex-wrap:wrap;\n    width:100px;\n    height:200px;\n    border-radius:2px;\n']),
     _templateObject3 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    width:10px;\n    height:10px;\n'], ['\n    display:flex;\n    width:10px;\n    height:10px;\n']),
     _templateObject4 = (0, _taggedTemplateLiteral3.default)(['\n    display:flex;\n    width:10px;\n    height:10px;\n    background-color:', ';\n'], ['\n    display:flex;\n    width:10px;\n    height:10px;\n    background-color:', ';\n']);
@@ -63805,7 +63809,7 @@ var _colors = __webpack_require__(41);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-var Container = exports.Container = _styledComponents2.default.div(_templateObject, _colors.MAIN_RED);
+var Container = exports.Container = _styledComponents2.default.div(_templateObject, _colors.CELLS_COLORS[1]);
 
 var Content = exports.Content = _styledComponents2.default.div(_templateObject2, _colors.MAIN_COLOR);
 

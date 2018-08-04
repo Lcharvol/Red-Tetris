@@ -1,3 +1,5 @@
+import { last } from "ramda";
+
 export const MAIN_COLOR = 'rgb(22,22,22)';
 
 export const DARK_MAIN_COLOR = 'rgb(20,20,20)';
@@ -14,4 +16,6 @@ export const CELLS_COLORS = [
     'rgba(255, 59, 59,1)',
     'rgba(226, 47, 54,1)',
     'rgba(204, 38, 51,1)',
-]
+];
+
+export const INDESTRUCTIBLE_CELL_COLOR = 'rgba(25,25,25,0.8)';
