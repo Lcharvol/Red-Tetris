@@ -81,7 +81,7 @@ export const moveBottom = user => {
                 board: enhancedBoard,
                 pieces: drop(1, pieces),
                 win: null,
-                activePiece: pieces[0],
+                activePiece: {...pieces[0]},
             }
         } catch (e) {
             return {
@@ -89,7 +89,7 @@ export const moveBottom = user => {
                 board: newBoard,
                 pieces,
                 win: false,
-                activePiece: pieces[0],
+                activePiece: {...pieces[0]},
             }
         }
     }
@@ -104,7 +104,7 @@ export const moveBottom = user => {
                 newBoard[reversedId + BOARD_WIDTH] = board[reversedId]
         }
     });
-    activePiece.posY += 1;
+    newUser.activePiece.posY += 1;
     return {
         ...newUser,
         board: newBoard,

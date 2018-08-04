@@ -8,8 +8,9 @@
   "scripts": {
     "build": "webpack -p",
     "cli-dev": "webpack --watch --display none",
-    "cli-prod": "NODE_ENV=production webpack --progress --colors",
+    "cli-dist": "NODE_ENV=production webpack --progress --colors",    
     "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/index.js",
+    "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
     "srv-prod": "DEBUG=tetris:* babel src --out-dir dist",
     "server": "NODE_ENV=development DEBUG=matcha* nodemon --watch config/server --watch src/lib --watch src/server --exec \"babel-node src/server\""
   },

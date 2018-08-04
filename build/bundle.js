@@ -63986,7 +63986,7 @@ var Container = exports.Container = _styledComponents2.default.div(_templateObje
     return size === 0 ? 'hidden' : 'visible';
 }, function (_ref6) {
     var isSmall = _ref6.isSmall;
-    return isSmall ? 0.6 : 1;
+    return isSmall ? 0.8 : 1;
 });
 
 var InnerBoard = exports.InnerBoard = _styledComponents2.default.div(_templateObject3, _constants.CELL_SIZE * 10 + _constants.CELL_MARGIN * 20, _constants.CELL_SIZE * 20 + _constants.CELL_MARGIN * 40, _colors.MAIN_RED);

@@ -29,7 +29,7 @@ export const Container = styled.div`
     padding:${({ size }) => size === 0 ? '0px' : '10px'};
     width: ${({ size }) => size === 0 ? '0px' : '100%'};
     visibility: ${({ size }) => size === 0 ? 'hidden' : 'visible'};
-    transform: scale(${({ isSmall }) => isSmall ? 0.6 : 1});
+    transform: scale(${({ isSmall }) => isSmall ? 0.8 : 1});
     overflow:hidden;
 `;
 
