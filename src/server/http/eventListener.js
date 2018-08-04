@@ -44,8 +44,11 @@ const eventListener = (socket, io) => {
             if(equals(actionSocket.name, START_GAME)) {
                 const res = await Game.startGame(io, actionSocket, roomIndex, rooms);
                 const intv = setInterval(function(){
-                    const user1 = rooms[roomIndex].users[0];
-                    const user2 = rooms[roomIndex].users[1];
+                    const roomIndex = findIndex(propEq('roomName', actionSocket.gameName))(rooms);
+                    const room = rooms[roomIndex];
+                    if(isNil(room)) return;
+                    const user1 = room.users[0];
+                    const user2 = room.users[1];
                     const newUser1 = moveBottom(user1);
                     const newUser2 = !isNil(user2) ? moveBottom(user2) : user1;
                     const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
