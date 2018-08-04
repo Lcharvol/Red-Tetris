@@ -7,6 +7,7 @@ import {
     add,
     times,
     inc,
+    remove,
 } from 'ramda';
 
 import { pieces } from './constants/pieces';
@@ -25,18 +26,11 @@ const deleteLine = (board, line) => {
 
 const goDown = (board, line) => {
     const newBoard = [...board];
-    let idToDelete = [];
-    times(id => {
-        if(board[id] !== 0) {
-            newBoard[id + BOARD_WIDTH] = board[id];
-            if(id > BOARD_WIDTH && board[id - BOARD_WIDTH] === 0)
-                idToDelete = [...idToDelete];
-        }
-    },inc(line * BOARD_WIDTH));
-    map(id => {
-        newBoard[id] = INITIAL_CELL;
-    },idToDelete);
-    return newBoard;
+    let newLine = [];
+    times(n => {
+        newLine = [...newLine, INITIAL_CELL];
+    },BOARD_WIDTH);
+    return [...newLine, ...remove(line * BOARD_WIDTH, BOARD_WIDTH, newBoard)];
 }
 
 const checkBoard = board => {
@@ -48,7 +42,7 @@ const checkBoard = board => {
             fullLine = false;
         if((id + 1) % BOARD_WIDTH === 0) {
             if(fullLine)
-            newBoard = goDown(deleteLine(newBoard, actualLine),actualLine);
+                newBoard = goDown(deleteLine(newBoard, actualLine),actualLine);
             fullLine = true;
             actualLine += 1;
         }
@@ -73,9 +67,9 @@ export const moveBottom = user => {
         }
     })
     if(!canMove) {
-        // newBoard = checkBoard(board);
         try {
-            const enhancedBoard = Piece.addPiece(newBoard, pieces[0]);
+            let enhancedBoard = Piece.addPiece(newBoard, pieces[0]);
+            enhancedBoard = checkBoard(enhancedBoard);
             return {
                 ...newUser,
                 board: enhancedBoard,

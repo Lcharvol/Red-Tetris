@@ -43,7 +43,7 @@ const eventListener = (socket, io) => {
 
             if(equals(actionSocket.name, START_GAME)) {
                 const res = await Game.startGame(io, actionSocket, roomIndex, rooms);
-                const intv = () => setInterval(function(){
+                const intv = setInterval(function(){
                     const user1 = rooms[roomIndex].users[0];
                     const user2 = rooms[roomIndex].users[1];
                     const newUser1 = moveBottom(user1);
@@ -69,14 +69,12 @@ const eventListener = (socket, io) => {
                     ];
 
                     if(isNil(user1))
-                    return Game.removeRoom(rooms, intv, actionSocket.gameName, roomIndex);
-                if(!isNil(user1.win) || (!isNil(user2) && !isNil(user2.win)))
-                    rooms = Game.endGame(intv, io, actionSocket.gameName, rooms, roomIndex);
+                        return Game.removeRoom(rooms, intv, actionSocket.gameName, roomIndex);
+                    if(!isNil(user1.win) || (!isNil(user2) && !isNil(user2.win)))
+                        rooms = Game.endGame(intv, io, actionSocket.gameName, rooms, roomIndex);
                     rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intvId: uuidv1()};
                     emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...rooms[roomIndex] });
                 },DROP_INTERVAL);
-                
-                intv();
                 rooms[roomIndex] = res;
             }
             if(equals(actionSocket.name, JOIN_ROOM)) logger(`${actionSocket.user} join the room: ${actionSocket.room}`);

@@ -105,7 +105,8 @@ const Game = {
                 const newPiece = Piece.newPiece();
                 const initialPiece = Piece.newPiece();
                 const numberOfPlayer = length(room.users);
-                let newUsers = []
+                let newUsers = [];
+
                 times(number => newUsers = [
                     ...newUsers,
                     {
@@ -116,39 +117,6 @@ const Game = {
                         win: null,
                     }
                 ], numberOfPlayer);
-    
-                // const intv = (rooms) => setInterval(function(){
-                //     const user1 = rooms[roomIndex].users[0];
-                //     const user2 = rooms[roomIndex].users[1];
-                //     if(isNil(user1))
-                //         return Game.removeRoom(rooms, intv, gameName, roomIndex);
-                //     if(!isNil(user1.win) || (!isNil(user2) && !isNil(user2.win)))
-                //         rooms = Game.endGame(intv, io, gameName, rooms, roomIndex);
-                //     const newUser1 = moveBottom(user1);
-                //     const newUser2 = !isNil(user2) ? moveBottom(user2) : user1;
-                //     const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
-                //     const newPiece = Piece.newPiece();
-                //     const newUsers = !isNil(user2) ?
-                //     [
-                //         {
-                //             ...newUser1,
-                //             pieces: needNewPiece ? [...newUser1.pieces, newPiece]: newUser1.pieces,
-                //         },
-                //         {
-                //             ...newUser2,
-                //             pieces: needNewPiece ? [...newUser2.pieces, newPiece]: newUser2.pieces,
-                //         }
-                //     ] : 
-                //     [
-                //         {
-                //             ... newUser1,
-                //             pieces: needNewPiece ? [...newUser1.pieces, newPiece]: newUser1.pieces,
-                //         }
-                //     ];
-                //     rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intvId: uuidv1()};
-                //     console.log('rooms length: ', length(rooms));
-                //     emitToRoom(io, gameName, ACTION, 'updateGameInfo', { ...rooms[roomIndex] });
-                // },DROP_INTERVAL);
                 room = {...rooms[roomIndex], users: newUsers, isGameStarted: true};
                 emitToRoom(io, gameName, ACTION, 'updateGameInfo', {
                     ...room,
@@ -157,7 +125,7 @@ const Game = {
                         message: ''
                     }
                 });
-                gameLogger(`Game start in the room: \"${gameName}\"`)
+                gameLogger(`Game start in the room: \"${gameName}\"`);
                 resolve(room);
             }, 3500);
           })    
