@@ -169,9 +169,12 @@ export const moveLeft = user => {
 export const rotate = user => {
     const newUser = {...user};
     let deletedIds = [];
-    let { board, activePiece, piece } = newUser;
+    let { board, activePiece, } = newUser;
     const newVersion = inc(activePiece.version) < length(activePiece.piece) ? inc(activePiece.version) : 0;
     activePiece.version = newVersion;
+    activePiece.version = newVersion;
+    if(activePiece.posX < 0 || activePiece.posX + Math.sqrt(length(activePiece.piece[activePiece.version])) > BOARD_WIDTH)
+        return newUser;
     board.map((cell, id) => {
         if(cell.active)
             board[id] = INITIAL_CELL;
@@ -180,12 +183,12 @@ export const rotate = user => {
     try {
         newUser.board = Piece.addPiece(board, activePiece);
     } catch(e) {
-        // activePiece.version = newVersion > 0 ? newVersion - 1 : length(activePiece.piece);
-        // try {
-        //     newUser.board = Piece.addPiece(board, activePiece)
-        // } catch(e) {
-        //     return newUser;
-        // }
+        activePiece.version = newVersion > 0 ? newVersion - 1 : length(activePiece.piece);
+        try {
+            newUser.board = Piece.addPiece(board, activePiece)
+        } catch(e) {
+            return newUser;
+        }
         return newUser;
     }
     return newUser;

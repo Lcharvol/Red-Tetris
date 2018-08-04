@@ -49,6 +49,13 @@ const Game = {
         return [...rooms, { ...roomPattern, users, roomName}]
     },
 
+    removeRoom(rooms, intv, gameName, roomIndex) {
+        const newRooms = [...rooms]
+        clearInterval(intv);
+        gameLogger(`Game \"${gameName}\ deleted"`)
+        return remove(roomIndex, 1, newRooms);
+    },
+
     endGame(intv, io, gameName, rooms, roomIndex) {
         const winner = find(propEq('win', false))(rooms[roomIndex].users);
 
@@ -112,6 +119,8 @@ const Game = {
             const intv = setInterval(function(){
                 const user1 = rooms[roomIndex].users[0];
                 const user2 = rooms[roomIndex].users[1];
+                if(isNil(user1))
+                    return Game.removeRoom(rooms, intv, gameName, roomIndex);
                 if(!isNil(user1.win) || (!isNil(user2) && !isNil(user2.win)))
                     rooms = Game.endGame(intv, io, gameName, rooms, roomIndex);
                 const newUser1 = moveBottom(user1);
