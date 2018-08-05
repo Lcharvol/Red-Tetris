@@ -6,7 +6,7 @@
   "repository": "git@github.com:Lcharvol/Red-Tetris.git",
   "author": "Lcharvol <lcharvol@student.42.fr>",
   "scripts": {
-    "test": "jest",
+    "test": "jest --colors",
     "build": "webpack -p",
     "cli-dev": "webpack --watch --display none",
     "cli-dist": "NODE_ENV=production webpack --progress --colors",
@@ -39,6 +39,8 @@
     "babel-watch": "^2.0.2",
     "body-parser": "^1.18.3",
     "debug": "^3.1.0",
+    "enzyme": "^3.3.0",
+    "enzyme-adapter-react-16": "^1.1.1",
     "express": "^4.16.3",
     "fs": "^0.0.1-security",
     "multer": "^1.3.1",
@@ -90,5 +92,8 @@
   },
   "eslint": {
     "root": true
+  },
+  "jest": {
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setupTests.js"
   }
 }
