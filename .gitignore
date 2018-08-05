@@ -10,6 +10,7 @@ public/bundle.js
 config/parameters.js
 parameters.*
 build
+coverage
 src/config/parameters.ts
 .DS_Store
 .DS_Store?
