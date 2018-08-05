@@ -22,7 +22,7 @@ const propTypes = {
     opacity: number.isRequired,
 }
 
-const StartButton = ({
+export const StartButton = ({
     startGame,
     isGameStarted,
     io,

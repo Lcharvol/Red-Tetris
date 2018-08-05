@@ -1,6 +1,6 @@
 module.exports = {
     verbose: true,
     testURL: 'http://localhost',
-    collectCoverage: false,
+    collectCoverage: true,
     collectCoverageFrom: ['src/**/*.{js,jsx}'],
   };

@@ -3,24 +3,24 @@ import {shallow} from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Cell from '../index';
+import Toast from '../index';
 import {
     Container
 } from '../styles';
 
 configure({ adapter: new Adapter() });
 
-describe('Cell:', () => {
+describe('Toast:', () => {
     describe('index.js:', () => {
         const props = {
-            cell: {
-                color: 'red',
-                value: 1,
-            }
+            text: 'fakeToastText'
         }
-        const wrapper = shallow(<Cell {...props}/>);
+        const wrapper = shallow(<Toast {...props}/>);
         it('ShouldFind a Container', () => {
             expect(wrapper.find(Container).length).toBe(1);
+        });
+        it('ShouldFind a children', () => {
+            expect(wrapper.find(Container).children().length).toBe(1);
         });
     });
 });

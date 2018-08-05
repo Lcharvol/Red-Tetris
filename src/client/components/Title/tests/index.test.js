@@ -22,11 +22,11 @@ describe('Title:', () => {
         it('ShouldFind a Container', () => {
             expect(wrapper.find(Container).length).toBe(1);
         });
-        it('ShouldFind a TopText with the right value', () => {
+        it('Should find a TopText with the right value', () => {
             expect(wrapper.find(TopText).length).toBe(1);
             expect(wrapper.find(TopText).children().length).toBe(1);
         });
-        it('ShouldFind a BottomText with the right value', () => {
+        it('Should find a BottomText with the right value', () => {
             expect(wrapper.find(BottomText).length).toBe(1);
             expect(wrapper.find(BottomText).children().length).toBe(1);
         });
