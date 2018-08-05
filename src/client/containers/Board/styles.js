@@ -7,7 +7,7 @@ export const Back = styled.div`
     position:relative;
     display:flex;
     background-color:${MAIN_COLOR};
-    margin: ${({ size }) => size === 0 ? '0px' : '30px 10px 30px 10px'};
+    margin: 30px 10px 30px 10px;
 `;
 
 export const Container = styled.div`
@@ -26,10 +26,8 @@ export const Container = styled.div`
     filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.3), Direction=NaN, Strength=50);
     transition: opacity 1s;
     opacity: ${({ opacity }) => opacity};
-    padding:${({ size }) => size === 0 ? '0px' : '10px'};
-    width: ${({ size }) => size === 0 ? '0px' : '100%'};
-    visibility: ${({ size }) => size === 0 ? 'hidden' : 'visible'};
-    transform: scale(${({ isSmall }) => isSmall ? 0.8 : 1});
+    padding:10px;
+    width: 100%;
     overflow:hidden;
 `;
 

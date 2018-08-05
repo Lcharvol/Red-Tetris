@@ -19,7 +19,7 @@ const propTypes = {
     me: string,
 }
 
-const GameInfo = ({ me, usersNames, owner }) => (
+export const GameInfo = ({ me, usersNames, owner }) => (
     <Container>
         <Label>{`Players ${length(usersNames)}/2`}</Label>
         {usersNames.map(name => 

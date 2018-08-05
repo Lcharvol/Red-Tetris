@@ -35,7 +35,6 @@ import { move, moveCycle } from '../../actions/move';
 import { startGame } from '../../actions/game';
 import GameInfo from '../GameInfo';
 import Board from '../Board';
-import Login from '../Login';
 import Spectre from '../Spectre';
 import StartButton  from '../../components/StartButton';
 import Toast from '../../components/Toast';
@@ -59,7 +58,7 @@ const propTypes = {
     usersNames: array,
 };
 
-const App = ({
+export const App = ({
     myBoard,
     enemyBoard,
     move,
@@ -111,7 +110,6 @@ const App = ({
                 }
             </Fragment>
         }
-        {!length(me) && <Login />}
     </AppContainer>
 );
 

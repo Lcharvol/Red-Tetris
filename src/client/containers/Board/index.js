@@ -22,8 +22,6 @@ const propTypes = {
     displayModal: bool,
     modalMessage: string,
     opacity: number,
-    isSmall: bool,
-    size: number.isRequired,
 }
 
 const Board = ({
@@ -31,11 +29,9 @@ const Board = ({
     displayModal = false,
     modalMessage = '',
     opacity = 1,
-    isSmall = false,
-    size,
 }) => (
     <Back>
-        <Container opacity={opacity} isSmall={isSmall} size={size}>
+        <Container opacity={opacity}>
             {displayModal && <GameModal value={modalMessage}/>}
             <InnerBoard>
                 {board.map((cell, id) => (
@@ -48,22 +44,4 @@ const Board = ({
 
 Board.propTypes = propTypes;
 
-export default compose(
-    withStateHandlers(
-        ({ initialSize = 1 }) => ({
-            size: initialSize,
-        }),
-        {
-            handleChangeSize: () => (value) => ({
-                size: value,
-            }),
-        }
-    ),
-    lifecycle({
-        componentWillReceiveProps(nextProps) {
-            if (isNil(this.props.board) && nextProps.board !== this.props.board) {
-                this.props.handleChangeSize(1)
-            }
-          }
-    })
-)(Board);
+export default Board;
