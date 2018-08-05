@@ -47,19 +47,20 @@ const eventListener = (socket, io) => {
                     const roomIndex = findIndex(propEq('roomName', actionSocket.gameName))(rooms);
                     const room = rooms[roomIndex];
                     if(isNil(room)) return;
+                    const twoPlayerGame = equals(length(room.users),2);
                     const user1 = room.users[0];
-                    const user2 = room.users[1];
+                    const user2 = twoPlayerGame ? room.users[1] : undefined;
                     let newUser1 = moveBottom(user1);
-                    let newUser2 = !isNil(user2) ? moveBottom(user2) : user1;
-                    const needNewPiece = length(newUser1.pieces) <= 2 || length(newUser2.pieces) <= 2;
+                    let newUser2 = !isNil(user2) ? moveBottom(user2) : undefined;
+                    const needNewPiece = length(newUser1.pieces) <= 2 || (!isNil(newUser2) && length(newUser2.pieces) <= 2);
                     const newPiece = Piece.newPiece();
-                    if(newUser1.lineToGive > 0) {
-                        newUser2.board = AddFullLine(newUser2.board);
-                        newUser1.lineToGive -= 1;
+                    if(newUser1.lineToGive > 0 && !isNil(newUser2)) {
+                        newUser2.board = AddFullLine(newUser2.board, newUser1.lineToGive);
+                        newUser1.lineToGive = 0;
                     }
-                    if(newUser2.lineToGive > 0) {
-                        newUser1.board = AddFullLine(newUser1.board);
-                        newUser2.lineToGive -= 1;
+                    if(!isNil(newUser2) && newUser2.lineToGive > 0) {
+                        newUser1.board = AddFullLine(newUser1.board, newUser2.lineToGive);
+                        newUser2.lineToGive = 0;
                     }
                     const newUsers = !isNil(user2) ?
                     [

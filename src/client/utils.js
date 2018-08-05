@@ -20,5 +20,3 @@ export const getUser = str => {
     const toCut = indexOf('[', str) + 1;
     return dropLast(1, drop(toCut, str));
 };
-
-// http://127.0.0.1:3004/#room5[lcharvol1]

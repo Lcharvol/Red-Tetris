@@ -57,10 +57,12 @@ const checkBoard = board => {
     };
 };
 
-export const AddFullLine = board => {
+export const AddFullLine = (board, nb) => {
     let newBoard = [...board];
     let fullLine = [];
-    newBoard = drop(BOARD_WIDTH, newBoard);
+    let ret = [];
+
+    newBoard = drop(BOARD_WIDTH * nb, newBoard);
     times(nb => {
         fullLine = [...fullLine, {
             value: -1,
@@ -68,7 +70,11 @@ export const AddFullLine = board => {
             active: false,
         }]
     },BOARD_WIDTH)
-    return [...newBoard,...fullLine];
+    ret = [...newBoard];
+    times(() => {
+        ret = [...ret, ...fullLine];
+    },nb)
+    return ret;
 };
 
 export const moveBottom = user => {
@@ -82,15 +88,18 @@ export const moveBottom = user => {
         let { active } = cell;
         let onLastLine = id >= subtract(BOARD_LENGTH, BOARD_WIDTH);
         let isBlocked = onLastLine || !board[id + BOARD_WIDTH].active && board[add(id,BOARD_WIDTH)].value !== 0;
+
         if(active && isBlocked) {
             Piece.setAllCellsInactive(board);
             canMove = false;
         }
-    })
+    });
+
     if(!canMove) {
         try {
             let enhancedBoard = Piece.addPiece(newBoard, pieces[0]);
             const checkBoardRes = checkBoard(enhancedBoard);
+
             return {
                 ...newUser,
                 board: checkBoardRes.newBoard,
@@ -108,18 +117,21 @@ export const moveBottom = user => {
                 activePiece: {...pieces[0]},
             }
         }
-    }
+    };
+
     reverse(newBoard).map((cell, id) => {
         let { value, active } = cell;
+        let reversedId = BOARD_LENGTH - id - 1;
+
         if(!active) return cell
         if(value !== 0) {
-            let reversedId = BOARD_LENGTH - id - 1;
-            if(reversedId - BOARD_WIDTH < 0 || board[reversedId - BOARD_WIDTH].value === 0)
+            if(reversedId - BOARD_WIDTH < 0 || !board[reversedId - BOARD_WIDTH].active)
                 newBoard[reversedId] = INITIAL_CELL;
             if(reversedId + BOARD_WIDTH < BOARD_LENGTH)
                 newBoard[reversedId + BOARD_WIDTH] = board[reversedId]
         }
     });
+
     newUser.activePiece.posY += 1;
     return {
         ...newUser,
@@ -187,6 +199,7 @@ export const rotate = user => {
     let deletedIds = [];
     let { board, activePiece, } = newUser;
     const newVersion = inc(activePiece.version) < length(activePiece.piece) ? inc(activePiece.version) : 0;
+    
     activePiece.version = newVersion;
     if(activePiece.posX < 0 || activePiece.posX + Math.sqrt(length(activePiece.piece[activePiece.version])) > BOARD_WIDTH)
         return newUser;

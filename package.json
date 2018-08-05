@@ -6,9 +6,10 @@
   "repository": "git@github.com:Lcharvol/Red-Tetris.git",
   "author": "Lcharvol <lcharvol@student.42.fr>",
   "scripts": {
+    "test": "jest",
     "build": "webpack -p",
     "cli-dev": "webpack --watch --display none",
-    "cli-dist": "NODE_ENV=production webpack --progress --colors",    
+    "cli-dist": "NODE_ENV=production webpack --progress --colors",
     "srv-dev": "DEBUG=tetris:* babel-watch -w src src/server/index.js",
     "srv-dist": "DEBUG=tetris:* babel src --out-dir dist",
     "srv-prod": "DEBUG=tetris:* babel src --out-dir dist",
@@ -84,6 +85,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
     "eslint-plugin-react": "^7.4.0",
+    "jest": "^23.4.2",
     "nodemon": "^1.12.5"
   },
   "eslint": {

@@ -54,7 +54,6 @@ export const ButtonText = styled.div`
     &:hover {
         color: #4f4f4f;
         border: 1px solid ${FLAT_RED};
-        
         &:before {
           top: -35%;
           background-color: ${FLAT_RED};
