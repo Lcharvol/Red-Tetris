@@ -14,7 +14,8 @@ import {
     AppContainer,
     BoardContainer,
     ToastsContainer,
-    WaitingLabel
+    WaitingLabel,
+    Texture
 } from './styles';
 import {
     getIsGameStarted,
@@ -77,40 +78,42 @@ export const App = ({
     usersNames,
 }) =>
 (
-    <AppContainer>
-        <Title topValue={'Red'} bottomValue={'Tetris'}/>
-        {!isNil(errorMessage) && <ErrorModal value={errorMessage}/>}
-        {isNil(errorMessage) && !isNil(myBoard) && 
-            <Fragment>
-                <GameInfo me={me} usersNames={usersNames}/>
-                <BoardContainer>
-                    <ToastsContainer>
-                        {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
-                    </ToastsContainer>
-                    <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
-                    <Board
-                        board={myBoard}
-                        displayModal={displayModal}
-                        modalMessage={modalMessage}
-                        opacity={1}
-                    />
-                    {length(users) > 1 && <Spectre
-                        board={enemyBoard}
-                    />}
-                </BoardContainer>
-                {owner ?
-                    <StartButton
-                        startGame={startGame}
-                        isGameStarted={isGameStarted}
-                        io={io}
-                        roomName={roomName}
-                        me={me}
-                    /> :
-                    <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start...`}</WaitingLabel>
-                }
-            </Fragment>
-        }
-    </AppContainer>
+    <Texture>
+        <AppContainer>
+            <Title topValue={'Red'} bottomValue={'Tetris'}/>
+            {!isNil(errorMessage) && <ErrorModal value={errorMessage}/>}
+            {isNil(errorMessage) && !isNil(myBoard) && 
+                <Fragment>
+                    <GameInfo me={me} usersNames={usersNames}/>
+                    <BoardContainer>
+                        <ToastsContainer>
+                            {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
+                        </ToastsContainer>
+                        <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
+                        <Board
+                            board={myBoard}
+                            displayModal={displayModal}
+                            modalMessage={modalMessage}
+                            opacity={1}
+                        />
+                        {length(users) > 1 && <Spectre
+                            board={enemyBoard}
+                        />}
+                    </BoardContainer>
+                    {owner ?
+                        <StartButton
+                            startGame={startGame}
+                            isGameStarted={isGameStarted}
+                            io={io}
+                            roomName={roomName}
+                            me={me}
+                        /> :
+                        <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start...`}</WaitingLabel>
+                    }
+                </Fragment>
+            }
+        </AppContainer>
+    </Texture>
 );
 
 const actions = {

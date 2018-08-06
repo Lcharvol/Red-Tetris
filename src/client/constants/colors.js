@@ -1,6 +1,6 @@
 import { last } from "ramda";
 
-export const MAIN_COLOR = 'linear-gradient(179.79637885748025deg, rgba(30, 30, 30,1) -3.8012445095168346%,rgba(27, 27, 27, 1) 24.08995241581259%,rgba(24, 24, 24,1) 45.65123230844314%,rgba(21, 21, 21,1) 91.14751098096633%)';
+export const MAIN_COLOR = 'linear-gradient(to bottom, rgba(150,150,150,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(150,150,150,0.40) 0%, rgba(0,0,0,0.40) 120%) rgba(25,25,25,0.5)';
 
 export const DARK_MAIN_COLOR = 'rgb(20,20,20)';
 
