@@ -8,11 +8,11 @@ export const Container = styled.div`
     text-align:center;
     background-color:rgba(25,25,25,0.5);
     width:calc(100% - 50px);
-    height:200px;
-    top:calc(50% - 100px);
+    height:calc(100% - 50px);
     color:white;
     padding:15px;
     font-size:3.5em;
     z-index:1000;
-    opacity:0.6;
+    transition: opacity 0.2s ease-in-out
+    opacity:${({ opacity }) => opacity};
 `;

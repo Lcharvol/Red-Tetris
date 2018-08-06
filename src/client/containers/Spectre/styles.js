@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MAIN_COLOR, MAIN_RED, CELLS_COLORS } from '../../constants/colors';
+import { MAIN_RED, DARK_MAIN_COLOR, CELLS_COLORS } from '../../constants/colors';
 
 export const Container = styled.div`
     position:absolute;
@@ -13,7 +13,7 @@ export const Container = styled.div`
 `;
 
 export const Content = styled.div`
-    background:${MAIN_COLOR};
+    background:${DARK_MAIN_COLOR};
     position:relative;
     display:flex;
     flex-direction:row;

@@ -14,7 +14,6 @@ export const Container = styled.div`
     height:${CELL_SIZE}px;
     margin: ${CELL_MARGIN}px;
     background-color:${({ color }) => color};
-    border-radius:3px;
+    border-radius:1px;
     opacity:0.7;
-    border;
 `;

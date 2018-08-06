@@ -1,8 +1,8 @@
 import { last } from "ramda";
 
-export const MAIN_COLOR = 'linear-gradient(to bottom, rgba(150,150,150,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(150,150,150,0.40) 0%, rgba(0,0,0,0.40) 120%) rgba(25,25,25,0.5)';
+export const MAIN_COLOR = 'linear-gradient(to bottom, rgba(120,120,120,0.15) 0%, rgba(0,0,0,0.15) 100%), radial-gradient(at top center, rgba(120,120,120,0.40) 0%, rgba(0,0,0,0.40) 120%) rgba(25,25,25,0.5)';
 
-export const DARK_MAIN_COLOR = 'rgb(20,20,20)';
+export const DARK_MAIN_COLOR = 'rgb(25,25,25)';
 
 export const LIGHT_MAIN_COLOR = '#4f4f4f';
 

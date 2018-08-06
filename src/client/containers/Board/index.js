@@ -12,6 +12,7 @@ import {
     Container,
     InnerBoard,
     Back,
+    Shadow,
 } from './styles';
 import Cell from '../../components/Cell';
 import GameModal from '../../components/GameModal';
@@ -32,7 +33,8 @@ const Board = ({
 }) => (
     <Back>
         <Container opacity={opacity}>
-            {displayModal && <GameModal value={modalMessage}/>}
+            <GameModal value={modalMessage} opacity={displayModal ? 0.6 : 0}/>
+            <Shadow/>
             <InnerBoard>
                 {board.map((cell, id) => (
                     <Cell key={id} cell={cell} />

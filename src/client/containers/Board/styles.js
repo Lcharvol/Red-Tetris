@@ -31,6 +31,16 @@ export const Container = styled.div`
     overflow:hidden;
 `;
 
+export const Shadow = styled.div`
+    position:absolute;
+    width:calc(100% - 20px);
+    height:calc(100% - 20px);
+    -moz-box-shadow: inset 0px 0px 30px 5px rgba(20,20,20,0.4);
+    -webkit-box-shadow: inset 0px 0px 30px 5px rgba(20,20,20,0.4);
+    -o-box-shadow: inset 0px 0px 30px 5px rgba(20,20,20,0.4);
+    box-shadow: inset 0px 0px 30px 5px rgba(20,20,20,0.4);
+`;
+
 export const InnerBoard = styled.div`
     display:flex;
     justify-content: flex-start;
@@ -41,10 +51,10 @@ export const InnerBoard = styled.div`
     background:${MAIN_RED};
     padding:10px;
     border-radius:2px;
-    -moz-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);
-    -webkit-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);
-    -o-box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);
-    box-shadow: inset 0px 0px 50px 7px rgba(0,0,0,0.7);
+    -moz-box-shadow: inset 0px 0px 150px 70px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0px 0px 150px 70px rgba(0,0,0,0.3);
+    -o-box-shadow: inset 0px 0px 150px 70px rgba(0,0,0,0.3);
+    box-shadow: inset 0px 0px 150px 70px rgba(0,0,0,0.3);
     filter:progid:DXImageTransform.Microsoft.Shadow(color=rgba(0,0,0,0.7), Direction=NaN, Strength=50);
     overflow: hidden;
 `;
