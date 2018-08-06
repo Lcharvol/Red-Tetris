@@ -9,6 +9,7 @@ import {
 export const getIsGameStarted = state => state.game.isGameStarted;
 
 export const getDisplayModal = state => !isNil(state.game.modal) ? state.game.modal.display : false;
+
 export const getModalMessage = state => !isNil(state.game.modal) ? state.game.modal.message : '';
 
 export const getMe = state => state.game.me;

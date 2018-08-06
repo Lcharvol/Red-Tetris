@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import socketIO from 'socket.io-client';
-import { equals } from 'ramda';
+import { equals, isNil } from 'ramda';
 
 import configureStore from './store';
 import App from './containers/App';
@@ -27,6 +27,12 @@ const { hash } = getParsedGameUrl(gameUrl);
 const roomName = getRoomName(hash);
 const user = getUser(hash);
 
+console.log('hash: ', hash);
+
+console.log('user: ', user);
+
+console.log('roomName: ', roomName);
+
 io.on('action', data => {
   const { name } = data;
   if(equals(name,'startGame')) store.dispatch(startGame());
@@ -39,9 +45,11 @@ io.on('gameError', data => {
   store.dispatch(setErrorMessage(message))
 })
 
-store.dispatch(updateGameInfo({me: user}));
+if(!isNil(user))
+  store.dispatch(updateGameInfo({me: user}));
 
-io.emit('joinRoom', {roomName, user});
+if(!isNil(user) && !isNil(roomName))
+  io.emit('joinRoom', {roomName, user});
 
 export const Root = () => (
     <Provider store={store}>

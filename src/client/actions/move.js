@@ -12,5 +12,3 @@ export const move = (event, io, me, roomName) => (dispatch) => {
     if (equals(key,'ArrowRight'))
         io.emit('action', { name: 'move', type: 'right', gameName: roomName, user: me });
 }
-
-export const moveCycle = () => dispatch => dispatch(({ type: MOVE_BOTTOM }));

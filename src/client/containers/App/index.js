@@ -31,7 +31,7 @@ import {
     getEnemyName,
     getUsersNames,
 } from '../../selectors/game';
-import { move, moveCycle } from '../../actions/move';
+import { move } from '../../actions/move';
 import { startGame } from '../../actions/game';
 import GameInfo from '../GameInfo';
 import Board from '../Board';
@@ -80,7 +80,7 @@ export const App = ({
     <AppContainer>
         <Title topValue={'Red'} bottomValue={'Tetris'}/>
         {!isNil(errorMessage) && <ErrorModal value={errorMessage}/>}
-        {isNil(errorMessage) && length(me) > 0 && 
+        {isNil(errorMessage) && !isNil(myBoard) && 
             <Fragment>
                 <GameInfo me={me} usersNames={usersNames}/>
                 <BoardContainer>
