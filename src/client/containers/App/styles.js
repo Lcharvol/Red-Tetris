@@ -11,7 +11,7 @@ export const AppContainer = styled.div`
     align-items: center;
     width: 100vw;
     height:100vh;
-    background-color:${MAIN_COLOR};
+    background:${MAIN_COLOR};
     overflow: hidden;
     font-family: 'Abel', sans-serif;
     user-select: none;
