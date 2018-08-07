@@ -35,8 +35,14 @@ export default compose(
         }
     ),
     lifecycle({
-        componentWillReceiveProps(newProps) {
-            // console.log('newProps: ', newProps);
+        componentDidUpdate(prevProps, prevState, snapshot) {
+            if(prevProps.score < this.props.score) {
+                let diff = this.props.score - prevProps.score;
+                if(diff > 60)
+                    diff = 60
+                this.props.handleChangeSize(1 + (diff / 100))
+                setTimeout(() => this.props.handleChangeSize(1), 200);
+            }
         },
     }),
     onlyUpdateForKeys(['score', 'opacity', 'size']),

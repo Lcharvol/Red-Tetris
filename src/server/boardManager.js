@@ -14,6 +14,7 @@ import { pieces } from './constants/pieces';
 import { CELLS_COLORS, FAKE_CELL_COLOR, INDESTRUCTIBLE_CELL_COLOR } from '../client/constants/colors';
 import { BOARD_LENGTH, BOARD_WIDTH } from '../client/constants/board';
 import { INITIAL_CELL } from '../client/constants/cell';
+import { getPointByline } from './utils';
 import Piece from './models/Piece';
 
 const deleteLine = (board, line) => {
@@ -105,6 +106,7 @@ export const moveBottom = user => {
                 board: checkBoardRes.newBoard,
                 pieces: drop(1, pieces),
                 win: null,
+                score: newUser.score + 10 + getPointByline(checkBoardRes.lineToGive),
                 activePiece: {...pieces[0]},
                 lineToGive: newUser.lineToGive + checkBoardRes.lineToGive,
             }

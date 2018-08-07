@@ -27,12 +27,6 @@ const { hash } = getParsedGameUrl(gameUrl);
 const roomName = getRoomName(hash);
 const user = getUser(hash);
 
-console.log('hash: ', hash);
-
-console.log('user: ', user);
-
-console.log('roomName: ', roomName);
-
 io.on('action', data => {
   const { name } = data;
   if(equals(name,'startGame')) store.dispatch(startGame());
