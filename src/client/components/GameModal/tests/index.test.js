@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import { mount } from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
@@ -15,7 +15,7 @@ describe('GameModal:', () => {
         const props = {
             value: 'fakeValue',
         }
-        const wrapper = shallow(<GameModal {...props}/>);
+        const wrapper = mount(<GameModal {...props}/>);
         it('Should find a Container', () => {
             expect(wrapper.find(Container).length).toBe(1);
         });
@@ -25,8 +25,8 @@ describe('GameModal:', () => {
         it('Should find an empty value as children ', () => {
             const props = {
             }
-            const wrapper = shallow(<GameModal {...props}/>);
-            expect(wrapper.find(Container).children().length).toBe(0);
+            const wrapper = mount(<GameModal {...props}/>);
+            expect(wrapper.find(Container).children().length).toBe(1);
         });
     });
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import { mount } from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
@@ -17,9 +17,10 @@ describe('Title:', () => {
         const props = {
             topValue: 'Red',
             bottomValue: 'Tetris',
+            opacity: 1,
         };
-        const wrapper = shallow(<Title {...props}/>);
-        it('ShouldFind a Container', () => {
+        const wrapper = mount(<Title {...props}/>);
+        it('Should find a Container', () => {
             expect(wrapper.find(Container).length).toBe(1);
         });
         it('Should find a TopText with the right value', () => {

@@ -13,7 +13,6 @@ const propTypes = {
     topValue: string.isRequired,
     bottomValue: string.isRequired,
     opacity: number.isRequired,
-    handleChangeOpacity: func.isRequired,
 };
 
 const intv = (handleChangeOpacity) => setInterval(() => {
@@ -26,9 +25,8 @@ const Title = ({
     topValue,
     bottomValue,
     opacity,
-    handleChangeOpacity,
 }) => (
-    <Container onClick={() => handleChangeOpacity()}>
+    <Container>
         <TopText>{topValue}</TopText>
         <BottomText glowOpacity={opacity}>{bottomValue}</BottomText>
     </Container>

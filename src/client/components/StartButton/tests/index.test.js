@@ -27,6 +27,7 @@ describe('StartButton:', () => {
         }
         const wrapper = mount(<StartButton {...props}/>);
         it('ShouldFind a Container witth 1 childrens', () => {
+            expect(wrapper).toMatchSnapshot();
             expect(wrapper.find(Container).length).toBe(1);
             expect(wrapper.find(Container).children().length).toBe(1);
         });
