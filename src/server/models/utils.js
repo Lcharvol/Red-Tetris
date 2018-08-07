@@ -11,5 +11,3 @@ export const emitToRoom = (io, roomName, type, name, body) => io.to(roomName).em
 export const emitToSocket = (socket, type, name, message) =>  socket.emit(type, { name, message });
 
 export const getRandomNumber = (min , max) => Math.round(min + Math.random() * (max - min));
-
-export const getRandomPiece = () => pieces[getRandomNumber(0, 6)];

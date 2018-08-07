@@ -10,6 +10,16 @@ const propTypes = {
     size: number.isRequired,
 };
 
+export const animateScore = (prevScore, score, handleChangeSize) => {
+    if(prevScore < score) {
+        let diff = score - prevScore;
+        if(diff > 60)
+            diff = 60
+        handleChangeSize(1 + (diff / 100))
+        setTimeout(() => handleChangeSize(1), 200);
+    }
+};
+
 const Score = ({
     score,
     opacity,
@@ -36,13 +46,7 @@ export default compose(
     ),
     lifecycle({
         componentDidUpdate(prevProps, prevState, snapshot) {
-            if(prevProps.score < this.props.score) {
-                let diff = this.props.score - prevProps.score;
-                if(diff > 60)
-                    diff = 60
-                this.props.handleChangeSize(1 + (diff / 100))
-                setTimeout(() => this.props.handleChangeSize(1), 200);
-            }
+            animateScore(prevProps.score, this.props.score, this.props.handleChangeSize);
         },
     }),
     onlyUpdateForKeys(['score', 'opacity', 'size']),
