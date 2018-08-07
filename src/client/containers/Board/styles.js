@@ -7,7 +7,7 @@ export const Back = styled.div`
     position:relative;
     display:flex;
     background-color:${MAIN_COLOR};
-    margin: 30px 10px 30px 10px;
+    margin: 0px 10px 30px 10px;
 `;
 
 export const Container = styled.div`

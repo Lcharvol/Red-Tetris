@@ -5,7 +5,6 @@ import {
     bool,
     string,
 } from 'prop-types';
-import { compose, lifecycle, withStateHandlers } from 'recompose';
 
 import {
     Container,

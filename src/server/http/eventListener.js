@@ -54,6 +54,7 @@ const eventListener = (socket, io) => {
                     let newUser2 = !isNil(user2) ? moveBottom(user2) : undefined;
                     const needNewPiece = length(newUser1.pieces) <= 2 || (!isNil(newUser2) && length(newUser2.pieces) <= 2);
                     const newPiece = Piece.newPiece();
+
                     if(newUser1.lineToGive > 0 && !isNil(newUser2)) {
                         newUser2.board = AddFullLine(newUser2.board, newUser1.lineToGive);
                         newUser1.lineToGive = 0;
@@ -87,6 +88,7 @@ const eventListener = (socket, io) => {
                     rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intv, intvId: uuidv1()};
                     emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...rooms[roomIndex] });
                 },DROP_INTERVAL);
+                
                 rooms[roomIndex] = res;
             }
             if(equals(actionSocket.name, JOIN_ROOM)) logger(`${actionSocket.user} join the room: ${actionSocket.room}`);

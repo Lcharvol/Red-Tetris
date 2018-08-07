@@ -1,6 +1,5 @@
 import React from 'react';
 import { string, number } from 'prop-types';
-import { compose, lifecycle, withStateHandlers } from 'recompose';
 
 import {
     Container,

@@ -4,7 +4,7 @@ import { MAIN_RED, CELLS_COLORS } from '../../constants/colors';
 
 export const Container = styled.div`
     position:relative;
-    margin-top:75px;
+    margin-top:10em;
     display:flex;
     flex-direction: column;
     justify-content: center;
@@ -24,5 +24,12 @@ export const BottomText = styled.div`
     font-weight:800;
     margin-top:-70px;
     color: #fff;
-    text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 20px ${CELLS_COLORS[0]}, 0 0 30px ${CELLS_COLORS[0]}, 0 0 40px ${CELLS_COLORS[0]}, 0 0 55px ${CELLS_COLORS[0]}, 0 0 75px ${CELLS_COLORS[0]};
+    text-shadow:
+        0 0 5px #fff, 0 0 10px #fff,
+        0 0 20px rgba(226, 47, 54,${({glowOpacity}) => glowOpacity}),
+        0 0 30px rgba(226, 47, 54,${({glowOpacity}) => glowOpacity}),
+        0 0 40px rgba(226, 47, 54,${({glowOpacity}) => glowOpacity}),
+        0 0 55px rgba(226, 47, 54,${({glowOpacity}) => glowOpacity}),
+        0 0 75px rgba(226, 47, 54,${({glowOpacity}) => glowOpacity});
+    transition: text-shadow 1s ease-in-out;
 `;
