@@ -16,7 +16,6 @@ const Score = ({
     size,
 }) => (
     <Container opacity={opacity} size={size}>
-    {console.log('render')}
         {score}
     </Container>
 );

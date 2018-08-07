@@ -8,7 +8,8 @@ export const Container = styled.div`
     text-align: center;
     cursor: pointer;
     transition: opacity 1s ease-in-out;
-    opacity:${({ isGameStarted }) => isGameStarted ? 0 : 1};
+    opacity:${({ opacity }) => opacity};
+    transition-delay: 0.3s;
 `;
 
 

@@ -6,7 +6,7 @@ import {
     string,
     number,
 } from 'prop-types';
-import { compose, withStateHandlers, onlyUpdateForKeys } from 'recompose';
+import { compose, withStateHandlers, onlyUpdateForKeys, lifecycle } from 'recompose';
 
 import { 
     Container,
@@ -38,7 +38,6 @@ export const StartButton = ({
                 handleChangeOpacity(0);
             };
         }}
-        isGameStarted={isGameStarted}
         opacity={opacity}
     >
         <ButtonText>PLAY</ButtonText>
@@ -49,7 +48,7 @@ StartButton.propTypes = propTypes;
 
 export default compose(
     withStateHandlers(
-        ({ initialOpacity = 0 }) => ({
+        ({ initialOpacity = 1 }) => ({
             opacity: initialOpacity,
         }),
         {
@@ -58,5 +57,11 @@ export default compose(
             }),
         }
     ),
+    lifecycle({
+        componentDidUpdate(prevProps, prevState, snapshot) {
+            if(prevProps.isGameStarted && !this.props.isGameStarted)
+                setTimeout(() => this.props.handleChangeOpacity(1), 1400);
+        },
+    }),
     onlyUpdateForKeys(['isGameStarted', 'opacity'])
 )(StartButton);
