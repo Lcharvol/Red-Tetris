@@ -74,6 +74,7 @@ const Player = {
                             win: null,
                             activePiece: null,
                             lineToGive: 0,
+                            score: 0,
                         };
 
                 socket.join(roomName);

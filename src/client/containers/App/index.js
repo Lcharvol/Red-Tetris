@@ -7,6 +7,7 @@ import {
     array,
     func,
     string,
+    number
 } from 'prop-types';
 import EventListener from 'react-event-listener';
 
@@ -31,6 +32,7 @@ import {
     getErrorMessage,
     getEnemyName,
     getUsersNames,
+    getMyScore,
 } from '../../selectors/game';
 import { move } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -41,6 +43,7 @@ import StartButton  from '../../components/StartButton';
 import Toast from '../../components/Toast';
 import Title from '../../components/Title';
 import ErrorModal from '../../components/ErrorModal';
+import Score from '../../components/Score';
 
 const propTypes = {
     myBoard: array,
@@ -57,6 +60,7 @@ const propTypes = {
     errorMessage: string,
     enemyName: string,
     usersNames: array,
+    myScore: number,
 };
 
 export const App = ({
@@ -76,6 +80,7 @@ export const App = ({
     errorMessage,
     enemyName,
     usersNames,
+    myScore,
 }) =>
 (
     <Texture>
@@ -109,6 +114,7 @@ export const App = ({
                         /> :
                         <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start...`}</WaitingLabel>
                     }
+                    <Score score={myScore} opacity={isGameStarted ? 1 : 0} />
                 </Fragment>
             }
         </AppContainer>
@@ -136,6 +142,7 @@ const mapStateToProps = state => ({
     toasts: getToasts(state),
     errorMessage: getErrorMessage(state),
     enemyName: getEnemyName(state),
+    myScore: getMyScore(state),
 });
 
 App.propTypes = propTypes;

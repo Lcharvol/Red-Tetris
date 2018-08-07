@@ -4,6 +4,8 @@ import {
     remove,
     map,
     isNil,
+    find,
+    length
 } from 'ramda';
 
 export const getIsGameStarted = state => state.game.isGameStarted;
@@ -63,7 +65,7 @@ export const getUsersNames = state => {
     if(isNil(users))
         return [];
     let usersNames = [];
-    map(user => usersNames = [...usersNames, user.name],users);
+    map(user => usersNames = [...usersNames, user.name], users);
     return usersNames;
 };
 
@@ -72,6 +74,15 @@ export const getOwnerName = state => {
     if(isNil(users))
         return undefined;
     let owner = undefined;
-    map(user => user.owner ? owner = user.name : null,users);
+    map(user => user.owner ? owner = user.name : null, users);
     return owner;
+};
+
+export const getMyScore = state => {
+    const me = getMe(state);
+    const users = getUsers(state);
+    
+    if(isNil(me) || length(users) === 0)
+        return 0;
+    return find(propEq('name', me))(users).score
 };
