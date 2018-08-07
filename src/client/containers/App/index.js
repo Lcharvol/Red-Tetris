@@ -94,7 +94,6 @@ export const App = ({
                             board={myBoard}
                             displayModal={displayModal}
                             modalMessage={modalMessage}
-                            opacity={1}
                         />
                         {length(users) > 1 && <Spectre
                             board={enemyBoard}

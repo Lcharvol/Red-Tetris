@@ -4,7 +4,6 @@ import {
     array,
     bool,
     string,
-    number,
 } from 'prop-types';
 import { compose, lifecycle, withStateHandlers } from 'recompose';
 
@@ -22,17 +21,15 @@ const propTypes = {
     board: array,
     displayModal: bool,
     modalMessage: string,
-    opacity: number,
 }
 
 const Board = ({
     board = INITIAL_BOARD,
     displayModal = false,
     modalMessage = '',
-    opacity = 1,
 }) => (
     <Back>
-        <Container opacity={opacity}>
+        <Container>
             <GameModal value={modalMessage} opacity={displayModal ? 0.6 : 0}/>
             <Shadow/>
             <InnerBoard>

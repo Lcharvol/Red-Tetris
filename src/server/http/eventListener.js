@@ -84,7 +84,7 @@ const eventListener = (socket, io) => {
                         return Game.removeRoom(rooms, intv, actionSocket.gameName, roomIndex);
                     if(!isNil(user1.win) || (!isNil(user2) && !isNil(user2.win)))
                         rooms = Game.endGame(intv, io, actionSocket.gameName, rooms, roomIndex);
-                    rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intvId: uuidv1()};
+                    rooms[roomIndex] = {...rooms[roomIndex], users: newUsers, intv, intvId: uuidv1()};
                     emitToRoom(io, actionSocket.gameName, ACTION, 'updateGameInfo', { ...rooms[roomIndex] });
                 },DROP_INTERVAL);
                 rooms[roomIndex] = res;

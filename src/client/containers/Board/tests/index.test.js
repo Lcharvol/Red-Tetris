@@ -47,25 +47,10 @@ describe('Board:', () => {
         it('Should find a Container', () => {
             expect(wrapper.find(Container).length).toBe(1);
         });
-        it('Container should have the correct styles props', () => {
-            expect(wrapper.find(Container)).toHaveStyleRule("opacity", "1");
-        });
-        it('Container should have the correct styles props', () => {
-            const props = {
-                board: [
-                ],
-                displayModal: false,
-                modalMessage: '',
-                opacity: 0,
-
-            }
-            const wrapper = mount(<Board {...props}/>);
-            expect(wrapper.find(Container)).toHaveStyleRule("opacity", "0");
-        });
-        it('Should not find a GameModal', () => {
-            expect(wrapper.find(GameModal).length).toBe(0);
-        });
         it('Should find a GameModal', () => {
+            expect(wrapper.find(GameModal).length).toBe(1);
+        });
+        it('Should find a GameModal with 0.6 opacity', () => {
             const props = {
                 board: [
                     { value: 0 },
@@ -77,6 +62,21 @@ describe('Board:', () => {
             const wrapper = mount(<Board {...props}/>);
             expect(wrapper.find(GameModal).length).toBe(1);
             expect(wrapper.find(GameModal).props().value).toBe('fakeModalMessage');
+            expect(wrapper.find(GameModal)).toHaveStyleRule("opacity", "0.6");
+        });
+        it('Should find a GameModal with 0 opacity', () => {
+            const props = {
+                board: [
+                    { value: 0 },
+                ],
+                displayModal: false,
+                modalMessage: '',
+                opacity: 1,
+            }
+            const wrapper = mount(<Board {...props}/>);
+            expect(wrapper.find(GameModal).length).toBe(1);
+            expect(wrapper.find(GameModal).props().value).toBe('');
+            expect(wrapper.find(GameModal).props().opacity).toBe(0);
         });
         it('Should not find a InnerBoard', () => {
             expect(wrapper.find(InnerBoard).length).toBe(1);
