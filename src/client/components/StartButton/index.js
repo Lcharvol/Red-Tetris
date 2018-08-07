@@ -6,7 +6,7 @@ import {
     string,
     number,
 } from 'prop-types';
-import { compose, withStateHandlers } from 'recompose';
+import { compose, withStateHandlers, onlyUpdateForKeys } from 'recompose';
 
 import { 
     Container,
@@ -58,4 +58,5 @@ export default compose(
             }),
         }
     ),
+    onlyUpdateForKeys(['isGameStarted', 'opacity'])
 )(StartButton);

@@ -1,12 +1,20 @@
 import React from 'react';
+import { onlyUpdateForPropTypes, compose, setPropTypes } from 'recompose';
+import { object, string, number } from 'prop-types' ;
 
 import { Container } from './styles';
 
-const Cell = ({ cell: { color, value } }) => (
+const Cell = ({ color, value }) => (
     <Container
         color={color}
         value={value}
     />
 );
 
-export default Cell;
+export default compose(
+    onlyUpdateForPropTypes,
+    setPropTypes({
+        color: string.isRequired,
+        value: number.isRequired,
+    })
+  )(Cell);

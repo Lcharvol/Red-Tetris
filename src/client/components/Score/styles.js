@@ -9,4 +9,5 @@ export const Container = styled.div`
     transition-delay: 1s;
     opacity:${({ opacity }) => opacity};
     margin-top:-50px;
+    transform: scale(${({ size }) => size});
 `;

@@ -33,7 +33,7 @@ const Board = ({
             <Shadow/>
             <InnerBoard>
                 {board.map((cell, id) => (
-                    <Cell key={id} cell={cell} />
+                    <Cell key={id} color={cell.color} value={cell.value} />
                 ))}
             </InnerBoard>
         </Container>

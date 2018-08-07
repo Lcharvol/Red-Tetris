@@ -1,5 +1,6 @@
 import React from 'react';
 import { string, number } from 'prop-types';
+import { onlyUpdateForKeys } from 'recompose';
 
 import {
     Container,
@@ -18,4 +19,4 @@ const GameModal = ({ value = '', opacity }) => (
 
 GameModal.propTypes = propTypes;
 
-export default GameModal;
+export default onlyUpdateForKeys(['value', 'opacity'])(GameModal);
