@@ -55,12 +55,14 @@ const eventListener = (socket, io) => {
                     const needNewPiece = length(newUser1.pieces) <= 2 || (!isNil(newUser2) && length(newUser2.pieces) <= 2);
                     const newPiece = Piece.newPiece();
 
-                    if(newUser1.lineToGive > 0 && !isNil(newUser2)) {
-                        newUser2.board = AddFullLine(newUser2.board, newUser1.lineToGive);
+                    if(newUser1.lineToGive > 1 && !isNil(newUser2)) {
+                        const lineToGive = newUser1.lineToGive === 2 ? 1 : 2;
+                        newUser2.board = AddFullLine(newUser2.board, lineToGive);
                         newUser1.lineToGive = 0;
                     }
-                    if(!isNil(newUser2) && newUser2.lineToGive > 0) {
-                        newUser1.board = AddFullLine(newUser1.board, newUser2.lineToGive);
+                    if(!isNil(newUser2) && newUser2.lineToGive > 1) {
+                        const lineToGive = newUser2.lineToGive === 2 ? 1 : 2;
+                        newUser1.board = AddFullLine(newUser1.board, lineToGive);
                         newUser2.lineToGive = 0;
                     }
                     const newUsers = !isNil(user2) ?
