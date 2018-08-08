@@ -89,6 +89,14 @@ const Game = {
                 display: true,
                 message: '3'
             },
+            users: length(rooms[roomIndex].users) === 2 ?
+            [
+                {...rooms[roomIndex].users[0], score: 0},
+                {...rooms[roomIndex].users[1], score: 0},
+            ] :
+            [
+                {...rooms[roomIndex].users[0], score: 0},
+            ],
             toasts: [ Game.newToast(`${user} start the game`)]
         });
         removeToast(io, gameName);
