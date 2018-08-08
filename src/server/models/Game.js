@@ -152,13 +152,12 @@ const Game = {
                     ...newUser,
                     pieces: needNewPiece ? [...newUser.pieces, Piece.newPiece()] : newUser.pieces,
                 };
-        } else if(equals(type, RIGHT)) {
+        } else if(equals(type, RIGHT))
             room.users[userIndex] = moveRight(room.users[userIndex]);
-        } else if(equals(type, LEFT)) {
+        else if(equals(type, LEFT))
             room.users[userIndex] = moveLeft(room.users[userIndex]);
-        } else if(equals(type, ROTATE)) {
+        else if(equals(type, ROTATE))
             room.users[userIndex] = rotate(room.users[userIndex]);
-        };
         emitToRoom(io, actionSocket.gameName, ACTION, UPDATE_GAME_INFO, { ...room });
         return room;
     },

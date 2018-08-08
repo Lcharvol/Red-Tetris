@@ -7,7 +7,7 @@ export const Container = styled.div`
     font-weight:700;
     transition: opacity 1s ease-in-out 1s, transform 0.1s ease-in-out, margin-top 0.1s ease-in-out;
     opacity:${({ opacity }) => opacity};
-    margin-top:${({ size }) => size === 1 ? -50 : -53}px;
+    margin-top:${({ size }) => size === 1 ? 0 : -3}px;
     transform: scale(${({ size }) => size});
     text-shadow:
         0 0 5px #fff, 0 0 10px #fff,

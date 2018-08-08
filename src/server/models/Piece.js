@@ -1,4 +1,4 @@
-import { length } from 'ramda';
+import { length, equals } from 'ramda';
 
 import {
     getRandomNumber,
@@ -23,12 +23,15 @@ const Piece = {
             color: newColor,
         };
     },
+
     newPiece() {
         return Piece.getRandomPiece();
     },
+
     getCellColor() {
         return CELLS_COLORS[getRandomNumber(0, length(CELLS_COLORS) - 1)]
     },
+
     setAllCellsInactive(board) {
         board.map((cell, id) => {
             if(cell.active)
@@ -36,16 +39,17 @@ const Piece = {
         })
         return board;
     },
+
     addPiece(board, newPiece) {
         const { piece, pieceId, color, version, posX, posY } = newPiece;
         const newBoard = [...board];
         const newValue = getRandomNumber(1, 1000);
 
         piece[version].map((value, id) => {
-            if(value === 0) return
+            if(equals(value, 0)) return
             const pieceWidth = Math.sqrt(length(piece[version]));
             let newId = (id % pieceWidth) + (BOARD_WIDTH * Math.floor(id / pieceWidth)) + posX + (posY * BOARD_WIDTH);
-            if(newBoard[newId].value !== 0)
+            if(!equals(newBoard[newId].value,0))
                 throw new Error('cant add');
             newBoard[newId] = {
                 value: newValue,

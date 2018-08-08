@@ -104,6 +104,7 @@ export const App = ({
                             board={enemyBoard}
                         />}
                     </BoardContainer>
+                    <Score score={myScore} opacity={isGameStarted ? 1 : 0} />
                     {owner ?
                         <StartButton
                             startGame={startGame}
@@ -114,7 +115,6 @@ export const App = ({
                         /> :
                         <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start...`}</WaitingLabel>
                     }
-                    <Score score={myScore} opacity={isGameStarted ? 1 : 0} />
                 </Fragment>
             }
         </AppContainer>

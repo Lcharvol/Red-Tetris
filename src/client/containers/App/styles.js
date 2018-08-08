@@ -52,4 +52,5 @@ export const WaitingLabel = styled.div`
     font-weight:100;
     transition: opacity 0.7s ease-in-out;
     opacity:${({ isGameStarted }) => isGameStarted ? 0 : 0.8};
+    margin-top:-50px;
 `;

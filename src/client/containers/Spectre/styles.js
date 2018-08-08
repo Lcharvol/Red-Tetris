@@ -7,7 +7,7 @@ export const Container = styled.div`
     right:35px;
     display:flex;
     background-color:${CELLS_COLORS[1]};
-    border-radius:3px;
+    border-radius:2px;
     margin: 30px 10px 30px 10px;
     padding:3px;
 `;

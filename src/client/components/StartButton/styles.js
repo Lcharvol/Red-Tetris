@@ -1,21 +1,24 @@
 import styled from 'styled-components';
 
-import { FLAT_RED, MAIN_RED, MAIN_COLOR } from '../../constants/colors';
+import { FLAT_RED, MAIN_RED, MAIN_COLOR, DARK_MAIN_COLOR } from '../../constants/colors';
 
 export const Container = styled.div`
     display:flex;
     width:150px;
     text-align: center;
-    cursor: pointer;
+    cursor: ${({ opacity }) => opacity === 1 ? 'pointer' : 'default'};
     transition: opacity 1s ease-in-out;
     opacity:${({ opacity }) => opacity};
     transition-delay: 0.3s;
+    z-index: 200;
+    margin-top:-60px;
 `;
 
 
-export const ButtonText = styled.div`
+export const ButtonText = styled.p`
     text-decoration: none;
     color: white;
+    z-index:100;
     display: inline-block;
     padding: 12px 24px;
     border: 1px solid #4f4f4f;
@@ -46,24 +49,24 @@ export const ButtonText = styled.div`
         top: 180%;
         width: 160%;
         height: 190%;
-        background-color: ${FLAT_RED};
+        background: ${MAIN_RED};
         border-radius: 50%;
         display: block;
         transition: all 0.5s 0.1s cubic-bezier(0.55,0,0.1,1);;
         z-index: -1;
     }
     &:hover {
-        color: #4f4f4f;
-        border: 1px solid ${FLAT_RED};
+        color: ${DARK_MAIN_COLOR};
+        border: 1px solid ${DARK_MAIN_COLOR};
         &:before {
           top: -35%;
-          background-color: ${FLAT_RED};
+          background: ${MAIN_RED};
           transform: translateX(-50%)scaleY(1.3)scaleX(0.8);
         }
         
         &:after {
           top: -45%;
-          background-color: ${FLAT_RED};
+          background: ${MAIN_RED};
           transform: translateX(-50%)scaleY(1.3)scaleX(0.8);
         }
     }
