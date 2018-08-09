@@ -32,10 +32,8 @@ describe('Constants pieces', () => {
     ]);
     expect(pieces[1]).toEqual([
         [
-            0,0,0,0,
-            0,1,1,0,
-            0,1,1,0,
-            0,0,0,0,
+            1,1,
+            1,1,
         ],
     ]);
     expect(pieces[2]).toEqual([

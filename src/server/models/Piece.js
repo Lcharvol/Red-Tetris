@@ -14,6 +14,7 @@ const Piece = {
     getRandomPiece() {
         const pieceId = getRandomNumber(0, 6);
         const newColor = Piece.getCellColor();
+        
         return {
             piece: pieces[pieceId],
             pieceId,

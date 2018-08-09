@@ -13,7 +13,7 @@ import {
 import debug from 'debug';
 import uuidv1 from 'uuid/v1';
 
-import { removeToast, emitToRoom, emitToSocket } from './utils';
+import { removeToast, emitToRoom, emitToSocket } from '../socketIo/utils';
 import { initialBoard } from '../constants/board';
 import { roomPattern, DROP_INTERVAL } from '../constants/game';
 import { RIGHT, LEFT, BOTTOM, ROTATE } from '../constants/movesTypes';

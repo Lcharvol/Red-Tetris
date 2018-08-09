@@ -1,31 +1,21 @@
 import express from 'express';
-import socketIo from 'socket.io';
 import bodyParser from 'body-parser';
 
 import debug from 'debug';
 import fs from 'fs';
+import http from 'http';
 
 import { getUrl, bindError, bindLogger, bindCtx } from './helpers';
-import eventListener from './eventListener';
 import { BUNDLE_ERROR } from '../constants/messages';
-import { CONNECTION } from '../constants/eventsTypes';
 
 const logger = debug('tetris:http');
 const logerror = debug('tetris:http:error');
 
-const init = async ctx => {
-    
-    const app = await express();
-    const { server: { host, port } } = ctx.config;
-    const httpServer = await app.listen(port, host, () => {
-      httpServer.url = getUrl(httpServer);
-      logger(`Connected at this address: ${httpServer.url}`);
-    });
-    const io = socketIo(httpServer);
-
-    io.on(CONNECTION, async socket => {
-        eventListener(socket, io);
-    });
+const init = ctx => {
+    const { config } = ctx;
+    const { server: { host, port } } = config;
+    const app = express();
+    const httpServer = http.createServer(app);
 
     const handler = (req, res) => {
         const file = req.url === '/bundle.js' ? '/../../../build/bundle.js' : '/../../../public/index.html';
@@ -38,15 +28,23 @@ const init = async ctx => {
             res.writeHead(200)
             res.end(data)
         })
-    }
-  
-    await app
+    };
+    const promise = new Promise((resolve) => {
+        app
         .use(bodyParser.json())
         .use(bodyParser.urlencoded({ extended: true }))
         .use(bindCtx(ctx))
         .use(bindError)
         .use('/', handler);
-    return ({ ...ctx, http: httpServer });
-  };
+
+        httpServer.listen(port, host, () => {
+        httpServer.url = getUrl(httpServer);
+        logger(`server started on ${httpServer.url}`);
+        resolve({ ...ctx, http: httpServer });
+        });
+    });
+
+    return promise;
+};
   
   export default init;

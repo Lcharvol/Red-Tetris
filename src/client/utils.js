@@ -3,6 +3,7 @@ import {
     dropLast,
     indexOf,
     drop,
+    equals
 } from 'ramda';
 import parse from 'url-parse';
 
@@ -18,7 +19,10 @@ export const getRoomName = str => {
 
     if(indexOf('#', str) < 0)
         return undefined;
-    return drop(1, dropLast(toCut, str));
+    const roomName = drop(1, dropLast(toCut, str));
+    if(equals(length(roomName), 0))
+        return undefined;
+    return roomName;
 };
   
 export const getUser = str => {
@@ -26,7 +30,10 @@ export const getUser = str => {
     
     if(toCut === 0)
         return undefined;
-    return dropLast(1, drop(toCut, str));
+    const user = dropLast(1, drop(toCut, str));
+    if(equals(length(user) ,0))
+        return undefined;
+    return user;
 };
 
 export const getParsedGameUrl = gameUrl => parse(gameUrl);

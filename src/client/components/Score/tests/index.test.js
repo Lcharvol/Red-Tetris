@@ -21,7 +21,6 @@ describe('Score:', () => {
         const wrapper = mount(<Score {...props}/>);
 
         it('Should find a Container', () => {
-            expect(wrapper).toMatchSnapshot();
             expect(wrapper.find(Container).length).toBe(1);
         });
         describe('animateScore:', () => {
