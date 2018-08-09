@@ -18,7 +18,7 @@ import {
 import { moveBottom, AddFullLine } from '../boardManager';
 import { emitToRoom } from './utils';
 
-const logger = debug('tetris:http');
+const logger = debug('tetris:io');
 
 let rooms = [];
 
@@ -52,7 +52,7 @@ const eventListener = (socket, io) => {
                     const user2 = twoPlayerGame ? room.users[1] : undefined;
                     let newUser1 = moveBottom(user1);
                     let newUser2 = !isNil(user2) ? moveBottom(user2) : undefined;
-                    const needNewPiece = length(newUser1.pieces) <= 2 || (!isNil(newUser2) && length(newUser2.pieces) <= 2);
+                    const needNewPiece = length(newUser1.pieces) <= 4 || (!isNil(newUser2) && length(newUser2.pieces) <= 4);
                     const newPiece = Piece.newPiece();
 
                     if(newUser1.lineToGive > 1 && !isNil(newUser2)) {

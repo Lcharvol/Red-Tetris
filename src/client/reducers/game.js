@@ -25,7 +25,11 @@ switch (action.type) {
         return {...state, displayModal: false, modalMessage: ''};
     case UPDATE_GAME_INFO:
         if(action.body.toasts)
-            return {...state, ...omit(['toasts'],action.body), toasts: [...state.toasts, ...action.body.toasts]}
+            return {
+                ...state,
+                ...omit(['toasts'],action.body),
+                toasts: [...state.toasts, ...action.body.toasts]
+            }
         return {...state, ...action.body}
     case REMOVE_TOAST:
         return {...state, toasts: drop(1,state.toasts)};

@@ -86,3 +86,12 @@ export const getMyScore = state => {
         return 0;
     return find(propEq('name', me))(users).score
 };
+
+export const getNextPieces = state => {
+    const me = getMe(state);
+    const users = getUsers(state);
+    
+    if(isNil(me) || length(users) === 0)
+        return [];
+    return find(propEq('name', me))(users).pieces || [];
+};

@@ -3,12 +3,12 @@ import { MAIN_RED, DARK_MAIN_COLOR, CELLS_COLORS } from '../../constants/colors'
 
 export const Container = styled.div`
     position:absolute;
-    top:35px;
-    right:35px;
+    top:10px;
+    right:-125px;
     display:flex;
     background-color:${CELLS_COLORS[1]};
     border-radius:2px;
-    margin: 30px 10px 30px 10px;
+    margin: 0px 10px 30px 10px;
     padding:3px;
 `;
 

@@ -28,6 +28,7 @@ export const AppContainer = styled.div`
 `;
 
 export const BoardContainer = styled.div`
+    position:relative;
     display:flex;
     justify-content: center;
     align-items: center;
