@@ -22,7 +22,7 @@ const NextPieces = ({ pieces, multiPlayers }) => (
                 key={nb}
                 piece={pieces[nb]}
                 opacity={equals(nb, 0) ? 1 : 0.5}
-                size={equals(nb, 0) ? 1.3 : 0.8}
+                size={equals(nb, 0) ? 1 : 0.6}
                 pieceId={pieces[nb].pieceId}
             />
         ,length(pieces) < 2 ? length(pieces): 2)}

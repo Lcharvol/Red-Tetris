@@ -79,7 +79,7 @@ const Game = {
     },
 
     initStart(io, gameName, user, rooms, roomIndex) {
-        rooms[roomIndex] = {...rooms[roomIndex], isGameStarted: true, modal: { display: false, message: ''}}
+        rooms[roomIndex] = {...rooms[roomIndex], modal: { display: false, message: ''}}
         map(user => {
             user.board = initialBoard;
         },rooms[roomIndex].users)
@@ -127,7 +127,7 @@ const Game = {
                         win: null,
                     }
                 ], numberOfPlayer);
-                room = {...rooms[roomIndex], users: newUsers, isGameStarted: true};
+                room = {...rooms[roomIndex], isGameStarted: true, users: newUsers, isGameStarted: true};
                 emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {
                     ...room,
                     modal: {
