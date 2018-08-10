@@ -49,6 +49,8 @@ export default compose(
         componentDidMount() {
             intv(this.props.handleChangeOpacity);
         },
-        componentWillUnmount() {clearInterval(intv);}
+        componentWillUnmount() {
+            clearInterval(intv);
+        }
     }),
 )(Title);
