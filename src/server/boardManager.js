@@ -108,7 +108,7 @@ export const moveBottom = user => {
                 win: null,
                 score: newUser.score + 10 + getPointByline(checkBoardRes.lineToGive),
                 activePiece: {...pieces[0]},
-                lineToGive: newUser.lineToGive + checkBoardRes.lineToGive,
+                lineToGive: checkBoardRes.lineToGive,
             }
         } catch (e) {
             return {
