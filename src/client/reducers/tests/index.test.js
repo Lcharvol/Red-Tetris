@@ -1,4 +1,4 @@
-import reducer from '../game';
+import reducer from '../index';
 import * as types from '../../actions/game';
 
 describe('todos reducer', () => {
@@ -61,19 +61,18 @@ describe('todos reducer', () => {
         )
     })
     it('should handle UPDATE_GAME_INFO with toasts', () => {
-        const body = {
+        const body2 = {
             toasts: [],
         }
         expect(
-            reducer([], {
+            reducer({
+                toasts: ['toast1', 'toast2']
+            }, {
                 type: types.UPDATE_GAME_INFO,
-                body,
+                body: body2,
             })
         ).toEqual(
             {
-                isGameStarted: true,
-                me: 'lcharvol',
-                gameName: 'room1',
                 toasts: ['toast1', 'toast2'],
             }
         )

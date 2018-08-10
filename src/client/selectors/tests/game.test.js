@@ -19,44 +19,42 @@ import {
 } from '../game';
 
 const state = {
-    game: {
-        isGameStarted: true,
-        modal: {
-            display:true,
-            message: 'fakeModalMessage',
-        },
-        roomName: 'room1',
-        me: 'lcharvol',
-        users: [
-            {
-                name: 'lcharvol',
-                owner: true,
-                board: 'fakeUser1Board',
-                pieces: [
-                    {
-                        value: 1,
-                        color: 'red',
-                    }
-                ],
-                score: 100,
-            },
-            {
-                name: 'lcharvol2',
-                owner: false,
-                board: 'fakeUser2Board',
-                pieces: [
-                    {
-                        value: 1,
-                        color: 'red',
-                    }
-                ],
-                score: 200,
-            }
-        ],
-        toasts: ['fakeToast1', 'fakeToast2'],
-        errorMessage: 'fakeErrorMessage',
-        gameDecount: false
+    isGameStarted: true,
+    modal: {
+        display:true,
+        message: 'fakeModalMessage',
     },
+    roomName: 'room1',
+    me: 'lcharvol',
+    users: [
+        {
+            name: 'lcharvol',
+            owner: true,
+            board: 'fakeUser1Board',
+            pieces: [
+                {
+                    value: 1,
+                    color: 'red',
+                }
+            ],
+            score: 100,
+        },
+        {
+            name: 'lcharvol2',
+            owner: false,
+            board: 'fakeUser2Board',
+            pieces: [
+                {
+                    value: 1,
+                    color: 'red',
+                }
+            ],
+            score: 200,
+        }
+    ],
+    toasts: ['fakeToast1', 'fakeToast2'],
+    errorMessage: 'fakeErrorMessage',
+    gameDecount: false
 };
 
 const emptyState = { game: {}};
