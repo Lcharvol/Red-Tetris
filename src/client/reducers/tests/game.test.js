@@ -6,6 +6,7 @@ describe('todos reducer', () => {
         expect(reducer(undefined, {})).toEqual(
             {
                 isGameStarted: false,
+                gameDecount: false,
                 displayModal: false,
                 toasts: [],
                 modalMessage: '',
