@@ -13,6 +13,9 @@ import {
     getUsers,
     getUsersNames,
     getOwnerName,
+    getNextPieces,
+    getMyScore,
+    getGameDecount
 } from '../game';
 
 const state = {
@@ -29,15 +32,30 @@ const state = {
                 name: 'lcharvol',
                 owner: true,
                 board: 'fakeUser1Board',
+                pieces: [
+                    {
+                        value: 1,
+                        color: 'red',
+                    }
+                ],
+                score: 100,
             },
             {
                 name: 'lcharvol2',
                 owner: false,
                 board: 'fakeUser2Board',
+                pieces: [
+                    {
+                        value: 1,
+                        color: 'red',
+                    }
+                ],
+                score: 200,
             }
         ],
         toasts: ['fakeToast1', 'fakeToast2'],
         errorMessage: 'fakeErrorMessage',
+        gameDecount: false
     },
 };
 
@@ -61,12 +79,24 @@ describe('Selectors: ', () => {
 
             expect(res).toBe(expectedRes);
         });
+        test('should return false', () => {
+            const expectedRes = false;
+            const res = getDisplayModal(emptyState);
+
+            expect(res).toBe(expectedRes);
+        });
     });
 
     describe('getModalMessage: ', () => {
         test('should return the right modal message', () => {
             const expectedRes = 'fakeModalMessage';
             const res = getModalMessage(state);
+
+            expect(res).toBe(expectedRes);
+        });
+        test('should return am empty string', () => {
+            const expectedRes = '';
+            const res = getModalMessage(emptyState);
 
             expect(res).toBe(expectedRes);
         });
@@ -85,6 +115,12 @@ describe('Selectors: ', () => {
         test('should return the right enemy name', () => {
             const expectedRes = 'lcharvol2';
             const res = getEnemyName(state);
+
+            expect(res).toBe(expectedRes);
+        });
+        test('should return undefined', () => {
+            const expectedRes = undefined;
+            const res = getEnemyName({ game: { users: [] } });
 
             expect(res).toBe(expectedRes);
         });
@@ -120,6 +156,17 @@ describe('Selectors: ', () => {
                             board: 'fakeUser2Board',
                         }
                     ],
+                }
+            });
+
+            expect(res).toBe(expectedRes);
+        });
+        test('should return false', () => {
+            const expectedRes = false;
+            const res = getOwner({
+                game: {
+                    me: 'lcharvol',
+                    users: undefined
                 }
             });
 
@@ -166,6 +213,12 @@ describe('Selectors: ', () => {
         });
         test('should return undefined', () => {
             const expectedRes = undefined;
+            const res = getEnemyBoard({ game: { users: [] } });
+
+            expect(res).toBe(expectedRes);
+        });
+        test('should return undefined', () => {
+            const expectedRes = undefined;
             const res = getEnemyBoard(emptyState);
 
             expect(res).toBe(expectedRes);
@@ -197,11 +250,25 @@ describe('Selectors: ', () => {
                     name: 'lcharvol',
                     owner: true,
                     board: 'fakeUser1Board',
+                    pieces: [
+                        {
+                            value: 1,
+                            color: 'red',
+                        }
+                    ],
+                    score: 100,
                 },
                 {
                     name: 'lcharvol2',
                     owner: false,
                     board: 'fakeUser2Board',
+                    pieces: [
+                        {
+                            value: 1,
+                            color: 'red',
+                        }
+                    ],
+                    score: 200,
                 }
             ];
             const res = getUsers(state);
@@ -235,6 +302,51 @@ describe('Selectors: ', () => {
         test('should return undefined', () => {
             const expectedRes = undefined;
             const res = getOwnerName(emptyState);
+
+            expect(res).toEqual(expectedRes);
+        });
+    });
+
+    describe('getNextPieces: ', () => {
+        test('should return next pieces', () => {
+            const expectedRes = [{ value: 1, color: 'red' }];
+            const res = getNextPieces(state);
+
+            expect(res).toEqual(expectedRes);
+        });
+        test('should return an empty array', () => {
+            const expectedRes = [];
+            const res = getNextPieces(emptyState);
+
+            expect(res).toEqual(expectedRes);
+        });
+        test('should return an empty array', () => {
+            const expectedRes = [];
+            const res = getNextPieces(({ game: { me: 'lcharvol', users: [{ name: 'lcharvol' }] } }));
+
+            expect(res).toEqual(expectedRes);
+        });
+    });
+
+    describe('getMyScore: ', () => {
+        test('should return my score', () => {
+            const expectedRes = 100;
+            const res = getMyScore(state);
+
+            expect(res).toEqual(expectedRes);
+        });
+        test('should return 0', () => {
+            const expectedRes = 0;
+            const res = getMyScore(emptyState);
+
+            expect(res).toEqual(expectedRes);
+        });
+    });
+
+    describe('getGameDecount: ', () => {
+        test('should return false', () => {
+            const expectedRes = false;
+            const res = getGameDecount(state);
 
             expect(res).toEqual(expectedRes);
         });
