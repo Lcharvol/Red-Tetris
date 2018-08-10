@@ -1,5 +1,5 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import 'jest-styled-components'
@@ -12,6 +12,7 @@ import {
     Container,
     InnerBoard
 } from '../styles';
+import { INITIAL_BOARD } from '../../../constants/board';
 
 configure({ adapter: new Adapter() });
 
@@ -83,6 +84,12 @@ describe('Board:', () => {
         });
         it('Should not find a 13 Cells', () => {
             expect(wrapper.find(Cell).length).toBe(13);
+        });
+        it('Should get default props when no props given', () => {
+            const wrapper = mount(<Board/>);
+            expect(wrapper.prop('board')).toEqual(undefined);
+            expect(wrapper.prop('displayModal')).toEqual(undefined);
+            expect(wrapper.prop('modalMessage')).toEqual(undefined);
         });
     });
 });

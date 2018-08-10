@@ -60,24 +60,24 @@ describe('todos reducer', () => {
             }
         )
     })
-    // it('should handle UPDATE_GAME_INFO with toasts', () => {
-    //     const body = {
-    //         toasts: [],
-    //     }
-    //     expect(
-    //         reducer([], {
-    //             type: types.UPDATE_GAME_INFO,
-    //             body,
-    //         })
-    //     ).toEqual(
-    //         {
-    //             isGameStarted: true,
-    //             me: 'lcharvol',
-    //             gameName: 'room1',
-    //             toasts: ['toast1', 'toast2'],
-    //         }
-    //     )
-    // })
+    it('should handle UPDATE_GAME_INFO with toasts', () => {
+        const body = {
+            toasts: [],
+        }
+        expect(
+            reducer([], {
+                type: types.UPDATE_GAME_INFO,
+                body,
+            })
+        ).toEqual(
+            {
+                isGameStarted: true,
+                me: 'lcharvol',
+                gameName: 'room1',
+                toasts: ['toast1', 'toast2'],
+            }
+        )
+    })
     it('should handle REMOVE_TOAST', () => {
         expect(
             reducer({

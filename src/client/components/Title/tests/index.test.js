@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Title from '../index';
+import Title, { intv } from '../index';
 import {
     Container,
     TopText,
@@ -11,6 +11,8 @@ import {
 } from '../styles';
 
 configure({ adapter: new Adapter() });
+
+jest.useFakeTimers();
 
 describe('Title:', () => {
     describe('index.js:', () => {
@@ -30,6 +32,21 @@ describe('Title:', () => {
         it('Should find a BottomText with the right value', () => {
             expect(wrapper.find(BottomText).length).toBe(1);
             expect(wrapper.find(BottomText).children().length).toBe(1);
+        });
+    });
+    describe('intv:', () => {
+        const handleChangeOpacity = jest.fn();
+        it('Should call handleChangeOpacity 2 times', () => {
+            intv(handleChangeOpacity);
+            expect(setInterval).toHaveBeenCalledTimes(2);
+            expect(handleChangeOpacity).not.toBeCalled();
+            
+              // Fast-forward until all timers have been executed
+              jest.advanceTimersByTime(4200);
+            
+              // Now our callback should have been called!
+              expect(handleChangeOpacity).toBeCalled();
+              expect(handleChangeOpacity).toHaveBeenCalledTimes(3);
         });
     });
 });

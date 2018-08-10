@@ -15,7 +15,7 @@ const propTypes = {
     opacity: number.isRequired,
 };
 
-const intv = (handleChangeOpacity) => setInterval(() => {
+export const intv = (handleChangeOpacity) => setInterval(() => {
     let randomTimer = getRandomNumber(500, 1500);
     handleChangeOpacity();
     setTimeout(() => handleChangeOpacity(), randomTimer);
