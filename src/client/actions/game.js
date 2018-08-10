@@ -8,7 +8,6 @@ export const REMOVE_TOAST = 'REMOVE_TOAST';
 
 export const SET_ERROR_MESSAGE = 'SET_ERROR_MESSAGE';
 
-
 export const setModalMessage = message => dispatch => dispatch(({ type: SET_MODAL_MESSAGE, message }));
 
 export const deleteModalMessage = message => dispatch => dispatch(({ type: DELETE_MODAL_MESSAGE }));

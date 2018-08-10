@@ -95,3 +95,5 @@ export const getNextPieces = state => {
         return [];
     return find(propEq('name', me))(users).pieces || [];
 };
+
+export const getGameDecount = state => state.game.gameDecount;

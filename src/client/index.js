@@ -7,7 +7,6 @@ import { equals, isNil } from 'ramda';
 import configureStore from './store';
 import App from './containers/App';
 import {
-  startGame,
   updateGameInfo,
   setModalMessage,
   removeToast,
@@ -29,7 +28,6 @@ const user = getUser(hash);
 
 io.on('action', data => {
   const { name } = data;
-  if(equals(name,'startGame')) store.dispatch(startGame());
   if(equals(name,'updateGameInfo')) store.dispatch(updateGameInfo(data.body));
   if(equals(name,'removeToast')) store.dispatch(removeToast());
 });

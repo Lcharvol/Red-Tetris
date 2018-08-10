@@ -46,12 +46,3 @@ export const ToastsContainer = styled.div`
     padding:20px;
     z-index:1000;
 `;
-
-export const WaitingLabel = styled.div`
-    color:white;
-    font-size: 1.1em;
-    font-weight:100;
-    transition: opacity 0.7s ease-in-out;
-    opacity:${({ isGameStarted }) => isGameStarted ? 0 : 0.8};
-    margin-top:-50px;
-`;

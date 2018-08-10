@@ -15,7 +15,6 @@ import {
     AppContainer,
     BoardContainer,
     ToastsContainer,
-    WaitingLabel,
     Texture
 } from './styles';
 import {
@@ -33,7 +32,8 @@ import {
     getEnemyName,
     getUsersNames,
     getMyScore,
-    getNextPieces
+    getNextPieces,
+    getGameDecount,
 } from '../../selectors/game';
 import { move } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -46,6 +46,7 @@ import Title from '../../components/Title';
 import ErrorModal from '../../components/ErrorModal';
 import Score from '../../components/Score';
 import NextPieces from '../../components/NextPieces';
+import WaitingLabel from '../../components/WaitingLabel';
 
 const propTypes = {
     myBoard: array,
@@ -64,6 +65,7 @@ const propTypes = {
     usersNames: array,
     myScore: number,
     nextPieces: array.isRequired,
+    gameDecount: bool.isRequired,
 };
 
 export const App = ({
@@ -84,7 +86,8 @@ export const App = ({
     enemyName,
     usersNames,
     myScore,
-    nextPieces
+    nextPieces,
+    gameDecount
 }) =>
 (
     <Texture>
@@ -118,7 +121,11 @@ export const App = ({
                             roomName={roomName}
                             me={me}
                         /> :
-                        <WaitingLabel isGameStarted={isGameStarted}>{`Waiting for ${enemyName} to start...`}</WaitingLabel>
+                        <WaitingLabel
+                            isGameStarted={isGameStarted}
+                            enemyName={enemyName}
+                            gameDecount={gameDecount}
+                        />
                     }
                 </Fragment>
             }
@@ -149,6 +156,7 @@ const mapStateToProps = state => ({
     enemyName: getEnemyName(state),
     myScore: getMyScore(state),
     nextPieces: getNextPieces(state),
+    gameDecount: getGameDecount(state),
 });
 
 App.propTypes = propTypes;

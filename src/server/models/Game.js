@@ -68,11 +68,20 @@ const Game = {
                 display: true,
                 message: `${winner.name} loose`,
             },
-            isGameStarted: false
+            isGameStarted: false,
+            users: equals(length(rooms[roomIndex].users), 2) ? 
+            [
+                {...rooms[roomIndex].users[0], pieces: []},
+                {...rooms[roomIndex].users[1], pieces: []},
+            ] :
+            [
+                {...rooms[roomIndex].users[0], pieces: []},
+            ]
         };
         emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {
             ...rooms[roomIndex],
-            toasts: [Game.newToast(`${gameName}'s game is finish`)]
+            toasts: [Game.newToast(`${gameName}'s game is finish`)],
+            gameDecount: false
         });
         removeToast(io, gameName);
         return rooms;
@@ -89,15 +98,8 @@ const Game = {
                 display: true,
                 message: '3'
             },
-            users: length(rooms[roomIndex].users) === 2 ?
-            [
-                {...rooms[roomIndex].users[0], score: 0},
-                {...rooms[roomIndex].users[1], score: 0},
-            ] :
-            [
-                {...rooms[roomIndex].users[0], score: 0},
-            ],
-            toasts: [ Game.newToast(`${user} start the game`)]
+            toasts: [ Game.newToast(`${user} start the game`)],
+            gameDecount: true
         });
         removeToast(io, gameName);
         setTimeout(() => emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {modal: { display: true, message: '2'}}), 1000);
@@ -125,6 +127,7 @@ const Game = {
                         pieces: [newPiece],
                         activePiece: initialPiece,
                         win: null,
+                        score: 0,
                     }
                 ], numberOfPlayer);
                 room = {...rooms[roomIndex], isGameStarted: true, users: newUsers, isGameStarted: true};

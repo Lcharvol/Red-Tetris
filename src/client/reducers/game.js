@@ -9,6 +9,7 @@ import {
 
 const initialState = {
     isGameStarted: false,
+    gameDecount: false,
     displayModal: false,
     toasts: [],
     modalMessage: '',
