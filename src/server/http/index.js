@@ -11,24 +11,24 @@ import { BUNDLE_ERROR } from '../constants/messages';
 const logger = debug('tetris:http');
 const logerror = debug('tetris:http:error');
 
+export const handler = (req, res) => {
+    const file = req.url === '/bundle.js' ? '/../../../build/bundle.js' : '/../../../public/index.html';
+    fs.readFile(__dirname + file, (err, data) => {
+        if (err) {
+            logerror(err)
+            res.writeHead(500)
+            return res.end(BUNDLE_ERROR)
+        }
+        res.writeHead(200)
+        res.end(data)
+    })
+};
+
 const init = ctx => {
     const { config } = ctx;
     const { server: { host, port } } = config;
     const app = express();
     const httpServer = http.createServer(app);
-
-    const handler = (req, res) => {
-        const file = req.url === '/bundle.js' ? '/../../../build/bundle.js' : '/../../../public/index.html';
-        fs.readFile(__dirname + file, (err, data) => {
-            if (err) {
-                logerror(err)
-                res.writeHead(500)
-                return res.end(BUNDLE_ERROR)
-            }
-            res.writeHead(200)
-            res.end(data)
-        })
-    };
     const promise = new Promise((resolve) => {
         app
         .use(bodyParser.json())

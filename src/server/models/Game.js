@@ -30,7 +30,6 @@ import Piece from './Piece';
 const gameLogger = debug('tetris:game');
 
 const Game = {
-
     newToast(io, gameName, message) {
         removeToast(io, gameName);
         return { id: uuidv1(), message }
@@ -141,8 +140,8 @@ const Game = {
                 gameLogger(`Game start in the room: \"${gameName}\"`);
                 resolve(room);
             }, 3500);
-          })    
-        },
+        })    
+    },
 
     move(socket, io, actionSocket, roomIndex, rooms) {
         const { user, type } = actionSocket;
