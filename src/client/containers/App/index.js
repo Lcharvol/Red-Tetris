@@ -99,8 +99,8 @@ export const App = ({
                     <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
                     <GameInfo me={me} usersNames={usersNames}/>
                     <ToastsContainer>
-                            {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
-                        </ToastsContainer>
+                        {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
+                    </ToastsContainer>
                     <BoardContainer>
                         <Board
                             board={myBoard}

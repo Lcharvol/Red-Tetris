@@ -22,6 +22,13 @@ describe('getUser: ', () => {
 
         expect(res).toBe(expectedRes);
     });
+    test('should not find user name and return undefined', () => {
+        const str = '#room1[]';        
+        const res = getUser(str);
+        const expectedRes = undefined;
+
+        expect(res).toBe(expectedRes);
+    });
 });
 
 describe('getRoomName: ', () => {
@@ -34,6 +41,13 @@ describe('getRoomName: ', () => {
     });
     test('should not find room name and return undefined', () => {
         const str = '';        
+        const res = getRoomName(str);
+        const expectedRes = undefined;
+
+        expect(res).toBe(expectedRes);
+    });
+    test('should not find room name and return undefined', () => {
+        const str = '#';        
         const res = getRoomName(str);
         const expectedRes = undefined;
 

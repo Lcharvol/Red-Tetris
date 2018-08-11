@@ -11,7 +11,7 @@ describe('Move action', () => {
         const roomName = 'roomName';
         const res = move(event, io, me, roomName);
 
-        expect(res).toBeDefined();
+        expect(io.emit).toHaveBeenCalled();
     });
     it('Down', () => {
         const event = { key: 'ArrowDown'}
@@ -22,7 +22,7 @@ describe('Move action', () => {
         const roomName = 'roomName';
         const res = move(event, io, me, roomName);
 
-        expect(res).toBeDefined();
+        expect(io.emit).toHaveBeenCalled();
     });
     it('Right', () => {
         const event = { key: 'ArrowRight'}
@@ -33,7 +33,7 @@ describe('Move action', () => {
         const roomName = 'roomName';
         const res = move(event, io, me, roomName);
 
-        expect(res).toBeDefined();
+        expect(io.emit).toHaveBeenCalled();
     });
     it('Left', () => {
         const event = { key: 'ArrowLeft'}
@@ -44,7 +44,7 @@ describe('Move action', () => {
         const roomName = 'roomName';
         const res = move(event, io, me, roomName);
 
-        expect(res).toBeDefined();
+        expect(io.emit).toHaveBeenCalled();
     });
   });
 });
