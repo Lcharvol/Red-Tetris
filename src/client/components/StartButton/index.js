@@ -38,7 +38,7 @@ const StartButton = ({
                 handleChangeOpacity(0);
             };
         }}
-        opacity={opacity}
+        opacity={!isGameStarted ? opacity : 0}
     >
         <ButtonText>PLAY</ButtonText>
     </Container>

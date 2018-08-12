@@ -1,13 +1,10 @@
-import Game from '../Game';
-import { INITIAL_BOARD } from '../../../client/constants/board';
-import {
-    removeToast,
-    emitToRoom,
-    emitToSocket,
-} from '../utils';
 import io from 'socket.io-client';
 import http from 'http';
 import ioBack from 'socket.io';
+
+import Game from '../Game';
+import { INITIAL_BOARD } from '../../../client/constants/board';
+import { removeToast, emitToRoom, emitToSocket } from '../../socketIo/utils';
 
 let socket;
 let httpServer;
@@ -289,6 +286,7 @@ describe('models', () => {
                 Game.startGame(ioServer, actionSocket, roomIndex, rooms)
                     .then(res => {
                         expect(res).toEqual(expectedRes);
+                        expect(emitToRoom).toHaveBeenCalledTimes(1);
                     })
             });
         });

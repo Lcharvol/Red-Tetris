@@ -20,6 +20,7 @@ export const Label = styled.div`
     background:${CELLS_COLORS[1]};
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: 3px;
 `;
 
 export const Name = styled.div`

@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     number,
-    string
+    string,
+    bool
 } from 'prop-types';
 import { compose, withStateHandlers, lifecycle } from 'recompose';
 
@@ -12,13 +13,15 @@ import {
 const propTypes = {
     opacity: number.isRequired,
     enemyName: string.isRequired,
+    isGameStarted: bool.isRequired,
 }
 
 const WaitingLabel = ({
     enemyName,
-    opacity
+    opacity,
+    isGameStarted
 }) => (
-    <Container opacity={opacity}>
+    <Container opacity={!isGameStarted ? opacity : 0}>
         {`Waiting for ${enemyName} to start...`}
     </Container>
 );

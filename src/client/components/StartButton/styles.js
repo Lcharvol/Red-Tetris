@@ -27,47 +27,28 @@ export const ButtonText = styled.p`
     position: relative;
     overflow: hidden;
     width:100%;
-    &:before {
-        content: "";
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%)scaleY(1)scaleX(1.25);
-        top: 100%;
-        width: 140%;
-        height: 180%;
-        background-color: rgba(0, 0, 0, 0.05);;
-        border-radius: 50%;
-        display: block;
-        transition: all 0.5s 0.1s cubic-bezier(0.55,0,0.1,1);;
-        z-index: -1;
-    }
-    &:after: {
-        content: "";
-        position: absolute;
-        left: 55%;
-        transform: translateX(-50%)scaleY(1)scaleX(1.45);
-        top: 180%;
-        width: 160%;
-        height: 190%;
-        background: ${MAIN_RED};
-        border-radius: 50%;
-        display: block;
-        transition: all 0.5s 0.1s cubic-bezier(0.55,0,0.1,1);;
-        z-index: -1;
-    }
     &:hover {
-        color: ${DARK_MAIN_COLOR};
-        border: 1px solid ${DARK_MAIN_COLOR};
-        &:before {
-          top: -35%;
-          background: ${MAIN_RED};
-          transform: translateX(-50%)scaleY(1.3)scaleX(0.8);
-        }
-        
-        &:after {
-          top: -45%;
-          background: ${MAIN_RED};
-          transform: translateX(-50%)scaleY(1.3)scaleX(0.8);
-        }
+        border: 1px solid rgba(255, 255, 255,0.9);
+        box-shadow:
+            0 0 5px rgba(255, 255, 255,0.5),
+            0 0 10px rgba(255, 255, 255,0.4),
+            0 0 20px rgba(226, 47, 54,0.5),
+            0 0 30px rgba(226, 47, 54,0.3),
+            0 0 40px rgba(226, 47, 54,0.2),
+            0 0 75px rgba(226, 47, 54,0.1),
+
+            0 0 5px rgba(255, 255, 255,0.5) inset,
+            0 0 10px rgba(255, 255, 255,0.4) inset,
+            0 0 20px rgba(226, 47, 54,0.5) inset,
+            0 0 30px rgba(226, 47, 54,0.3) inset,
+            0 0 40px rgba(226, 47, 54,0.2) inset,
+            0 0 75px rgba(226, 47, 54,0.1) inset;
+        text-shadow:
+            0 0 5px #fff, 0 0 10px #fff,
+            0 0 20px rgba(226, 47, 54,0.8),
+            0 0 30px rgba(226, 47, 54,0.8),
+            0 0 40px rgba(226, 47, 54,0.8),
+            0 0 55px rgba(226, 47, 54,0.8),
+            0 0 75px rgba(226, 47, 54,0.8);
     }
 `;
