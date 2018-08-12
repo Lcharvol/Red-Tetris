@@ -14,6 +14,6 @@ export const deleteModalMessage = message => dispatch => dispatch(({ type: DELET
 
 export const updateGameInfo = body => dispatch => dispatch(({ type: UPDATE_GAME_INFO, body}));
 
-export const removeToast = () => dispatch => dispatch(({ type: REMOVE_TOAST}));
+export const removeToast = toastId => dispatch => dispatch(({ type: REMOVE_TOAST, toastId}));
 
 export const setErrorMessage = message => dispatch => dispatch(({ type: SET_ERROR_MESSAGE, message }));

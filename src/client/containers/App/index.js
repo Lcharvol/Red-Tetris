@@ -41,7 +41,7 @@ import GameInfo from '../GameInfo';
 import Board from '../Board';
 import Spectre from '../Spectre';
 import StartButton  from '../../components/StartButton';
-import Toast from '../../components/Toast';
+import Toasts from '../../components/Toasts';
 import Title from '../../components/Title';
 import ErrorModal from '../../components/ErrorModal';
 import Score from '../../components/Score';
@@ -98,9 +98,7 @@ export const App = ({
                 <Fragment>
                     <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
                     <GameInfo me={me} usersNames={usersNames}/>
-                    <ToastsContainer>
-                        {map(toast => <Toast key={toast.id} text={toast.message}/>, toasts)}
-                    </ToastsContainer>
+                    <Toasts toasts={toasts}/>
                     <BoardContainer>
                         <Board
                             board={myBoard}

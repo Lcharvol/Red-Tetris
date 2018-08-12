@@ -30,11 +30,6 @@ import Piece from './Piece';
 const gameLogger = debug('tetris:game');
 
 const Game = {
-    newToast(io, gameName, message) {
-        removeToast(io, gameName);
-        return { id: uuidv1(), message }
-    },
-
     deleteRoom(rooms,id) {
         const room = rooms[id];
         if(room.isGameStarted)
@@ -43,7 +38,7 @@ const Game = {
     },
     
     newToast(message) {
-        return { id: uuidv1(), message }
+        return { id: uuidv1(), message, active: true }
     },
 
     addRoom(rooms, users, roomName) {
@@ -59,7 +54,8 @@ const Game = {
 
     endGame(intv, io, gameName, rooms, roomIndex) {
         const winner = find(propEq('win', false))(rooms[roomIndex].users);
-
+        const newToasts = [Game.newToast(`${gameName}'s game is finish`)];
+        
         clearInterval(intv);
         rooms[roomIndex] = {
             ...rooms[roomIndex],
@@ -79,14 +75,16 @@ const Game = {
         };
         emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {
             ...rooms[roomIndex],
-            toasts: [Game.newToast(`${gameName}'s game is finish`)],
+            toasts: newToasts,
             gameDecount: false
         });
-        removeToast(io, gameName);
+        removeToast(io, gameName, newToasts[0].id);
         return rooms;
     },
 
     initStart(io, gameName, user, rooms, roomIndex) {
+        const newToasts = [Game.newToast(`${user} start the game`)];
+
         rooms[roomIndex] = {...rooms[roomIndex], modal: { display: false, message: ''}}
         map(user => {
             user.board = initialBoard;
@@ -97,10 +95,10 @@ const Game = {
                 display: true,
                 message: '3'
             },
-            toasts: [ Game.newToast(`${user} start the game`)],
+            toasts: newToasts,
             gameDecount: true
         });
-        removeToast(io, gameName);
+        removeToast(io, gameName, newToasts[0].id);
         setTimeout(() => emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {modal: { display: true, message: '2'}}), 1000);
         setTimeout(() => emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {modal: { display: true, message: '1'}}), 2000);
         setTimeout(() => emitToRoom(io, gameName, ACTION, UPDATE_GAME_INFO, {modal: { display: true, message: 'GO'}}), 3000);

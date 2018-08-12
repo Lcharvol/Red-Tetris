@@ -29,7 +29,7 @@ const user = getUser(hash);
 io.on('action', data => {
   const { name } = data;
   if(equals(name,'updateGameInfo')) store.dispatch(updateGameInfo(data.body));
-  if(equals(name,'removeToast')) store.dispatch(removeToast());
+  if(equals(name,'removeToast')) store.dispatch(removeToast(data.toastId));
 });
 
 io.on('gameError', data => {

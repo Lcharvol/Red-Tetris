@@ -1,4 +1,10 @@
-import { omit, without, drop } from 'ramda';
+import {
+    omit,
+    without,
+    drop,
+    findIndex,
+    propEq
+} from 'ramda';
 import {
     SET_MODAL_MESSAGE,
     DELETE_MODAL_MESSAGE,
@@ -33,7 +39,14 @@ const reducer = (state = initialState, action) => {
                 }
             return {...state, ...action.body}
         case REMOVE_TOAST:
-            return {...state, toasts: drop(1,state.toasts)};
+            let newToasts = [...state.toasts];
+            if(!newToasts[0].active)
+                newToasts = drop(1, newToasts);
+            const toastIndex = findIndex(propEq('id', action.toastId))(newToasts);
+
+            if(toastIndex >= 0) 
+                newToasts[toastIndex].active = false;
+            return {...state, toasts: newToasts };
         case SET_ERROR_MESSAGE:
             return {...state, errorMessage: action.message};
         default:

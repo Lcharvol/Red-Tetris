@@ -30,7 +30,7 @@ const Player = {
                 let { roomName, users } = rooms[id]
                 let user = users[userIndex];
                 let newUsers = remove(userIndex, 1, users);
-
+                const newToasts = [Game.newToast(`${user.name} leave the room`)];
                 playerLogger(`${user.name} leave the ${roomName} room`);
                 socket.leave(roomName);
                 if(equals(length(newUsers),1))
@@ -40,9 +40,9 @@ const Player = {
                     rooms = Game.deleteRoom(rooms, id);
                 emitToRoom(io, roomName, ACTION, UPDATE_GAME_INFO, {
                     ...rooms[id],
-                    toasts: [Game.newToast(`${user.name} leave the room`)]
+                    toasts: newToasts
                 });
-                removeToast(io, roomName);
+                removeToast(io, roomName, newToasts[0].id);
             }
         })
         return rooms;
@@ -70,17 +70,17 @@ const Player = {
                 playerLogger(`${user} try to join the ${roomName} room, but he's allready in`);
                 emitToSocket(socket, GAME_ERROR, 'allreadyInRoom', `${user} is allready in this room !`);
             } else {
-                const newUser = 
-                        {
-                            name: user,
-                            owner: isRoomDefined ? false : true,
-                            id: currentSocketId[0],
-                            board: initialBoard,
-                            win: null,
-                            activePiece: null,
-                            lineToGive: 0,
-                            score: 0,
-                        };
+                const newUser = {
+                    name: user,
+                    owner: isRoomDefined ? false : true,
+                    id: currentSocketId[0],
+                    board: initialBoard,
+                    win: null,
+                    activePiece: null,
+                    lineToGive: 0,
+                    score: 0,
+                };
+                const newToasts = [Game.newToast(`${user} join the room`)];
 
                 socket.join(roomName);
                 if(roomIndex < 0) rooms = Game.addRoom(rooms, [newUser], roomName);
@@ -88,9 +88,9 @@ const Player = {
                 const newRoom = rooms[roomIndex] || rooms[findIndex(propEq('roomName', roomName))(rooms)];
                 emitToRoom(io, roomName, ACTION, UPDATE_GAME_INFO, {
                     ...newRoom,
-                    toasts: [ Game.newToast(`${user} join the room`)]
+                    toasts: newToasts
                 });
-                removeToast(io, roomName);
+                removeToast(io, roomName, newToasts[0].id);
                 playerLogger(`${user} join the ${roomName} room`);
             }
         }

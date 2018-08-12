@@ -1,4 +1,4 @@
-export const TOAST_DURATION = 3000;
+export const TOAST_DURATION = 4000;
 
 export const DROP_INTERVAL = 500;
 
