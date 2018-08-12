@@ -2,7 +2,6 @@ import React from 'react';
 import {
     bool,
     func,
-    roomName,
     string,
     number,
 } from 'prop-types';

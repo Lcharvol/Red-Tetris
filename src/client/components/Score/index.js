@@ -1,6 +1,11 @@
 import React from 'react';
-import { number, func } from 'prop-types';
-import { compose, lifecycle, withStateHandlers, onlyUpdateForKeys } from 'recompose';
+import { number } from 'prop-types';
+import {
+    compose,
+    lifecycle,
+    withStateHandlers,
+    onlyUpdateForKeys
+} from 'recompose';
 
 import { Container } from './styles';
 

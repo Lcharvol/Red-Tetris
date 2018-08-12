@@ -1,5 +1,5 @@
 import React from 'react';
-import { map, isNil } from 'ramda';
+import { map } from 'ramda';
 import {
     array,
     bool,

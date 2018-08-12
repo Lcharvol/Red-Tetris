@@ -4,9 +4,6 @@ import { times, length, equals } from 'ramda';
 
 import {
     Container,
-    PieceContainer,
-    PieceContent,
-    Cell
 } from './styles';
 import Piece from './Piece';
 

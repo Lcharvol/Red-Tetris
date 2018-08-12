@@ -1,6 +1,6 @@
 import React from 'react';
 import { onlyUpdateForPropTypes, compose, setPropTypes } from 'recompose';
-import { object, string, number } from 'prop-types' ;
+import { string, number } from 'prop-types' ;
 
 import { Container } from './styles';
 

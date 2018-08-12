@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import { shallow } from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
@@ -22,7 +22,7 @@ describe('Toasts:', () => {
                 }
             ]
         }
-        const wrapper = shallow(<Toasts {...props}/>);
+        const wrapper =  shallow (<Toasts {...props}/>);
         it('Should find a ToastsContainer', () => {
             expect(wrapper.find(ToastsContainer).length).toBe(1);
         });

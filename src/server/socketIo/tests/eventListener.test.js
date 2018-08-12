@@ -39,15 +39,21 @@ describe('scoket.io', () => {
     describe('eventListener', () => {
         it('Should handle event', () => {
              // once connected, emit Hello World
-            ioServer.emit('echo', 'Hello World');
+            ioServer.emit('disconect');
             socket.once('disconect', (message) => {
                 // Check that the message matches
                 expect(message).toBe('Hello World');
-                done();
             });
+            ioServer.emit('disconect', 'Hello World');
             ioServer.on('disconnect', (mySocket) => {
                 expect(Player.disconnect).toHaveBeenCall();
             });
+
+            ioServer.emit('action', 'Hello World');
+            ioServer.on('action', (mySocket) => {
+                expect(Player.disconnect).toHaveBeenCall();
+            });
+            
         });
     });
 });

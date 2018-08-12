@@ -1,7 +1,6 @@
 import React from 'react';
-import { map, equals, length } from 'ramda';
+import { equals, length } from 'ramda';
 import { array, string } from 'prop-types';
-import { connect } from 'react-redux';
 import uuidv1 from 'uuid/v1';
 
 import { getOwnerName } from '../../selectors/game';
@@ -34,8 +33,4 @@ export const GameInfo = ({ me, usersNames, owner }) => (
 
 GameInfo.propTypes = propTypes;
 
-const mapStateToProps = state => ({
-    owner: getOwnerName(state),
-});
-
-export default connect(mapStateToProps)(GameInfo);
+export default GameInfo;

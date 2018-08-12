@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { map, length, isEmpty, isNil, equals } from 'ramda';
+import { map, length, isNil } from 'ramda';
 import {
     bool,
     array,
@@ -14,7 +14,6 @@ import EventListener from 'react-event-listener';
 import {
     AppContainer,
     BoardContainer,
-    ToastsContainer,
     Texture
 } from './styles';
 import {
@@ -55,7 +54,7 @@ const propTypes = {
     startGame: func,
     isGameStarted: bool.isRequired,
     displayModal: bool.isRequired,
-    getRoomName: string,
+    roomName: string,
     modalMessage: string,
     me: string,
     users: array,
@@ -97,7 +96,7 @@ export const App = ({
             {isNil(errorMessage) && !isNil(myBoard) && 
                 <Fragment>
                     <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
-                    <GameInfo me={me} usersNames={usersNames}/>
+                    <GameInfo me={me} usersNames={usersNames} owner={owner}/>
                     <Toasts toasts={toasts}/>
                     <BoardContainer>
                         <Board

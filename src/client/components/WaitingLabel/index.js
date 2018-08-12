@@ -27,7 +27,6 @@ const WaitingLabel = ({
     isGameStarted
 }) => (
     <Container opacity={!isGameStarted ? opacity : 0}>
-    {console.log('render: ')}
         {`Waiting for ${enemyName} to start...`}
     </Container>
 );

@@ -80,13 +80,67 @@ describe('todos reducer', () => {
     it('should handle REMOVE_TOAST', () => {
         expect(
             reducer({
-                toasts: ['fakeToast']
+                toasts: [
+                    {
+                        id: 0,
+                        message: 'fakeToast0',
+                        active:true
+                    },
+                    {
+                        id: 1,
+                        message: 'fakeToast1',
+                        active:true
+                    }
+                ]
             }, {
                 type: types.REMOVE_TOAST,
+                toastId: 0,
             })
         ).toEqual(
             {
-                toasts: []
+                toasts: [
+                    {
+                        active: false,
+                        id: 0,
+                        message: "fakeToast0"
+                    },
+                    {
+                        active: true,
+                        id: 1,
+                        message: "fakeToast1"
+                    }
+                ]
+            }
+        )
+    })
+    it('should handle REMOVE_TOAST', () => {
+        expect(
+            reducer({
+                toasts: [
+                    {
+                        id: 0,
+                        message: 'fakeToast0',
+                        active:false
+                    },
+                    {
+                        id: 1,
+                        message: 'fakeToast1',
+                        active:true
+                    }
+                ]
+            }, {
+                type: types.REMOVE_TOAST,
+                toastId: 1,
+            })
+        ).toEqual(
+            {
+                toasts: [
+                    {
+                        active: false,
+                        id: 1,
+                        message: "fakeToast1"
+                    }
+                ]
             }
         )
     })
