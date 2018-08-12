@@ -1,5 +1,4 @@
 import express from 'express';
-import bodyParser from 'body-parser';
 
 import debug from 'debug';
 import fs from 'fs';
@@ -31,16 +30,14 @@ const init = ctx => {
     const httpServer = http.createServer(app);
     const promise = new Promise((resolve) => {
         app
-        .use(bodyParser.json())
-        .use(bodyParser.urlencoded({ extended: true }))
         .use(bindCtx(ctx))
         .use(bindError)
         .use('/', handler);
 
         httpServer.listen(port, host, () => {
-        httpServer.url = getUrl(httpServer);
-        logger(`server started on ${httpServer.url}`);
-        resolve({ ...ctx, http: httpServer });
+            httpServer.url = getUrl(httpServer);
+            logger(`server started on ${httpServer.url}`);
+            resolve({ ...ctx, http: httpServer });
         });
     });
 
