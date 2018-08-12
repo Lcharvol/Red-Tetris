@@ -3,24 +3,31 @@ import {shallow} from 'enzyme';
 import { configure } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 
-import Toast from '../index';
+import Toasts from '../index';
+import Toast  from '../Toast';
 import {
-    Container
+    ToastsContainer
 } from '../styles';
 
 configure({ adapter: new Adapter() });
 
-describe('Toast:', () => {
+describe('Toasts:', () => {
     describe('index.js:', () => {
         const props = {
-            text: 'fakeToastText'
+            toasts: [
+                {
+                    message: 'toast1',
+                    id: 0,
+                    active: true
+                }
+            ]
         }
-        const wrapper = shallow(<Toast {...props}/>);
-        it('ShouldFind a Container', () => {
-            expect(wrapper.find(Container).length).toBe(1);
+        const wrapper = shallow(<Toasts {...props}/>);
+        it('Should find a ToastsContainer', () => {
+            expect(wrapper.find(ToastsContainer).length).toBe(1);
         });
-        it('ShouldFind a children', () => {
-            expect(wrapper.find(Container).children().length).toBe(1);
+        it('Should find one Toast', () => {
+            expect(wrapper.find(Toast).length).toBe(1);
         });
     });
 });

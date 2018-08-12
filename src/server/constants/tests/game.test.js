@@ -6,7 +6,7 @@ import {
 
 describe('Constants game', () => {
   test('success', () => {
-    expect(TOAST_DURATION).toBe(3000);
+    expect(TOAST_DURATION).toBe(4000);
     expect(DROP_INTERVAL).toBe(500);
     expect(roomPattern).toEqual({
         isGameStarted: false,

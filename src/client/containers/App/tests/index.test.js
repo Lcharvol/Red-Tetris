@@ -14,13 +14,12 @@ import ErrorModal from '../../../components/ErrorModal';
 import NextPieces from '../../../components/NextPieces';
 import StartButton from '../../../components/StartButton';
 import WaitingLabel from '../../../components/WaitingLabel';
-import Toast from '../../../components/Toast';
+import Toasts from '../../../components/Toasts';
 import GameInfo from '../../GameInfo';
 import Spectre from '../../Spectre';
 import {
     AppContainer,
     BoardContainer,
-    ToastsContainer
 } from '../styles';
 
 configure({ adapter: new Adapter() });
@@ -118,8 +117,7 @@ describe('Board:', () => {
             expect(wrapper.find(EventListener).length).toBe(1);
             expect(wrapper.find(GameInfo).length).toBe(1);
 
-            expect(wrapper.find(ToastsContainer).length).toBe(1);
-            expect(wrapper.find(Toast).length).toBe(2);
+            expect(wrapper.find(Toasts).length).toBe(1);
 
             expect(wrapper.find(Spectre).length).toBe(1);
 
@@ -172,8 +170,7 @@ describe('Board:', () => {
             expect(wrapper.find(EventListener).length).toBe(1);
             expect(wrapper.find(GameInfo).length).toBe(1);
 
-            expect(wrapper.find(ToastsContainer).length).toBe(1);
-            expect(wrapper.find(Toast).length).toBe(2);
+            expect(wrapper.find(Toasts).length).toBe(1);
 
             expect(wrapper.find(Spectre).length).toBe(1);
 
