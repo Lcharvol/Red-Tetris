@@ -4,7 +4,12 @@ import {
     string,
     bool
 } from 'prop-types';
-import { compose, withStateHandlers, lifecycle } from 'recompose';
+import {
+    compose,
+    withStateHandlers,
+    lifecycle,
+    onlyUpdateForKeys
+} from 'recompose';
 
 import { 
     Container,
@@ -22,6 +27,7 @@ const WaitingLabel = ({
     isGameStarted
 }) => (
     <Container opacity={!isGameStarted ? opacity : 0}>
+    {console.log('render: ')}
         {`Waiting for ${enemyName} to start...`}
     </Container>
 );
@@ -46,5 +52,6 @@ export default compose(
             if(!prevProps.gameDecount && this.props.gameDecount)
                 this.props.handleChangeOpacity(0);
         },
-    })
+    }),
+    onlyUpdateForKeys(['isGameStarted', 'opacity', 'enemyName'])
 )(WaitingLabel);

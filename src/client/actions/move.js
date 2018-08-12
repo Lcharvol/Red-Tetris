@@ -1,6 +1,6 @@
 import { equals } from 'ramda';
 
-export const move = (event, io, me, roomName) => {
+export const move = (event, io, me, roomName) => dispatch => {
     const { key } = event
 
     if(equals(key, 'ArrowUp'))

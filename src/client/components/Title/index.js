@@ -1,6 +1,11 @@
 import React from'react';
 import { string, number, func } from 'prop-types';
-import { compose, lifecycle, withStateHandlers } from 'recompose';
+import {
+    compose,
+    lifecycle,
+    withStateHandlers,
+    onlyUpdateForKeys
+} from 'recompose';
 
 import {
     Container,
@@ -53,4 +58,5 @@ export default compose(
             clearInterval(intv);
         }
     }),
+    onlyUpdateForKeys(['opacity'])
 )(Title);

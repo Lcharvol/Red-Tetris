@@ -39,7 +39,7 @@ const reducer = (state = initialState, action) => {
                 }
             return {...state, ...action.body}
         case REMOVE_TOAST:
-            let newToasts = [...state.toasts];
+            let newToasts = state.toasts;
             if(!newToasts[0].active)
                 newToasts = drop(1, newToasts);
             const toastIndex = findIndex(propEq('id', action.toastId))(newToasts);

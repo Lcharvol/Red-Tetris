@@ -1,6 +1,6 @@
 import React from 'react';
 import { string, bool } from 'prop-types';
-import { compose, lifecycle, withStateHandlers } from 'recompose';
+import { compose, lifecycle, withStateHandlers, onlyUpdateForKeys } from 'recompose';
 
 import { ToastContainer } from './styles';
 
@@ -35,6 +35,7 @@ export default compose(
         },
         componentWillUnmount() {
             this.props.handleChangeIsMounted();
-    },
-    })
+        },
+    }),
+    onlyUpdateForKeys(['text', 'isMounted', 'active'])
 )(Toast);
