@@ -1,7 +1,7 @@
 ## Table des matières
 
 - [Introduction](#introduction)
-- [How to use](#Howtouse)
+- [Usage](#usage)
 - [Preview](#preview)
 
 # Introduction
@@ -9,12 +9,12 @@
 L’objectif de ce projet est de développer un jeu de tetris multijoueurs en
 réseau à partir d’une pile logicielle exclusivement Full Stack Javascript (Node, React, Redux...)
 
-# How to use
+# Usage
 
 ```console
 ~$ yarn
-~$ yarn cli-pro
-~$ yarn srv-dev
+yarn cli-pro
+yarn srv-dev
 ```
 
  Then go to: http://http://127.0.0.1:3004/#<room>[<player_name>]
