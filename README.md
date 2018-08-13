@@ -12,8 +12,8 @@ réseau à partir d’une pile logicielle exclusivement Full Stack Javascript (N
 # Usage
 
 ```console
-~$ yarn
-yarn cli-pro
+yarn
+yarn cli-prod
 yarn srv-dev
 ```
 
