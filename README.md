@@ -17,11 +17,13 @@ yarn cli-prod
 yarn srv-dev
 ```
 
- Then go to: http://http://127.0.0.1:3004/#<room\>[<player_name>]
+ Then go to: http\://http://127.0.0.1:3004/#<room\>[<player_name>]
  
   room : nom de la partie à rejoindre
   
   player_name : nom du joueur
+  
+  Exemple: http://127.0.0.1:3004/#room1[lcharvol]
   
 # Preview
 
