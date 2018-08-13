@@ -2,6 +2,12 @@ import { getPointByline } from '../utils';
 
 describe('Utils', () => {
     describe('getPointByline', () => {
+        it('Should return 0', () => {
+            const nbLines = 0;
+            const res = getPointByline(nbLines);
+
+            expect(res).toBe(0);
+        });
         it('Should return 50', () => {
             const nbLines = 1;
             const res = getPointByline(nbLines);

@@ -131,11 +131,16 @@ describe('Board:', () => {
 
             expect(wrapper.find(WaitingLabel).length).toBe(0);
         });
-        it('Should find a BoardContainer', () => {
+        it('Should find a BoardContainer with two users', () => {
             const props = {
                 errorMessage: undefined,
                 me: 'lcharvol',
                 myBoard: [
+                    {value:0,color:'red',active: false},
+                    {value:0,color:'red',active: false},
+                    {value:1,color:'red',active: true},
+                ],
+                enemyBoard: [
                     {value:0,color:'red',active: false},
                     {value:0,color:'red',active: false},
                     {value:1,color:'red',active: true},
@@ -150,7 +155,7 @@ describe('Board:', () => {
                         message: 'toast2'
                     }
                 ],
-                usersNames: ['lcharvol'],
+                usersNames: ['lcharvol', 'charvol2'],
                 nextPieces: [
                     {
                         version: 0,
@@ -179,6 +184,59 @@ describe('Board:', () => {
 
             expect(wrapper.find(Score).length).toBe(1);
             expect(wrapper.find(Score).props().opacity).toBe(0);
+
+            expect(wrapper.find(StartButton).length).toBe(0);
+
+            expect(wrapper.find(WaitingLabel).length).toBe(1);
+        });
+        it('Should find a BoardContainer with one user', () => {
+            const props = {
+                errorMessage: undefined,
+                me: 'lcharvol',
+                myBoard: [
+                    {value:0,color:'red',active: false},
+                    {value:0,color:'red',active: false},
+                    {value:1,color:'red',active: true},
+                ],
+                toasts: [
+                    {
+                        id: 0,
+                        message: 'toast1'
+                    },
+                    {
+                        id: 1,
+                        message: 'toast2'
+                    }
+                ],
+                usersNames: ['lcharvol'],
+                nextPieces: [
+                    {
+                        version: 0,
+                        pieceId: 1,
+                        piece: [
+                            [1,1,1,1]
+                        ]
+                    }
+                ],
+                users: [{}],
+                enemyBoard:[],
+                isGameStarted: true,
+                owner: false,
+            }
+            wrapper = mount( <Provider store={store}><App {...props}/></Provider> )
+            expect(wrapper.find(BoardContainer).length).toBe(1);
+            expect(wrapper.find(EventListener).length).toBe(1);
+            expect(wrapper.find(GameInfo).length).toBe(1);
+
+            expect(wrapper.find(Toasts).length).toBe(1);
+
+            expect(wrapper.find(Spectre).length).toBe(0);
+
+            expect(wrapper.find(NextPieces).length).toBe(1);
+            expect(wrapper.find(NextPieces).props().multiPlayers).toBe(false);
+
+            expect(wrapper.find(Score).length).toBe(1);
+            expect(wrapper.find(Score).props().opacity).toBe(1);
 
             expect(wrapper.find(StartButton).length).toBe(0);
 

@@ -21,7 +21,7 @@ describe('GameInfo:', () => {
         const props = {
             me: 'lcharvol',
             usersNames: ['lcharvol', 'lcharvol2'],
-            owner: 'lcharvol', 
+            ownerName: 'lcharvol', 
         }
         const wrapper = shallow(<GameInfo {...props}/>);
 
@@ -44,7 +44,7 @@ describe('GameInfo:', () => {
             const props = {
                 me: 'werfewfr',
                 usersNames: ['lcharvol', 'lcharvol4'],
-                owner: 'lcharvol2', 
+                ownerName: 'lcharvol2', 
             }
             const wrapper = shallow(<GameInfo {...props}/>);
             expect(wrapper.find(OwnerLabel).length).toBe(0);

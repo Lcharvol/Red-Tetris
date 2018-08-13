@@ -22,7 +22,6 @@ describe('Cell:', () => {
         }
         const wrapper = mount(<Cell {...props}/>);
         it('ShouldFind a Container', () => {
-            expect(wrapper).toMatchSnapshot();
             expect(wrapper.find(Container).length).toBe(1);
         });
         // it('Cell should have the correct background-color', () => {

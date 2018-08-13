@@ -33,6 +33,7 @@ import {
     getMyScore,
     getNextPieces,
     getGameDecount,
+    getOwnerName
 } from '../../selectors/game';
 import { move } from '../../actions/move';
 import { startGame } from '../../actions/game';
@@ -65,6 +66,7 @@ const propTypes = {
     myScore: number,
     nextPieces: array.isRequired,
     gameDecount: bool.isRequired,
+    ownerName: string,
 };
 
 export const App = ({
@@ -75,6 +77,7 @@ export const App = ({
     isGameStarted,
     displayModal,
     owner,
+    ownerName,
     io,
     roomName,
     modalMessage,
@@ -96,7 +99,7 @@ export const App = ({
             {isNil(errorMessage) && !isNil(myBoard) && 
                 <Fragment>
                     <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
-                    <GameInfo me={me} usersNames={usersNames} owner={owner}/>
+                    <GameInfo me={me} usersNames={usersNames} ownerName={ownerName}/>
                     <Toasts toasts={toasts}/>
                     <BoardContainer>
                         <Board
@@ -143,6 +146,7 @@ const mapStateToProps = state => ({
     isGameStarted: getIsGameStarted(state),
     displayModal: getDisplayModal(state),
     owner: getOwner(state),
+    ownerName: getOwnerName(state),
     roomName: getRoomName(state),
     modalMessage: getModalMessage(state),
     me: getMe(state),

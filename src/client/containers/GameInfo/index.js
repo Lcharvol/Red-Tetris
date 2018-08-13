@@ -14,17 +14,17 @@ import {
 
 const propTypes = {
     usersNames: array,
-    owner: string,
+    ownerName: string,
     me: string,
 }
 
-export const GameInfo = ({ me, usersNames, owner }) => (
+export const GameInfo = ({ me, usersNames, ownerName }) => (
     <Container>
         <Label>{`Players ${length(usersNames)}/2`}</Label>
         {usersNames.map(name => 
             <Name key={uuidv1()}>
                 {name}
-                {equals(name, owner) && <OwnerLabel>(owner)</OwnerLabel>}
+                {equals(name, ownerName) && <OwnerLabel>(owner)</OwnerLabel>}
                 {equals(name, me) && <MeIcon/>}
             </Name>
         )}
