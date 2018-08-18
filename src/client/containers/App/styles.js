@@ -15,7 +15,7 @@ export const AppContainer = styled.div`
     position:relative;
     display:flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     width: 100%;
     height:100%;
@@ -33,4 +33,8 @@ export const BoardContainer = styled.div`
     justify-content: center;
     align-items: center;
     margin-bottom:15px;
+    @media only screen and (max-width: 600px) {
+        justify-content: center;
+        align-items: flex-start;
+    }
 `;

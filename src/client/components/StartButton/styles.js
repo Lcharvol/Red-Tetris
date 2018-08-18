@@ -6,12 +6,15 @@ export const Container = styled.div`
     display:flex;
     width:150px;
     text-align: center;
+    justify-content: center;
+    align-items: center;
     cursor: ${({ opacity }) => opacity === 1 ? 'pointer' : 'default'};
     transition: opacity 1s ease-in-out;
     opacity:${({ opacity }) => opacity};
     transition-delay: 0.3s;
     z-index: 200;
     margin-top:-60px;
+    min-height:75px;
 `;
 
 

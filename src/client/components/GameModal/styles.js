@@ -11,7 +11,7 @@ export const Container = styled.div`
     height:calc(100% - 50px);
     color:white;
     padding:15px;
-    font-size:3.5em;
+    font-size:3vw;
     z-index:1000;
     transition: opacity 0.2s ease-in-out
     opacity:${({ opacity }) => opacity};

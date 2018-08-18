@@ -4,11 +4,20 @@ import { MAIN_RED, CELLS_COLORS } from '../../constants/colors';
 
 export const Container = styled.div`
     position:relative;
-    margin-top:10em;
+    margin-top:15px;
     display:flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: transform 0.3s ease-in-out;
+    @media only screen and (max-width: 600px) {
+        transform: scale(0.7);
+        margin-top:-20px;
+    }
+    @media only screen and (max-width: 500px) {
+        transform: scale(0.6);
+        margin-top:-20px;
+    }
 `;
 
 export const TopText = styled.div`

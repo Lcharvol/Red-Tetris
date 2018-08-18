@@ -25,7 +25,8 @@ export const handler = (req, res) => {
 
 const init = ctx => {
     const { config } = ctx;
-    const { server: { host, port } } = config;
+    console.log('config: ', config)
+    const { server: { port } } = config;
     const app = express();
     const httpServer = http.createServer(app);
     const promise = new Promise((resolve) => {
@@ -34,7 +35,8 @@ const init = ctx => {
         .use(bindError)
         .use('/', handler);
 
-        httpServer.listen(port, host, () => {
+        httpServer.listen(port, () => {
+            console.log('httpServer: ', httpServer.address())
             httpServer.url = getUrl(httpServer);
             logger(`server started on ${httpServer.url}`);
             resolve({ ...ctx, http: httpServer });

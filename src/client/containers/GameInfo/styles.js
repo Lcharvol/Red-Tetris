@@ -12,6 +12,11 @@ export const Container = styled.div`
     min-width:200px;
     min-height:120px;
     color:white;
+    @media only screen and (max-width: 600px) {
+        transform: scale(0.5);
+        left:-30px;
+        bottom:-20px;
+    }
 `;
 
 export const Label = styled.div`

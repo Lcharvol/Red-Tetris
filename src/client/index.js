@@ -17,7 +17,7 @@ import { getRoomName, getUser, getParsedGameUrl } from './utils';
 const initialState = {};
 const store = configureStore(initialState, io);
 
-const url = 'http://127.0.0.1:3004';
+const url = 'e3r2p9:8080';
 const io = socketIO.connect(url);
 
 const gameUrl = window.location.href;

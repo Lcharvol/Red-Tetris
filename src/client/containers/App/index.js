@@ -101,7 +101,7 @@ export const App = ({
                     <EventListener target={document} onKeyDown={event => move(event, io, me, roomName)} />
                     <GameInfo me={me} usersNames={usersNames} ownerName={ownerName}/>
                     <Toasts toasts={toasts}/>
-                    <BoardContainer>
+                    <BoardContainer multiPlayers={length(users) > 1}>
                         <Board
                             board={myBoard}
                             displayModal={displayModal}

@@ -7,13 +7,15 @@ import {
 } from './colors';
 import {
     CELL_SIZE,
-    CELL_MARGIN
+    CELL_MARGIN,
+    SMALL_CELL_SIZE
 } from './cell';
 import {
     BOARD_WIDTH,
     BOARD_HEIGHT,
 } from './board';
 export {
+    SMALL_CELL_SIZE,
     MAIN_COLOR,
     DARK_MAIN_COLOR,
     LIGHT_MAIN_COLOR,

@@ -7,8 +7,11 @@ export const Container = styled.div`
     display:flex;
     flex-direction:column;
     padding:10px;
-    top:${({ multiPlayers }) => multiPlayers ? '220px' : '10px'};
+    top:${({ multiPlayers }) => multiPlayers ? '220px' : '0px'};
     right:-115px;
+    @media only screen and (max-width: 600px) {
+        right:10px;
+    }
 `;
 
 export const PieceContainer = styled.div`

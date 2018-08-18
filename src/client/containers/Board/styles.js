@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import { DARK_MAIN_COLOR, MAIN_RED, MAIN_COLOR } from '../../constants/colors';
-import { CELL_SIZE, CELL_MARGIN } from '../../constants';
+import { CELL_SIZE, SMALL_CELL_SIZE, CELL_MARGIN } from '../../constants';
 
 export const Back = styled.div`
     position:relative;
@@ -48,6 +48,10 @@ export const InnerBoard = styled.div`
     flex-wrap: wrap;
     width:${(CELL_SIZE * 10) + (CELL_MARGIN * 20)}px;
     height:${(CELL_SIZE * 20)+ (CELL_MARGIN * 40)}px;
+    @media only screen and (max-width: 500px) {
+        width:${(SMALL_CELL_SIZE * 10) + (CELL_MARGIN * 20)}px;
+        height:${(SMALL_CELL_SIZE * 20) + (CELL_MARGIN * 40)}px;
+    }
     background:${MAIN_RED};
     padding:10px;
     border-radius:2px;
