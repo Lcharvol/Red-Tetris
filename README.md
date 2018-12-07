@@ -19,11 +19,11 @@ yarn srv-dev
 
  Then go to: http\://http://127.0.0.1:3004/#<room\>[<player_name>]
  
-  room : nom de la partie à rejoindre
+  room : name of the game to join
   
-  player_name : nom du joueur
+  player_name : name of the player
   
-  Exemple: http://127.0.0.1:3004/#room1[lcharvol]
+  e.g: http://127.0.0.1:3004/#room1[lcharvol]
   
 # Preview
 
