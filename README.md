@@ -13,6 +13,7 @@ réseau à partir d’une pile logicielle exclusivement Full Stack Javascript (N
 
 ```console
 yarn
+export NODE_ENV=development
 yarn cli-prod
 yarn srv-dev
 ```
